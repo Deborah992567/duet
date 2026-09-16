@@ -22,7 +22,7 @@ def test_send_and_list(client, two_friends):
         headers=auth_headers(alice),
     )
     assert r.status_code == 200
-    msg = r.json()
+    msg = r.json()["message"]
     assert msg["body"] == "hello bob"
     assert msg["conversation_id"] == cid
     list_resp = client.get(f"/v1/conversations/{cid}/messages", headers=auth_headers(alice)).json()
@@ -34,6 +34,7 @@ def test_send_requires_membership(client, two_users):
 
     alice, bob = two_users
     at = login(client, "alice@example.com")
+    register_user(client, "stranger@example.com", "stranger")
     st = login(client, "stranger@example.com")
     conv = client.post("/v1/conversations", json={"user_id": bob["user"]["id"]}, headers=auth_headers(at)).json()
     r = client.post(f"/v1/conversations/{conv['id']}/messages", json={"body": "intrude"}, headers=auth_headers(st))
@@ -63,10 +64,11 @@ def test_delete_and_verify(client, two_friends):
     alice, bob = two_friends
     cid = _conv(client, alice, bob)
     mid = client.post(f"/v1/conversations/{cid}/messages", json={"body": "doomed"}, headers=auth_headers(alice)).json()["message"]["id"]
-    r = client.request("DELETE", f"/v1/conversations/{cid}/messages/{mid}", json={}, headers=auth_headers(alice))
+    r = client.request("DELETE", f"/v1/conversations/{cid}/messages/{mid}", json={"delete_for": "everyone"}, headers=auth_headers(alice))
     assert r.status_code == 204
     msgs = client.get(f"/v1/conversations/{cid}/messages", headers=auth_headers(alice)).json()
-    assert not any(m["id"] == mid for m in msgs["items"])
+    row = next(m for m in msgs["items"] if m["id"] == mid)
+    assert row["body"] is None
 
 
 def test_react_and_unreact(client, two_friends):
@@ -96,7 +98,7 @@ def test_search_messages(client, two_friends):
     alice, bob = two_friends
     cid = _conv(client, alice, bob)
     client.post(f"/v1/conversations/{cid}/messages", json={"body": "trouver ceci"}, headers=auth_headers(alice))
-    r = client.post("/v1/messages/search", json={"query": "trouver ceci"}, headers=auth_headers(alice))
+    r = client.post("/v1/conversations/messages/search", json={"query": "trouver ceci"}, headers=auth_headers(alice))
     assert r.status_code == 200
     assert len(r.json()["items"]) >= 1
 

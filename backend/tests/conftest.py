@@ -10,7 +10,7 @@ os.environ.setdefault("SECRET_KEY", "test-secret-key-not-for-production")
 import fakeredis.aioredis  # noqa: E402
 import pytest  # noqa: E402
 from fastapi.testclient import TestClient  # noqa: E402
-from sqlalchemy import create_engine  # noqa: E402
+from sqlalchemy import create_engine, event  # noqa: E402
 from sqlalchemy.orm import sessionmaker  # noqa: E402
 from sqlalchemy.pool import StaticPool  # noqa: E402
 
@@ -25,6 +25,11 @@ engine = create_engine(
     poolclass=StaticPool,
 )
 TestingSession = sessionmaker(bind=engine, autoflush=False, expire_on_commit=False)
+
+
+@event.listens_for(engine, "connect")
+def _sqlite_greatest(dbapi_conn, _record):
+    dbapi_conn.create_function("greatest", -1, lambda *a: max(a))
 
 db_session.engine = engine
 db_session.SessionLocal = TestingSession

@@ -29,7 +29,7 @@ class AttachmentDraft(BaseModel):
 
 
 class SendMessagePayload(BaseModel):
-    conversation_id: str
+    conversation_id: str | None = None  # path is authoritative; body optional
     kind: MessageKind = MessageKind.TEXT
     body: str | None = Field(default=None, max_length=MAX_MESSAGE_LENGTH)
     client_id: str | None = Field(default=None, max_length=64)
