@@ -118,10 +118,12 @@ class AuthService(Service):
         if user is None or user.status != UserStatus.ACTIVE:
             raise UnauthorizedError("This account is no longer active.", code="account_inactive")
 
-        new_device = await self._create_device(user.id, device_info or _default_device(), current_of=device.id)
+        new_device_pair, _ = await self._create_device(
+            user.id, device_info or _default_device(), current_of=device.id
+        )
         device.revoked_at = datetime.now(timezone.utc)  # rotate old device entry
         self.commit()
-        return new_device
+        return new_device_pair
 
     async def logout(self, user_id: str, device_id: Optional[str]) -> None:
         if device_id:
@@ -186,10 +188,10 @@ class AuthService(Service):
             raise UnauthorizedError(
                 "This reset link is invalid or has expired.", code="invalid_reset_token"
             )
-        if (
-            user.reset_token_expires_at is None
-            or user.reset_token_expires_at < datetime.now(timezone.utc)
-        ):
+        from app.core.timeutil import ensure_utc
+
+        expires = ensure_utc(user.reset_token_expires_at)
+        if expires is None or expires < datetime.now(timezone.utc):
             raise UnauthorizedError(
                 "This reset link has expired. Please request a new one.", code="reset_token_expired"
             )
@@ -211,10 +213,10 @@ class AuthService(Service):
         digest = hash_verification(code)
         if user.verification_code_hash != digest:
             raise UnauthorizedError("That verification code is incorrect.", code="bad_verification")
-        if (
-            user.verification_code_expires_at is None
-            or user.verification_code_expires_at < datetime.now(timezone.utc)
-        ):
+        from app.core.timeutil import ensure_utc
+
+        expires = ensure_utc(user.verification_code_expires_at)
+        if expires is None or expires < datetime.now(timezone.utc):
             raise UnauthorizedError("That verification code has expired.", code="verification_expired")
         user.email_verified = True
         user.verification_code_hash = None

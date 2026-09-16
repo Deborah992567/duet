@@ -67,12 +67,14 @@ class DeviceRepository(BaseRepository[Device]):
         )
 
     def revoke_others(self, user_id: str, current_device_id: str) -> int:
+        from datetime import datetime, timezone
+
         from sqlalchemy import update
 
         result = self.db.execute(
             update(Device)
             .where(Device.user_id == user_id, Device.id != current_device_id)
-            .values(is_current=False)
+            .values(is_current=False, revoked_at=datetime.now(timezone.utc))
         )
         return result.rowcount or 0
 

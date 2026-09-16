@@ -18,7 +18,6 @@ from app import models  # noqa: F401, E402  (register all tables)
 from app.core.redis_client import set_current_redis  # noqa: E402
 from app.db import session as db_session  # noqa: E402
 from app.db.session import Base  # noqa: E402
-from app.main import app  # noqa: E402
 
 engine = create_engine(
     "sqlite+pysqlite:///:memory:",
@@ -29,6 +28,10 @@ TestingSession = sessionmaker(bind=engine, autoflush=False, expire_on_commit=Fal
 
 db_session.engine = engine
 db_session.SessionLocal = TestingSession
+
+# Import the app *after* swapping the DB engine so lifespan/create_all use SQLite.
+from app.main import app  # noqa: E402
+
 app.state.session_factory = TestingSession
 
 Base.metadata.create_all(bind=engine)
@@ -54,9 +57,11 @@ app.dependency_overrides[db_session.get_db] = override_get_db
 
 @pytest.fixture()
 def client():
+    import asyncio
+
     Base.metadata.drop_all(bind=engine)
     Base.metadata.create_all(bind=engine)
-    _redis.flushall()
+    asyncio.run(_redis.flushall())
     with TestClient(app) as c:
         yield c
 
@@ -88,5 +93,5 @@ def two_users(client):
     return a, b
 
 
-def auth_headers(tokens: dict) -> dict:
-    return {"Authorization": f"Bearer {tokens['access_token']}"}
+def auth_headers(auth: dict) -> dict:
+    return {"Authorization": f"Bearer {auth['tokens']['access_token']}"}
