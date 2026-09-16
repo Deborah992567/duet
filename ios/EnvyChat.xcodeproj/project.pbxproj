@@ -7,11 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		01B57C4BDE62A2EC5832574E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 908E8F7E41C4808795E6F0BF /* Assets.xcassets */; };
 		0F645380F7471D34FBE8CB4F /* StreaksView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BE8547FD0BEED736976C8DB /* StreaksView.swift */; };
 		204632C6973941813F226374 /* KeychainStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D1EFCE4759DBD9B51B1CFE4 /* KeychainStore.swift */; };
 		30D43F322D4B56128F566E2C /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF6CD2F5B82F02FE9CC5AE20 /* RootView.swift */; };
 		32033DD4E16C0FAB56479F92 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 025E99DA0EE313CAF7029E73 /* MainTabView.swift */; };
+		363D647845C27889062F2C7E /* ForgotPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C304D3AEB554A666453A4A38 /* ForgotPasswordView.swift */; };
 		6E8205997A3609D638002DFD /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51640DE482DE0FB9A39C3EB6 /* APIClient.swift */; };
+		88D859685D790D547A0C1E3E /* AuthFlowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D722CABEE30DE66100A19F /* AuthFlowView.swift */; };
 		8D40EBB60232FA74489A1862 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 319986DEC6A52529F9CDC359 /* Theme.swift */; };
 		A3B322886EBD5F12A0FE6BDD /* SessionStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00ED43D1C003A6FDFEE8C6BE /* SessionStore.swift */; };
 		AB7156873B796A2AE8446BA2 /* InboxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67D8AB19517ABE74522D45F0 /* InboxView.swift */; };
@@ -19,6 +22,7 @@
 		BE72404130E52825EDE1214C /* AuthViewStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 186560DFD5C39A73D26B98CA /* AuthViewStore.swift */; };
 		DC4FF689BC86A033E21885A5 /* EnvyChatApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F5EBA70B2946C127282ED62 /* EnvyChatApp.swift */; };
 		FBB8C44F993363D6E57EDF1E /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B86773F3D569C18A6D694781 /* LoginView.swift */; };
+		FDFC188C057A708723DC4177 /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2190FAC4C1958951308FE244 /* RegisterView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,6 +40,8 @@
 		025E99DA0EE313CAF7029E73 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
 		186560DFD5C39A73D26B98CA /* AuthViewStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewStore.swift; sourceTree = "<group>"; };
 		1F5EBA70B2946C127282ED62 /* EnvyChatApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvyChatApp.swift; sourceTree = "<group>"; };
+		2190FAC4C1958951308FE244 /* RegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
+		28D722CABEE30DE66100A19F /* AuthFlowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthFlowView.swift; sourceTree = "<group>"; };
 		319986DEC6A52529F9CDC359 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		3B9E42D2F190FBA0DB19AA73 /* EnvyChat.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = EnvyChat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4BE8547FD0BEED736976C8DB /* StreaksView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreaksView.swift; sourceTree = "<group>"; };
@@ -43,17 +49,22 @@
 		502530181E24DE909D74AD1B /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		51640DE482DE0FB9A39C3EB6 /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
 		67D8AB19517ABE74522D45F0 /* InboxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InboxView.swift; sourceTree = "<group>"; };
+		908E8F7E41C4808795E6F0BF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A1E828012E070E1B9635784C /* EnvyChatTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = EnvyChatTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A5B3C9EC00A40524E03608FF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		B86773F3D569C18A6D694781 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		BF6CD2F5B82F02FE9CC5AE20 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
+		C304D3AEB554A666453A4A38 /* ForgotPasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
 		09A7E7774E854A198AAF99B8 /* Auth */ = {
 			isa = PBXGroup;
 			children = (
+				28D722CABEE30DE66100A19F /* AuthFlowView.swift */,
+				C304D3AEB554A666453A4A38 /* ForgotPasswordView.swift */,
 				B86773F3D569C18A6D694781 /* LoginView.swift */,
+				2190FAC4C1958951308FE244 /* RegisterView.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -131,6 +142,7 @@
 		DABC1BB9E11E081C35F68F24 /* EnvyChat */ = {
 			isa = PBXGroup;
 			children = (
+				908E8F7E41C4808795E6F0BF /* Assets.xcassets */,
 				A5B3C9EC00A40524E03608FF /* Info.plist */,
 				32A6D34560960430853586A2 /* App */,
 				BF15E693C6F75380B8A92AB1 /* Core */,
@@ -183,6 +195,7 @@
 			buildConfigurationList = 62FD686A1538290105EBFD58 /* Build configuration list for PBXNativeTarget "EnvyChat" */;
 			buildPhases = (
 				A7D28B909D162FE1F1C2471C /* Sources */,
+				15250849CA974A8413CFFD58 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -252,6 +265,17 @@
 		};
 /* End PBXProject section */
 
+/* Begin PBXResourcesBuildPhase section */
+		15250849CA974A8413CFFD58 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				01B57C4BDE62A2EC5832574E /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		6879D79F918D46FB80610815 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -265,13 +289,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				6E8205997A3609D638002DFD /* APIClient.swift in Sources */,
+				88D859685D790D547A0C1E3E /* AuthFlowView.swift in Sources */,
 				BE72404130E52825EDE1214C /* AuthViewStore.swift in Sources */,
 				DC4FF689BC86A033E21885A5 /* EnvyChatApp.swift in Sources */,
+				363D647845C27889062F2C7E /* ForgotPasswordView.swift in Sources */,
 				AB7156873B796A2AE8446BA2 /* InboxView.swift in Sources */,
 				204632C6973941813F226374 /* KeychainStore.swift in Sources */,
 				FBB8C44F993363D6E57EDF1E /* LoginView.swift in Sources */,
 				32033DD4E16C0FAB56479F92 /* MainTabView.swift in Sources */,
 				B856D703D8CB0EC1A09A67A9 /* ProfileView.swift in Sources */,
+				FDFC188C057A708723DC4177 /* RegisterView.swift in Sources */,
 				30D43F322D4B56128F566E2C /* RootView.swift in Sources */,
 				A3B322886EBD5F12A0FE6BDD /* SessionStore.swift in Sources */,
 				0F645380F7471D34FBE8CB4F /* StreaksView.swift in Sources */,

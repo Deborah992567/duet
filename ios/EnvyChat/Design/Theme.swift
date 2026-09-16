@@ -3,20 +3,20 @@ import SwiftUI
 /// Design tokens. Flat colors only — no gradients anywhere in EnvyChat.
 enum Theme {
     enum Palette {
-        static let brand = Color(red: 0.16, green: 0.42, blue: 0.95)
-        static let brandDark = Color(red: 0.10, green: 0.29, blue: 0.68)
-        static let accentFlame = Color(red: 0.96, green: 0.36, blue: 0.23) // streaks
-        static let background = Color(red: 0.97, green: 0.97, blue: 0.98)
+        static let brand = Color(red: 0.93, green: 0.55, blue: 0.66)          // baby pink
+        static let brandDark = Color(red: 0.78, green: 0.40, blue: 0.53)
+        static let accentFlame = Color(red: 0.95, green: 0.45, blue: 0.55)    // soft flame pink
+        static let background = Color.white
         static let surface = Color.white
-        static let outline = Color(red: 0.86, green: 0.87, blue: 0.89)
-        static let textPrimary = Color(red: 0.10, green: 0.12, blue: 0.14)
-        static let textSecondary = Color(red: 0.47, green: 0.50, blue: 0.53)
-        static let success = Color(red: 0.18, green: 0.65, blue: 0.35)
-        static let danger = Color(red: 0.85, green: 0.24, blue: 0.24)
-        static let bubbleIncoming = Color(red: 0.93, green: 0.94, blue: 0.96)
-        static let bubbleOutgoing = Color(red: 0.16, green: 0.42, blue: 0.95)
-        static let flameOn = Color(red: 0.96, green: 0.36, blue: 0.23)
-        static let flameOff = Color(red: 0.68, green: 0.71, blue: 0.74)
+        static let outline = Color(red: 0.94, green: 0.88, blue: 0.90)        // blush outline
+        static let textPrimary = Color(red: 0.24, green: 0.20, blue: 0.22)    // soft dark plum
+        static let textSecondary = Color(red: 0.62, green: 0.55, blue: 0.58)
+        static let success = Color(red: 0.30, green: 0.70, blue: 0.55)
+        static let danger = Color(red: 0.85, green: 0.30, blue: 0.38)
+        static let bubbleIncoming = Color(red: 0.96, green: 0.92, blue: 0.93) // peek-a-boo blush
+        static let bubbleOutgoing = Color(red: 0.93, green: 0.55, blue: 0.66)
+        static let flameOn = Color(red: 0.95, green: 0.45, blue: 0.55)
+        static let flameOff = Color(red: 0.82, green: 0.80, blue: 0.81)
     }
 
     enum Metrics {

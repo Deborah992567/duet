@@ -6,8 +6,22 @@ struct LoginView: View {
     @State private var password = ""
     @State private var isSubmitting = false
     @State private var errorText: String?
+    @State private var showRegister = false
+    @State private var showForgot = false
 
     var body: some View {
+        NavigationStack {
+            content
+                .navigationDestination(isPresented: $showRegister) {
+                    RegisterView()
+                }
+                .navigationDestination(isPresented: $showForgot) {
+                    ForgotPasswordView()
+                }
+        }
+    }
+
+    private var content: some View {
         VStack(spacing: Theme.Metrics.padding) {
             Spacer()
             Image(systemName: "flame.fill")
@@ -53,11 +67,16 @@ struct LoginView: View {
             .disabled(isSubmitting)
 
             Button("Create an account") {
-                // Registration flow lives in the Auth feature.
-                state.isSignedIn = true // TODO: replace with real Auth flow
+                showRegister = true
             }
             .font(Theme.Typography.body)
             .foregroundStyle(Theme.Palette.brand)
+
+            Button("Forgot password?") {
+                showForgot = true
+            }
+            .font(Theme.Typography.caption)
+            .foregroundStyle(Theme.Palette.textSecondary)
 
             Spacer()
 
