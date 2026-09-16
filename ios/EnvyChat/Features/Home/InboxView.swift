@@ -4,6 +4,7 @@ import SwiftUI
 struct InboxView: View {
     @Environment(AppState.self) private var state
     @State private var store = ConversationListStore()
+    @State private var showFriends = false
 
     var body: some View {
         NavigationStack {
@@ -25,13 +26,16 @@ struct InboxView: View {
                 .navigationDestination(for: ConversationSummary.self) { conversation in
                     ChatView(conversation: conversation)
                 }
+                .navigationDestination(isPresented: $showFriends) {
+                    FriendsView()
+                }
             }
             .background(Theme.Palette.background)
             .navigationTitle("Inbox")
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     Button {
-                        // Friends list
+                        showFriends = true
                     } label: {
                         Image(systemName: "person.2.fill")
                             .foregroundStyle(Theme.Palette.brand)
