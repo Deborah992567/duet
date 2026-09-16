@@ -1,0 +1,65 @@
+import Foundation
+import Observation
+
+@Observable
+final class ChatMessageStore {
+    private(set) var messages: [MessageOut] = []
+    private(set) var isLoading = false
+    var errorText: String?
+
+    let conversationID: String
+    private let client = APIClient.shared
+
+    init(conversationID: String) {
+        self.conversationID = conversationID
+    }
+
+    func loadHistory() async {
+        isLoading = true
+        defer { isLoading = false }
+        let builder = URLRequestBuilder(base: client.baseURL, path: "/v1/conversations/\(conversationID)/messages")
+        do {
+            let resp: MessageListResponse = try await client.send(builder, as: MessageListResponse.self)
+            messages = resp.items.sorted { $0.sentAt < $1.sentAt }
+        } catch {
+            errorText = (error as? APIError)?.message ?? "Could not load messages."
+        }
+    }
+
+    func send(body: String, clientID: String) async {
+        let builder = URLRequestBuilder(
+            base: client.baseURL,
+            path: "/v1/conversations/\(conversationID)/messages",
+            method: .post,
+            body: ["body": body, "client_id": clientID]
+        )
+        do {
+            let result: SendMessageResult = try await client.send(builder, as: SendMessageResult.self)
+            if let index = messages.firstIndex(where: { $0.clientId == clientID }) {
+                messages[index] = result.message
+            } else {
+                messages.append(result.message)
+            }
+            try? await markRead(upTo: result.message.id)
+        } catch {
+            errorText = (error as? APIError)?.message ?? "Message failed to send."
+        }
+    }
+
+    func markRead(upTo messageID: String) async throws {
+        let builder = URLRequestBuilder(
+            base: client.baseURL,
+            path: "/v1/conversations/\(conversationID)/read",
+            method: .post,
+            body: ["up_to_message_id": messageID]
+        )
+        _ = try await client.send(builder, as: NoContent.self, defaultValue: NoContent())
+    }
+
+    func castMessage(_ message: MessageOut) {
+        if !messages.contains(where: { $0.id == message.id }) {
+            messages.append(message)
+            messages.sort { $0.sentAt < $1.sentAt }
+        }
+    }
+}

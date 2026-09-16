@@ -1,17 +1,31 @@
 import SwiftUI
 
-/// Inbox: list of conversations. Empty state until conversations are created.
+/// Inbox: list of conversations.
 struct InboxView: View {
     @Environment(AppState.self) private var state
+    @State private var store = ConversationListStore()
 
     var body: some View {
         NavigationStack {
-            VStack(spacing: Theme.Metrics.padding) {
-                if true {
-                    emptyState
+            ScrollView {
+                LazyVStack(spacing: Theme.Metrics.small) {
+                    if store.conversations.isEmpty {
+                        emptyState
+                    } else {
+                        ForEach(store.conversations) { conversation in
+                            NavigationLink(value: conversation) {
+                                InboxRow(conversation: conversation)
+                                    .padding(.horizontal, Theme.Metrics.padding)
+                            }
+                            .buttonStyle(.plain)
+                        }
+                    }
+                }
+                .padding(.vertical, Theme.Metrics.small)
+                .navigationDestination(for: ConversationSummary.self) { conversation in
+                    ChatView(conversation: conversation)
                 }
             }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(Theme.Palette.background)
             .navigationTitle("Inbox")
             .toolbar {
@@ -32,6 +46,12 @@ struct InboxView: View {
                     }
                 }
             }
+            .refreshable {
+                await store.refresh()
+            }
+            .task {
+                await store.refresh()
+            }
         }
     }
 
@@ -49,6 +69,6 @@ struct InboxView: View {
         }
         .padding(Theme.Metrics.padding)
         .cardStyle()
-        .padding(Theme.Metrics.padding)
+        .padding(.top, Theme.Metrics.padding * 4)
     }
 }
