@@ -25,8 +25,10 @@
 		9408942C578E834B27FFD702 /* SettingsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9317718F1228FC5CA29E347 /* SettingsStore.swift */; };
 		94B3D9C9EB4EFC5F40775755 /* ConversationModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = B35F50FA5BEBE4FD9EA353EC /* ConversationModels.swift */; };
 		A3B322886EBD5F12A0FE6BDD /* SessionStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00ED43D1C003A6FDFEE8C6BE /* SessionStore.swift */; };
+		A4070B9CE0EFC56A7C5DFB6E /* Voice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C804E721C528988EDF9A2FA /* Voice.swift */; };
 		AB7156873B796A2AE8446BA2 /* InboxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67D8AB19517ABE74522D45F0 /* InboxView.swift */; };
 		B4CE05B12A9F0803CC451CF1 /* LocalStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95AA6FE7D0F4DEAE8BF80176 /* LocalStore.swift */; };
+		B6657AB7F9E88C16C49323C1 /* CallSlotsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF341942CE054542C2C22A6 /* CallSlotsView.swift */; };
 		B856D703D8CB0EC1A09A67A9 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502530181E24DE909D74AD1B /* ProfileView.swift */; };
 		BE72404130E52825EDE1214C /* AuthViewStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 186560DFD5C39A73D26B98CA /* AuthViewStore.swift */; };
 		C3E364C5ABEA5D3C4F42C94C /* RealtimeClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC7CB023199609449C537B96 /* RealtimeClient.swift */; };
@@ -60,7 +62,9 @@
 		28D722CABEE30DE66100A19F /* AuthFlowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthFlowView.swift; sourceTree = "<group>"; };
 		319986DEC6A52529F9CDC359 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		3B9E42D2F190FBA0DB19AA73 /* EnvyChat.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = EnvyChat.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		3BF341942CE054542C2C22A6 /* CallSlotsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallSlotsView.swift; sourceTree = "<group>"; };
 		3BFB5E8946448F0C14BE0493 /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
+		3C804E721C528988EDF9A2FA /* Voice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Voice.swift; sourceTree = "<group>"; };
 		4BE8547FD0BEED736976C8DB /* StreaksView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreaksView.swift; sourceTree = "<group>"; };
 		4D1EFCE4759DBD9B51B1CFE4 /* KeychainStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainStore.swift; sourceTree = "<group>"; };
 		502530181E24DE909D74AD1B /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
@@ -141,6 +145,7 @@
 			isa = PBXGroup;
 			children = (
 				09A7E7774E854A198AAF99B8 /* Auth */,
+				7C2B5631C563D8CD3D58A37C /* Calls */,
 				1C82C47B2F21626535476692 /* Chat */,
 				E33C0CECA2B5F08C94169935 /* Friends */,
 				96FD5D85D260A0C0F427330C /* Home */,
@@ -155,6 +160,22 @@
 			children = (
 			);
 			path = EnvyChatTests;
+			sourceTree = "<group>";
+		};
+		7C2B5631C563D8CD3D58A37C /* Calls */ = {
+			isa = PBXGroup;
+			children = (
+				3BF341942CE054542C2C22A6 /* CallSlotsView.swift */,
+			);
+			path = Calls;
+			sourceTree = "<group>";
+		};
+		7C8D4FED903D6F76ACEEC66B /* Media */ = {
+			isa = PBXGroup;
+			children = (
+				3C804E721C528988EDF9A2FA /* Voice.swift */,
+			);
+			path = Media;
 			sourceTree = "<group>";
 		};
 		90CD109904513665C5159A2B = {
@@ -181,6 +202,7 @@
 		BF15E693C6F75380B8A92AB1 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				7C8D4FED903D6F76ACEEC66B /* Media */,
 				E533AFF2220157E03335B66A /* Networking */,
 				16F0CB850681C5B10644F4B8 /* Persistence */,
 				E8BD1ABC132D07EEA85778C3 /* Security */,
@@ -351,6 +373,7 @@
 				6E8205997A3609D638002DFD /* APIClient.swift in Sources */,
 				88D859685D790D547A0C1E3E /* AuthFlowView.swift in Sources */,
 				BE72404130E52825EDE1214C /* AuthViewStore.swift in Sources */,
+				B6657AB7F9E88C16C49323C1 /* CallSlotsView.swift in Sources */,
 				2403AB8A5B20CEAB7BB8206D /* ChatMessageStore.swift in Sources */,
 				85E71E26240B29A0802EF051 /* ChatView.swift in Sources */,
 				13AF9CB416BA84904F8E31DA /* ConversationListStore.swift in Sources */,
@@ -375,6 +398,7 @@
 				DAE5555F3C2C791515DDFF73 /* StreakDetailView.swift in Sources */,
 				0F645380F7471D34FBE8CB4F /* StreaksView.swift in Sources */,
 				8D40EBB60232FA74489A1862 /* Theme.swift in Sources */,
+				A4070B9CE0EFC56A7C5DFB6E /* Voice.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

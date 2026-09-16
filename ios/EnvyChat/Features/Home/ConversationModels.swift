@@ -46,15 +46,24 @@ struct MessageOut: Decodable, Identifiable, Hashable {
     let sentAt: Date
     let isEdited: Bool
     let status: String
+    var kind: String?
+    var mediaUrl: String?
+    var durationMs: Int?
+    var reactions: [String: [String]]?
 
     enum CodingKeys: String, CodingKey {
-        case id, body, status
+        case id, body, status, kind, reactions
         case conversationId = "conversation_id"
         case senderId = "sender_id"
         case clientId = "client_id"
         case sentAt = "sent_at"
         case isEdited = "is_edited"
+        case mediaUrl = "media_url"
+        case durationMs = "duration_ms"
     }
+
+    var isVoice: Bool { kind == "voice" }
+    var isDeleted: Bool { status == "deleted" }
 }
 
 struct MessageListResponse: Decodable {

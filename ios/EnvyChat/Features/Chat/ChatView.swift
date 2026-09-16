@@ -7,6 +7,7 @@ struct ChatView: View {
     @State private var draft = ""
     @State private var errorText: String?
     @State private var showStreak = false
+    @State private var recorder = VoiceRecorder()
     @Environment(LocalStore.self) private var local
 
     init(conversation: ConversationSummary) {
@@ -117,6 +118,8 @@ struct ChatView: View {
                     .foregroundStyle(draft.trimmingCharacters(in: .whitespaces).isEmpty ? Theme.Palette.flameOff : Theme.Palette.brand)
             }
             .disabled(draft.trimmingCharacters(in: .whitespaces).isEmpty)
+
+            TalkButton(recorder: recorder)
         }
         .padding(Theme.Metrics.padding)
         .background(Theme.Palette.surface)
@@ -177,6 +180,36 @@ struct MessageActionsMenu: View {
         } label: {
             Label("Delete for me", systemImage: "trash.slash")
         }
+    }
+}
+
+struct TalkButton: View {
+    let recorder: VoiceRecorder
+    @State private var pressed = false
+
+    var body: some View {
+        Button {
+            // Hold-to-talk begins on press, ends on release.
+        } label: {
+            Image(systemName: recorder.isRecording ? "waveform.badge.mic" : "mic.fill")
+                .font(.system(size: 22))
+                .foregroundStyle(Theme.Palette.brand)
+                .padding(8)
+                .background(Theme.Palette.bubbleIncoming)
+                .clipShape(Circle())
+        }
+        .simultaneousGesture(
+            DragGesture(minimumDistance: 0)
+                .onChanged { _ in
+                    guard !pressed else { return }
+                    pressed = true
+                    recorder.start()
+                }
+                .onEnded { _ in
+                    pressed = false
+                    recorder.stop()
+                }
+        )
     }
 }
 

@@ -7,6 +7,8 @@ struct MainTabView: View {
                 .tabItem { Label("Inbox", systemImage: "bubble.left.and.bubble.right") }
             StreaksView()
                 .tabItem { Label("Streaks", systemImage: "flame.fill") }
+            CallSlotsView()
+                .tabItem { Label("Calls", systemImage: "phone.fill") }
             ProfileView()
                 .tabItem { Label("Profile", systemImage: "person.crop.circle") }
         }
