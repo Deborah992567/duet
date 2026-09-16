@@ -1,6 +1,7 @@
 """Repository exports."""
 
 from app.repositories.base import BaseRepository, decode_cursor, encode_cursor, new_uuid
+from app.repositories.call_repo import CallParticipantRepository, CallRepository
 from app.repositories.conversation_repo import ConversationMemberRepository, ConversationRepository
 from app.repositories.friendship_repo import FriendRequestRepository, FriendshipRepository
 from app.repositories.message_repo import (
@@ -11,16 +12,9 @@ from app.repositories.message_repo import (
     ReactionRepository,
     ReceiptRepository,
 )
-from app.repositories.streak_repo import (
-    CallParticipantRepository,
-    CallRepository,
-    NotificationPrefRepository,
-    NotificationRepository,
-    ReportRepository,
-    StreakDayRepository,
-    StreakEventRepository,
-    StreakRepository,
-)
+from app.repositories.notification_repo import NotificationPrefRepository, NotificationRepository
+from app.repositories.report_repo import ReportRepository
+from app.repositories.streak_repo import StreakDayRepository, StreakEventRepository, StreakRepository
 from app.repositories.user_repo import BlockRepository, DeviceRepository, UserRepository
 
 __all__ = [
