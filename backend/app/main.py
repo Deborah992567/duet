@@ -44,8 +44,9 @@ def create_app() -> FastAPI:
     register_error_handlers(app)
     app.add_middleware(
         CORSMiddleware,
-        allow_origins=settings.allowed_hosts,
-        allow_credentials=True,
+        allow_origins=[] if "*" in settings.allowed_hosts else settings.allowed_hosts,
+        allow_origin_regex=r".*" if "*" in settings.allowed_hosts else None,
+        allow_credentials=False,
         allow_methods=["*"],
         allow_headers=["*"],
     )
@@ -67,7 +68,7 @@ def create_app() -> FastAPI:
     async def health():
         return {"status": "ok", "service": settings.app_name, "env": settings.environment}
 
-    app.register_websocket_route("/v1/ws", websocket_endpoint)
+    app.add_api_websocket_route(prefix + "/ws", websocket_endpoint, name="realtime")
 
     return app
 
