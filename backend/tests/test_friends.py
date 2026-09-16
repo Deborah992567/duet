@@ -3,21 +3,22 @@
 from tests.conftest import auth_headers, login, register_user
 
 
-def make_friends(client, a_tokens, b):
-    """Alice -> Bob request, Bob accepts."""
+def make_friends(client, requester_auth, receiver_auth):
+    """Requester -> Receiver request, receiver accepts. Auths are register/login responses w/ tokens."""
     r = client.post(
         "/v1/friends/requests",
-        json={"user_id": b["user"]["id"], "message": "hi"},
-        headers=auth_headers(a_tokens),
+        json={"user_id": receiver_auth["user"]["id"]},
+        headers=auth_headers(requester_auth),
     )
+    assert r.status_code == 200, r.text
     request_id = r.json()["request_id"]
-    b_tokens = login(client, "bob@example.com")
     r2 = client.post(
         f"/v1/friends/requests/{request_id}/respond",
         json={"accept": True},
-        headers=auth_headers(b_tokens),
+        headers=auth_headers(receiver_auth),
     )
     assert r2.status_code == 204
+    return request_id
 
 
 def test_send_and_accept(client, two_users):

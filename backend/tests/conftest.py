@@ -93,5 +93,17 @@ def two_users(client):
     return a, b
 
 
+@pytest.fixture()
+def two_friends(client):
+    """Alice and Bob registered AND friends. Auths are register responses with tokens."""
+    from tests.test_friends import make_friends
+
+    alice = register_user(client, "alice_f@example.com", "alice_f")
+    bob = register_user(client, "bob_f@example.com", "bob_f")
+    make_friends(client, alice, bob)
+    return alice, bob
+
+
 def auth_headers(auth: dict) -> dict:
-    return {"Authorization": f"Bearer {auth['tokens']['access_token']}"}
+    access = auth.get("access_token") or auth["tokens"]["access_token"]
+    return {"Authorization": f"Bearer {access}"}
