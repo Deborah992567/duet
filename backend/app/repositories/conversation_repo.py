@@ -72,6 +72,18 @@ class ConversationMemberRepository(BaseRepository[ConversationMember]):
             ).all()
         )
 
+    def member_ids_of_all(self, user_id: str) -> list[str]:
+        """All active conversation ids a user participates in."""
+        return list(
+            self.db.scalars(
+                select(ConversationMember.conversation_id).where(
+                    ConversationMember.user_id == user_id,
+                    ConversationMember.left_at.is_(None),
+                    ConversationMember.is_visible.is_(True),
+                )
+            ).all()
+        )
+
     def role_of(self, conversation_id: str, user_id: str) -> MemberRole | None:
         m = self.member(conversation_id, user_id)
         return m.role if m else None
