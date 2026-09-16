@@ -92,6 +92,13 @@ class BlockedUserPublic(BaseModel):
     user: UserPublic | None = None
 
 
+class PrivacySettingsPayload(BaseModel):
+    read_receipts_enabled: bool | None = None
+    show_online_status: bool | None = None
+    profile_visibility: str | None = Field(default=None, pattern="^(everyone|friends|nobody)$")
+    notification_preview_allowed: bool | None = None
+
+
 class DeleteAccountRequest(BaseModel):
     password: str
     confirmation: str  # must equal "DELETE"
