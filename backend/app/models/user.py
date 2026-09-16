@@ -62,6 +62,12 @@ class User(TimestampMixin, UUIDPrimaryKeyMixin, Base):
     last_seen_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
     deleted_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
 
+    # One-time token support for password recovery / email verification
+    reset_token_hash: Mapped[str | None] = mapped_column(String(128), nullable=True)
+    reset_token_expires_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+    verification_code_hash: Mapped[str | None] = mapped_column(String(128), nullable=True)
+    verification_code_expires_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+
     profile: Mapped["UserProfile"] = relationship(
         back_populates="user", cascade="all, delete-orphan", uselist=False
     )
