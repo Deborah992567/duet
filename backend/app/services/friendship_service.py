@@ -50,7 +50,8 @@ class FriendshipService(Service):
         reverse = self.requests.pending_between(recipient_id, sender_id)
         if reverse is not None:
             # Auto-accept the reverse request -> immediate friendship.
-            restored = await self.accept_request(recipient_id, reverse.id)
+            # `sender_id` is the recipient of the reverse (bob->alice) request.
+            await self.accept_request(sender_id, reverse.id)
             return reverse
 
         request = self.requests.add(

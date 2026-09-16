@@ -31,7 +31,10 @@ async def me(db: SessionDep, user: CurrentUser):
 
 @router.patch("/me")
 async def update_me(payload: UpdateProfileRequest, db: SessionDep, user: CurrentUser) -> UserPublic:
-    return UserService(db).update_profile(user.id, payload)
+    from app.services.user_service import to_public
+
+    updated = UserService(db).update_profile(user.id, payload)
+    return to_public(updated)
 
 
 @router.patch("/me/privacy")
