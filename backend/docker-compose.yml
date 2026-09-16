@@ -1,0 +1,32 @@
+services:
+  db:
+    image: mariadb:11.4
+    container_name: envy_db
+    restart: unless-stopped
+    environment:
+      MARIADB_DATABASE: envy_chat
+      MARIADB_USER: envy
+      MARIADB_PASSWORD: envy
+      MARIADB_ROOT_PASSWORD: root
+    ports:
+      - "3306:3306"
+    volumes:
+      - envy_db_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  redis:
+    image: redis:7.4-alpine
+    container_name: envy_redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - envy_redis_data:/data
+
+volumes:
+  envy_db_data:
+  envy_redis_data:
