@@ -84,7 +84,7 @@ async def websocket_endpoint(websocket: WebSocket) -> None:
     try:
         from app.api.deps import get_current_user_ws
 
-        user = await get_current_user_ws(websocket)
+        user = await get_current_user_ws(websocket, websocket.query_params.get("token", ""))
         user_id = user.id
 
         await manager.connect(user_id, [], websocket)

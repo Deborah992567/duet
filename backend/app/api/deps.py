@@ -52,10 +52,12 @@ def get_current_user(
     return user
 
 
-async def get_current_user_ws(
-    websocket: WebSocket, token: str = Query(default="")
-) -> User:
-    """Authenticate a WebSocket handshake via the access token (query param)."""
+async def get_current_user_ws(websocket: WebSocket, token: str = "") -> User:
+    """Authenticate a WebSocket handshake via the access token (query param).
+
+    Called directly from the websocket endpoint (FastAPI does not inject deps
+    there), so the caller must pass the token from ``websocket.query_params``.
+    """
     if not token:
         raise UnauthorizedError("Missing websocket token.", code="missing_ws_token")
     payload = security.decode_access_token(token)
