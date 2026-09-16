@@ -1,0 +1,13 @@
+# Xcode
+DerivedData/
+build/
+*.xcworkspace/xcuserdata/
+*.xcodeproj/xcuserdata/
+xcuserdata/
+*.DS_Store
+
+# SwiftPM
+.build/
+.swiftpm/
+
+# Tuist / XcodeGen artifacts are committed (project.yml is the source of truth).

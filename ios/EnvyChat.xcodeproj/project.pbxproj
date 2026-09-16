@@ -1,0 +1,523 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0F645380F7471D34FBE8CB4F /* StreaksView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BE8547FD0BEED736976C8DB /* StreaksView.swift */; };
+		204632C6973941813F226374 /* KeychainStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D1EFCE4759DBD9B51B1CFE4 /* KeychainStore.swift */; };
+		30D43F322D4B56128F566E2C /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF6CD2F5B82F02FE9CC5AE20 /* RootView.swift */; };
+		32033DD4E16C0FAB56479F92 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 025E99DA0EE313CAF7029E73 /* MainTabView.swift */; };
+		6E8205997A3609D638002DFD /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51640DE482DE0FB9A39C3EB6 /* APIClient.swift */; };
+		8D40EBB60232FA74489A1862 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 319986DEC6A52529F9CDC359 /* Theme.swift */; };
+		A3B322886EBD5F12A0FE6BDD /* SessionStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00ED43D1C003A6FDFEE8C6BE /* SessionStore.swift */; };
+		AB7156873B796A2AE8446BA2 /* InboxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67D8AB19517ABE74522D45F0 /* InboxView.swift */; };
+		B856D703D8CB0EC1A09A67A9 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502530181E24DE909D74AD1B /* ProfileView.swift */; };
+		BE72404130E52825EDE1214C /* AuthViewStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 186560DFD5C39A73D26B98CA /* AuthViewStore.swift */; };
+		DC4FF689BC86A033E21885A5 /* EnvyChatApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F5EBA70B2946C127282ED62 /* EnvyChatApp.swift */; };
+		FBB8C44F993363D6E57EDF1E /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B86773F3D569C18A6D694781 /* LoginView.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		EF75AFDE3CC18A435A63EF68 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 64360B2A9CD9D8BB1CE4A02F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = EF1B0244CE50D553E01CB264;
+			remoteInfo = EnvyChat;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		00ED43D1C003A6FDFEE8C6BE /* SessionStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStore.swift; sourceTree = "<group>"; };
+		025E99DA0EE313CAF7029E73 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
+		186560DFD5C39A73D26B98CA /* AuthViewStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewStore.swift; sourceTree = "<group>"; };
+		1F5EBA70B2946C127282ED62 /* EnvyChatApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvyChatApp.swift; sourceTree = "<group>"; };
+		319986DEC6A52529F9CDC359 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
+		3B9E42D2F190FBA0DB19AA73 /* EnvyChat.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = EnvyChat.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		4BE8547FD0BEED736976C8DB /* StreaksView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreaksView.swift; sourceTree = "<group>"; };
+		4D1EFCE4759DBD9B51B1CFE4 /* KeychainStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainStore.swift; sourceTree = "<group>"; };
+		502530181E24DE909D74AD1B /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
+		51640DE482DE0FB9A39C3EB6 /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
+		67D8AB19517ABE74522D45F0 /* InboxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InboxView.swift; sourceTree = "<group>"; };
+		A1E828012E070E1B9635784C /* EnvyChatTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = EnvyChatTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		A5B3C9EC00A40524E03608FF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		B86773F3D569C18A6D694781 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		BF6CD2F5B82F02FE9CC5AE20 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		09A7E7774E854A198AAF99B8 /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				B86773F3D569C18A6D694781 /* LoginView.swift */,
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
+		0D1158C50C55559A8EEB339E /* Design */ = {
+			isa = PBXGroup;
+			children = (
+				319986DEC6A52529F9CDC359 /* Theme.swift */,
+			);
+			path = Design;
+			sourceTree = "<group>";
+		};
+		32A6D34560960430853586A2 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				1F5EBA70B2946C127282ED62 /* EnvyChatApp.swift */,
+				BF6CD2F5B82F02FE9CC5AE20 /* RootView.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		36B30DFDA156B3FBA274B391 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				502530181E24DE909D74AD1B /* ProfileView.swift */,
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
+		3B111322B551F72CD98C775B /* Features */ = {
+			isa = PBXGroup;
+			children = (
+				09A7E7774E854A198AAF99B8 /* Auth */,
+				96FD5D85D260A0C0F427330C /* Home */,
+				36B30DFDA156B3FBA274B391 /* Profile */,
+				EB843F74BB85207BACC8D7EA /* Streaks */,
+			);
+			path = Features;
+			sourceTree = "<group>";
+		};
+		56824A85FA714D02BF8AD02A /* EnvyChatTests */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = EnvyChatTests;
+			sourceTree = "<group>";
+		};
+		90CD109904513665C5159A2B = {
+			isa = PBXGroup;
+			children = (
+				DABC1BB9E11E081C35F68F24 /* EnvyChat */,
+				56824A85FA714D02BF8AD02A /* EnvyChatTests */,
+				E1961D5B4E30D7619A031555 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		96FD5D85D260A0C0F427330C /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				67D8AB19517ABE74522D45F0 /* InboxView.swift */,
+				025E99DA0EE313CAF7029E73 /* MainTabView.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		BF15E693C6F75380B8A92AB1 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				E533AFF2220157E03335B66A /* Networking */,
+				E8BD1ABC132D07EEA85778C3 /* Security */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		DABC1BB9E11E081C35F68F24 /* EnvyChat */ = {
+			isa = PBXGroup;
+			children = (
+				A5B3C9EC00A40524E03608FF /* Info.plist */,
+				32A6D34560960430853586A2 /* App */,
+				BF15E693C6F75380B8A92AB1 /* Core */,
+				0D1158C50C55559A8EEB339E /* Design */,
+				3B111322B551F72CD98C775B /* Features */,
+			);
+			path = EnvyChat;
+			sourceTree = "<group>";
+		};
+		E1961D5B4E30D7619A031555 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				3B9E42D2F190FBA0DB19AA73 /* EnvyChat.app */,
+				A1E828012E070E1B9635784C /* EnvyChatTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		E533AFF2220157E03335B66A /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				51640DE482DE0FB9A39C3EB6 /* APIClient.swift */,
+				186560DFD5C39A73D26B98CA /* AuthViewStore.swift */,
+			);
+			path = Networking;
+			sourceTree = "<group>";
+		};
+		E8BD1ABC132D07EEA85778C3 /* Security */ = {
+			isa = PBXGroup;
+			children = (
+				4D1EFCE4759DBD9B51B1CFE4 /* KeychainStore.swift */,
+				00ED43D1C003A6FDFEE8C6BE /* SessionStore.swift */,
+			);
+			path = Security;
+			sourceTree = "<group>";
+		};
+		EB843F74BB85207BACC8D7EA /* Streaks */ = {
+			isa = PBXGroup;
+			children = (
+				4BE8547FD0BEED736976C8DB /* StreaksView.swift */,
+			);
+			path = Streaks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		EF1B0244CE50D553E01CB264 /* EnvyChat */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 62FD686A1538290105EBFD58 /* Build configuration list for PBXNativeTarget "EnvyChat" */;
+			buildPhases = (
+				A7D28B909D162FE1F1C2471C /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = EnvyChat;
+			packageProductDependencies = (
+			);
+			productName = EnvyChat;
+			productReference = 3B9E42D2F190FBA0DB19AA73 /* EnvyChat.app */;
+			productType = "com.apple.product-type.application";
+		};
+		F376325B2ABA45D7F9F2BEAC /* EnvyChatTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FF9F49952116EAF214DB1E4C /* Build configuration list for PBXNativeTarget "EnvyChatTests" */;
+			buildPhases = (
+				6879D79F918D46FB80610815 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				13B5B6C330A65B1EECFF240A /* PBXTargetDependency */,
+			);
+			name = EnvyChatTests;
+			packageProductDependencies = (
+			);
+			productName = EnvyChatTests;
+			productReference = A1E828012E070E1B9635784C /* EnvyChatTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		64360B2A9CD9D8BB1CE4A02F /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					EF1B0244CE50D553E01CB264 = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Automatic;
+					};
+					F376325B2ABA45D7F9F2BEAC = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 9EDFF2D5B29185892ECB3E83 /* Build configuration list for PBXProject "EnvyChat" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 90CD109904513665C5159A2B;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = E1961D5B4E30D7619A031555 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				EF1B0244CE50D553E01CB264 /* EnvyChat */,
+				F376325B2ABA45D7F9F2BEAC /* EnvyChatTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		6879D79F918D46FB80610815 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A7D28B909D162FE1F1C2471C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6E8205997A3609D638002DFD /* APIClient.swift in Sources */,
+				BE72404130E52825EDE1214C /* AuthViewStore.swift in Sources */,
+				DC4FF689BC86A033E21885A5 /* EnvyChatApp.swift in Sources */,
+				AB7156873B796A2AE8446BA2 /* InboxView.swift in Sources */,
+				204632C6973941813F226374 /* KeychainStore.swift in Sources */,
+				FBB8C44F993363D6E57EDF1E /* LoginView.swift in Sources */,
+				32033DD4E16C0FAB56479F92 /* MainTabView.swift in Sources */,
+				B856D703D8CB0EC1A09A67A9 /* ProfileView.swift in Sources */,
+				30D43F322D4B56128F566E2C /* RootView.swift in Sources */,
+				A3B322886EBD5F12A0FE6BDD /* SessionStore.swift in Sources */,
+				0F645380F7471D34FBE8CB4F /* StreaksView.swift in Sources */,
+				8D40EBB60232FA74489A1862 /* Theme.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		13B5B6C330A65B1EECFF240A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = EF1B0244CE50D553E01CB264 /* EnvyChat */;
+			targetProxy = EF75AFDE3CC18A435A63EF68 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		4D575EE3BFEFB9F46BBA2832 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				INFOPLIST_FILE = EnvyChat/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.envychat.app;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		76CFB43369469144E54163BE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.envychat.tests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/EnvyChat.app/EnvyChat";
+			};
+			name = Debug;
+		};
+		A3B14958EB069FB99BBE0469 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = "";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.10;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		C3347833943B99947ABDEC08 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.10;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		D7A52B949051E146ACC51E30 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				INFOPLIST_FILE = EnvyChat/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.envychat.app;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		EB1F3F5B494560FB64C0AB10 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.envychat.tests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/EnvyChat.app/EnvyChat";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		62FD686A1538290105EBFD58 /* Build configuration list for PBXNativeTarget "EnvyChat" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4D575EE3BFEFB9F46BBA2832 /* Debug */,
+				D7A52B949051E146ACC51E30 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		9EDFF2D5B29185892ECB3E83 /* Build configuration list for PBXProject "EnvyChat" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C3347833943B99947ABDEC08 /* Debug */,
+				A3B14958EB069FB99BBE0469 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		FF9F49952116EAF214DB1E4C /* Build configuration list for PBXNativeTarget "EnvyChatTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				76CFB43369469144E54163BE /* Debug */,
+				EB1F3F5B494560FB64C0AB10 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 64360B2A9CD9D8BB1CE4A02F /* Project object */;
+}
