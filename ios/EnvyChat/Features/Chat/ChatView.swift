@@ -6,6 +6,7 @@ struct ChatView: View {
     @State private var realtime = RealtimeClient()
     @State private var draft = ""
     @State private var errorText: String?
+    @State private var showStreak = false
 
     init(conversation: ConversationSummary) {
         self.conversation = conversation
@@ -26,6 +27,9 @@ struct ChatView: View {
                                 message: message,
                                 isOutgoing: message.senderId == SessionStore.shared.currentUserID
                             )
+                            .contextMenu {
+                                MessageActionsMenu(message: message, store: store)
+                            }
                             .id(message.id)
                         }
                     }
@@ -58,16 +62,27 @@ struct ChatView: View {
     private var streakBanner: some View {
         Group {
             if conversation.streakAlive || conversation.currentStreak > 0 {
-                HStack(spacing: 6) {
-                    Image(systemName: "flame.fill")
-                        .foregroundStyle(Theme.Palette.flameOn)
-                    Text(flameLabel)
-                        .font(.subheadline.bold())
-                        .foregroundStyle(Theme.Palette.textPrimary)
+                Button {
+                    showStreak = true
+                } label: {
+                    HStack(spacing: 6) {
+                        Image(systemName: "flame.fill")
+                            .foregroundStyle(Theme.Palette.flameOn)
+                        Text(flameLabel)
+                            .font(.subheadline.bold())
+                            .foregroundStyle(Theme.Palette.textPrimary)
+                    }
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 8)
+                    .background(Theme.Palette.bubbleIncoming)
                 }
-                .frame(maxWidth: .infinity)
-                .padding(.vertical, 8)
-                .background(Theme.Palette.bubbleIncoming)
+                .buttonStyle(.plain)
+                .sheet(isPresented: $showStreak) {
+                    NavigationStack {
+                        StreakDetailView(conversation: conversation)
+                            .toolbar { CloseToolbarButton { showStreak = false } }
+                    }
+                }
             }
         }
     }
@@ -111,6 +126,40 @@ struct ChatView: View {
         let clientID = UUID().uuidString.lowercased()
         draft = ""
         Task { await store.send(body: body, clientID: clientID) }
+    }
+}
+
+struct MessageActionsMenu: View {
+    let message: MessageOut
+    let store: ChatMessageStore
+    @Environment(\.dismiss) private var dismiss
+
+    var body: some View {
+        ForEach(["❤️", "🔥", "😂", "👍", "😮"], id: \.self) { emoji in
+            Button {
+                Task { await store.react(messageID: message.id, emoji: emoji) }
+            } label: {
+                Label("React \(emoji)", systemImage: "face.smiling")
+            }
+        }
+        Divider()
+        if message.senderId == SessionStore.shared.currentUserID {
+            Button {
+                Task { await store.edit(messageID: message.id, body: message.body ?? " ") }
+            } label: {
+                Label("Edit", systemImage: "square.and.pencil")
+            }
+            Button(role: .destructive) {
+                Task { await store.delete(messageID: message.id, forEveryone: true) }
+            } label: {
+                Label("Delete for everyone", systemImage: "trash")
+            }
+        }
+        Button(role: .destructive) {
+            Task { await store.delete(messageID: message.id, forEveryone: false) }
+        } label: {
+            Label("Delete for me", systemImage: "trash.slash")
+        }
     }
 }
 

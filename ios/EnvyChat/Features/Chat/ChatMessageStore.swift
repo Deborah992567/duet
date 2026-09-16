@@ -62,4 +62,46 @@ final class ChatMessageStore {
             messages.sort { $0.sentAt < $1.sentAt }
         }
     }
+
+    func react(messageID: String, emoji: String) async {
+        let builder = URLRequestBuilder(
+            base: client.baseURL,
+            path: "/v1/conversations/\(conversationID)/messages/\(messageID)/react",
+            method: .post,
+            body: ["emoji": emoji]
+        )
+        _ = try? await client.send(builder, as: NoContent.self, defaultValue: NoContent())
+    }
+
+    func edit(messageID: String, body: String) async {
+        let builder = URLRequestBuilder(
+            base: client.baseURL,
+            path: "/v1/conversations/\(conversationID)/messages/\(messageID)",
+            method: .patch,
+            body: ["body": body]
+        )
+        if let updated: MessageOut = try? await client.send(builder, as: MessageOut.self),
+           let index = messages.firstIndex(where: { $0.id == messageID }) {
+            messages[index] = updated
+        }
+    }
+
+    func delete(messageID: String, forEveryone: Bool) async {
+        let builder = URLRequestBuilder(
+            base: client.baseURL,
+            path: "/v1/conversations/\(conversationID)/messages/\(messageID)",
+            method: .delete,
+            body: ["delete_for": forEveryone ? "everyone" : "me"]
+        )
+        _ = try? await client.send(builder, as: NoContent.self, defaultValue: NoContent())
+        if !forEveryone, let index = messages.firstIndex(where: { $0.id == messageID }) {
+            messages.remove(at: index)
+        } else if let index = messages.firstIndex(where: { $0.id == messageID }) {
+            messages[index] = MessageOut(
+                id: messageID, conversationId: conversationID, senderId: messages[index].senderId,
+                body: nil, clientId: messages[index].clientId, sentAt: messages[index].sentAt,
+                isEdited: false, status: "deleted"
+            )
+        }
+    }
 }

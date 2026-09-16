@@ -26,6 +26,7 @@
 		B856D703D8CB0EC1A09A67A9 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502530181E24DE909D74AD1B /* ProfileView.swift */; };
 		BE72404130E52825EDE1214C /* AuthViewStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 186560DFD5C39A73D26B98CA /* AuthViewStore.swift */; };
 		C3E364C5ABEA5D3C4F42C94C /* RealtimeClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC7CB023199609449C537B96 /* RealtimeClient.swift */; };
+		DAE5555F3C2C791515DDFF73 /* StreakDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5576AB90491CDE8BCE5F17C /* StreakDetailView.swift */; };
 		DC4FF689BC86A033E21885A5 /* EnvyChatApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F5EBA70B2946C127282ED62 /* EnvyChatApp.swift */; };
 		FBB8C44F993363D6E57EDF1E /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B86773F3D569C18A6D694781 /* LoginView.swift */; };
 		FDFC188C057A708723DC4177 /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2190FAC4C1958951308FE244 /* RegisterView.swift */; };
@@ -67,6 +68,7 @@
 		BF6CD2F5B82F02FE9CC5AE20 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		C304D3AEB554A666453A4A38 /* ForgotPasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordView.swift; sourceTree = "<group>"; };
 		CC7CB023199609449C537B96 /* RealtimeClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealtimeClient.swift; sourceTree = "<group>"; };
+		D5576AB90491CDE8BCE5F17C /* StreakDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakDetailView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -208,6 +210,7 @@
 		EB843F74BB85207BACC8D7EA /* Streaks */ = {
 			isa = PBXGroup;
 			children = (
+				D5576AB90491CDE8BCE5F17C /* StreakDetailView.swift */,
 				4BE8547FD0BEED736976C8DB /* StreaksView.swift */,
 			);
 			path = Streaks;
@@ -333,6 +336,7 @@
 				FDFC188C057A708723DC4177 /* RegisterView.swift in Sources */,
 				30D43F322D4B56128F566E2C /* RootView.swift in Sources */,
 				A3B322886EBD5F12A0FE6BDD /* SessionStore.swift in Sources */,
+				DAE5555F3C2C791515DDFF73 /* StreakDetailView.swift in Sources */,
 				0F645380F7471D34FBE8CB4F /* StreaksView.swift in Sources */,
 				8D40EBB60232FA74489A1862 /* Theme.swift in Sources */,
 			);

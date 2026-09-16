@@ -47,3 +47,14 @@ extension View {
             )
     }
 }
+
+struct CloseToolbarButton: View {
+    var action: () -> Void
+
+    var body: some View {
+        Button(action: action) {
+            Image(systemName: "xmark.circle.fill")
+                .foregroundStyle(Theme.Palette.textSecondary)
+        }
+    }
+}
