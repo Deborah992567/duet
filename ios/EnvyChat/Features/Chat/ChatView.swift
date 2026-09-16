@@ -7,10 +7,11 @@ struct ChatView: View {
     @State private var draft = ""
     @State private var errorText: String?
     @State private var showStreak = false
+    @Environment(LocalStore.self) private var local
 
     init(conversation: ConversationSummary) {
         self.conversation = conversation
-        _store = State(initialValue: ChatMessageStore(conversationID: conversation.id))
+        _store = State(initialValue: ChatMessageStore(conversationID: conversation.id, local: nil))
     }
 
     var body: some View {
@@ -47,14 +48,18 @@ struct ChatView: View {
         .navigationTitle(conversation.name ?? conversation.peer?.username ?? "Chat")
         .navigationBarTitleDisplayMode(.inline)
         .task {
+            store.bind(local)
+            store.hydrate(from: local.queuedMessages(in: conversation.id))
             await store.loadHistory()
             realtime.onEnvelope = { type, data in
                 if type == "message.created",
                    let data, let payload = try? JSONDecoder.api.decode(MessageOut.self, from: data) {
                     store.castMessage(payload)
+                    local.upsert(payload)
                 }
             }
             realtime.connect(conversationIDs: [conversation.id])
+            await retryOutbox()
         }
         .onDisappear { realtime.disconnect() }
     }
@@ -125,7 +130,19 @@ struct ChatView: View {
         guard !body.isEmpty else { return }
         let clientID = UUID().uuidString.lowercased()
         draft = ""
-        Task { await store.send(body: body, clientID: clientID) }
+        Task {
+            let didSend = await store.send(body: body, clientID: clientID)
+            if !didSend {
+                local.enqueue(conversationID: conversation.id, body: body)
+            }
+        }
+    }
+
+    private func retryOutbox() async {
+        for entry in local.pendingOutbox() where entry.conversationID == conversation.id {
+            let sent = await store.send(body: entry.body, clientID: entry.clientID)
+            if sent { local.flush(entry) }
+        }
     }
 }
 

@@ -1,6 +1,7 @@
 import Foundation
 import Observation
 
+@MainActor
 @Observable
 final class ChatMessageStore {
     private(set) var messages: [MessageOut] = []
@@ -9,9 +10,27 @@ final class ChatMessageStore {
 
     let conversationID: String
     private let client = APIClient.shared
+    private var local: LocalStore?
 
-    init(conversationID: String) {
+    init(conversationID: String, local: LocalStore?) {
         self.conversationID = conversationID
+        self.local = local
+    }
+
+    func bind(_ cache: LocalStore) {
+        local = cache
+    }
+
+    func hydrate(from cache: [MessageCache]) {
+        let cached = cache.map {
+            MessageOut(
+                id: $0.id, conversationId: $0.conversationID, senderId: $0.senderID,
+                body: $0.body, clientId: $0.clientID, sentAt: $0.sentAt,
+                isEdited: $0.isEdited, status: $0.status
+            )
+        }
+        let merged = Dictionary(uniqueKeysWithValues: (messages + cached).map { ($0.id, $0) }).values.sorted { $0.sentAt < $1.sentAt }
+        messages = Array(merged)
     }
 
     func loadHistory() async {
@@ -26,7 +45,7 @@ final class ChatMessageStore {
         }
     }
 
-    func send(body: String, clientID: String) async {
+    func send(body: String, clientID: String) async -> Bool {
         let builder = URLRequestBuilder(
             base: client.baseURL,
             path: "/v1/conversations/\(conversationID)/messages",
@@ -40,9 +59,23 @@ final class ChatMessageStore {
             } else {
                 messages.append(result.message)
             }
+            local?.upsert(result.message)
             try? await markRead(upTo: result.message.id)
+            return true
         } catch {
-            errorText = (error as? APIError)?.message ?? "Message failed to send."
+            if let cache = local {
+                let outgoing = MessageOut(
+                    id: "pending-\(clientID)", conversationId: conversationID,
+                    senderId: SessionStore.shared.currentUserID ?? "me",
+                    body: body, clientId: clientID, sentAt: Date(), isEdited: false, status: "pending"
+                )
+                var next = messages
+                next.append(outgoing)
+                next.sort { $0.sentAt < $1.sentAt }
+                messages = next
+                _ = cache
+            }
+            return false
         }
     }
 
