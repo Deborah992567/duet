@@ -29,6 +29,10 @@ def hash_refresh_token(token: str) -> str:
     return hashlib.sha256(("ec:" + token).encode()).hexdigest()
 
 
+def hash_verification(code: str) -> str:
+    return hashlib.sha256(("verify:" + code).encode()).hexdigest()
+
+
 def _iso(dt: Optional[datetime]) -> Optional[str]:
     return dt.isoformat() if dt else None
 
@@ -160,20 +164,74 @@ class AuthService(Service):
         self.commit()
 
     def request_password_reset(self, email: str) -> str:
-        """Returns a reset token. In production this is emailed; dev returns it."""
+        """Issues an expiring reset token. Returns it for dev; production emails it."""
         user = self.users.by_email(email)
         if user is None:
-            raise NotFoundError("No account found for that email.", code="no_account", status_code=200_000)
-        token = secrets.token_urlsafe(32)
-        # Store a hashed, expiring reset token on the user.
-        user.metadata_json  # noqa: B018 - keep import surface simple; token stored via repository below
-        raise NotImplementedError("reset token persistence pending")
+            # Do not reveal whether an account exists.
+            return "sent"
+        token = security.generate_opaque_token(32)
+        user.reset_token_hash = hash_refresh_token(token)
+        user.reset_token_expires_at = datetime.now(timezone.utc) + timedelta(hours=2)
+        self.commit()
+        return token
 
     def reset_password(self, *, reset_token: str, new_password: str) -> bool:
-        raise NotImplementedError("reset token verification pending")
+        from sqlalchemy import select
+
+        digest = hash_refresh_token(reset_token)
+        user = self.db.scalar(
+            select(User).where(User.reset_token_hash == digest)
+        )
+        if user is None:
+            raise UnauthorizedError(
+                "This reset link is invalid or has expired.", code="invalid_reset_token"
+            )
+        if (
+            user.reset_token_expires_at is None
+            or user.reset_token_expires_at < datetime.now(timezone.utc)
+        ):
+            raise UnauthorizedError(
+                "This reset link has expired. Please request a new one.", code="reset_token_expired"
+            )
+        user.password_hash = security.hash_password(new_password)
+        user.reset_token_hash = None
+        user.reset_token_expires_at = None
+        now = datetime.now(timezone.utc)
+        for d in self.devices.by_user(user.id):
+            d.revoked_at = now
+        self.commit()
+        return True
 
     def verify_email(self, user_id: str, code: str) -> bool:
-        raise NotImplementedError("email verification code delivery pending")
+        user = self.users.get(user_id)
+        if user is None:
+            raise NotFoundError("User not found.")
+        if user.email_verified:
+            return True
+        digest = hash_verification(code)
+        if user.verification_code_hash != digest:
+            raise UnauthorizedError("That verification code is incorrect.", code="bad_verification")
+        if (
+            user.verification_code_expires_at is None
+            or user.verification_code_expires_at < datetime.now(timezone.utc)
+        ):
+            raise UnauthorizedError("That verification code has expired.", code="verification_expired")
+        user.email_verified = True
+        user.verification_code_hash = None
+        user.verification_code_expires_at = None
+        self.commit()
+        return True
+
+    def issue_email_verification(self, user_id: str) -> str:
+        """Creates a verification code (dev returns it; production emails it)."""
+        user = self.users.get(user_id)
+        if user is None or user.email_verified:
+            return "verified"
+        code = f"{secrets.randbelow(1_000_000):06d}"
+        user.verification_code_hash = hash_verification(code)
+        user.verification_code_expires_at = datetime.now(timezone.utc) + timedelta(hours=1)
+        self.commit()
+        return code
 
     # ------------------------------------------------------------------ #
     # Account deletion
