@@ -2,7 +2,15 @@ import SwiftUI
 
 struct ProfileView: View {
     @Environment(AppState.self) private var state
+    @Environment(LocalStore.self) private var local
     @State private var settings = SettingsStore()
+    @State private var showClearConfirm = false
+
+    private var appVersion: String {
+        let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0"
+        let build = Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? "1"
+        return "\(version) (\(build))"
+    }
 
     var body: some View {
         NavigationStack {
@@ -41,8 +49,20 @@ struct ProfileView: View {
                 }
 
                 Section("About") {
+                    LabeledContent("Version", value: appVersion)
                     NavigationLink("Toast privacy policy") { PrivacyPolicyView() }
                     NavigationLink("Terms of service") { TermsView() }
+                }
+
+                Section("Storage") {
+                    Button(role: .destructive) {
+                        showClearConfirm = true
+                    } label: {
+                        Label("Clear local messages & drafts", systemImage: "trash")
+                    }
+                    .confirmationDialog("Clear all cached conversations, messages and pending drafts?", isPresented: $showClearConfirm, titleVisibility: .visible) {
+                        Button("Clear local data", role: .destructive) { local.clearAll() }
+                    }
                 }
 
                 Section {

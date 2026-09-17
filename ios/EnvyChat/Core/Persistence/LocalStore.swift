@@ -124,4 +124,14 @@ final class LocalStore {
         context.delete(entry)
         try? context.save()
     }
+
+    func clearAll() {
+        let first = FetchDescriptor<ConversationCache>()
+        let second = FetchDescriptor<MessageCache>()
+        let third = pendingOutbox()
+        for conversation in (try? context.fetch(first)) ?? [] { context.delete(conversation) }
+        for message in (try? context.fetch(second)) ?? [] { context.delete(message) }
+        for entry in third { context.delete(entry) }
+        try? context.save()
+    }
 }
