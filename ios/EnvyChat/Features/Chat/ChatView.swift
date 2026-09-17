@@ -635,6 +635,8 @@ struct UserProfileSheet: View {
     @State private var user: UserPublic?
     @State private var isLoading = true
     @State private var friendRequestSent = false
+    @State private var blocked = false
+    @State private var showBlockConfirm = false
     @Environment(\.dismiss) private var dismiss
 
     var body: some View {
@@ -686,6 +688,20 @@ struct UserProfileSheet: View {
                             }
                             .disabled(friendRequestSent)
                         }
+                        Button(role: .destructive) {
+                            showBlockConfirm = true
+                        } label: {
+                            Label(blocked ? "Unblock user" : "Block user", systemImage: "hand.raised.fill")
+                                .font(Theme.Typography.caption)
+                                .foregroundStyle(Theme.Palette.danger)
+                                .padding(8)
+                        }
+                        .confirmationDialog(blocked ? "Unblock \(user.username)?" : "Block \(user.username)? You won't see their messages.", isPresented: $showBlockConfirm, titleVisibility: .visible) {
+                            Button(blocked ? "Unblock" : "Block", role: .destructive) {
+                                blocked.toggle()
+                                Task { await setBlocked(blocked) }
+                            }
+                        }
                         Spacer()
                     }
                     .padding(Theme.Metrics.padding)
@@ -726,6 +742,7 @@ struct UserProfileSheet: View {
         let builder = URLRequestBuilder(base: client.baseURL, path: "/v1/users/\(userID)")
         if let fetched = try? await client.send(builder, as: UserPublic.self) {
             user = fetched
+            blocked = fetched.isBlocked
         }
         isLoading = false
     }
@@ -733,6 +750,13 @@ struct UserProfileSheet: View {
     private func sendFriendRequest(to userID: String) async {
         let client = APIClient.shared
         let builder = URLRequestBuilder(base: client.baseURL, path: "/v1/friends/requests", method: .post, body: ["user_id": userID])
+        _ = try? await client.send(builder, as: NoContent.self, defaultValue: NoContent())
+    }
+
+    private func setBlocked(_ blocked: Bool) async {
+        let client = APIClient.shared
+        let path = "/v1/users/\(userID)/block"
+        let builder = URLRequestBuilder(base: client.baseURL, path: path, method: blocked ? .post : .delete)
         _ = try? await client.send(builder, as: NoContent.self, defaultValue: NoContent())
     }
 }
