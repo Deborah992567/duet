@@ -14,6 +14,7 @@ struct ChatView: View {
     @State private var pickedImage: PhotosPickerItem?
     @State private var peerOnline = false
     @State private var typingCooldown = Date.distantPast
+    @State private var replyingTo: MessageOut?
     @Environment(LocalStore.self) private var local
 
     init(conversation: ConversationSummary) {
@@ -104,12 +105,15 @@ struct ChatView: View {
                     ForEach(store.messages) { message in
                         MessageBubble(
                             message: message,
-                            isOutgoing: message.senderId == SessionStore.shared.currentUserID
+                            isOutgoing: message.senderId == SessionStore.shared.currentUserID,
+                            quote: store.messages.first(where: { $0.id == message.replyToMessageId })?.body
                         )
                         .contextMenu {
-                            MessageActionsMenu(message: message, store: store) {
+                            MessageActionsMenu(message: message, store: store, onReply: {
+                                replyingTo = message
+                            }, onEdit: {
                                 editingMessage = message
-                            }
+                            })
                         }
                         .id(message.id)
                     }
@@ -177,46 +181,68 @@ struct ChatView: View {
     }
 
     private var composer: some View {
-        HStack(spacing: Theme.Metrics.small) {
-            PhotosPicker(selection: $pickedImage, matching: .images) {
-                Image(systemName: "photo.on.rectangle")
-                    .font(.system(size: 22))
-                    .foregroundStyle(Theme.Palette.brand)
-            }
-            .onChange(of: pickedImage) { _, item in
-                guard let item else { return }
-                Task {
-                    if let data = try? await item.loadTransferable(type: Data.self) {
-                        let url = FileManager.default.temporaryDirectory.appendingPathComponent("img-\(UUID().uuidString).jpg")
-                        try? data.write(to: url)
-                        await store.sendImageIfNeeded(url: url, uploader: MediaUploader())
+        VStack(spacing: 0) {
+            if let replyingTo {
+                HStack(spacing: 8) {
+                    Image(systemName: "arrowshape.turn.up.left.fill")
+                        .font(.caption2)
+                        .foregroundStyle(Theme.Palette.brand)
+                    Text("Reply to “\(replyingTo.body ?? "voice message")”")
+                        .font(Theme.Typography.caption)
+                        .foregroundStyle(Theme.Palette.textPrimary)
+                        .lineLimit(1)
+                    Spacer()
+                    Button { self.replyingTo = nil } label: {
+                        Image(systemName: "xmark.circle.fill")
+                            .foregroundStyle(Theme.Palette.textSecondary)
                     }
                 }
-            }
-            TextField("Message", text: $draft, axis: .vertical)
-                .lineLimit(1...4)
-                .onChange(of: draft) { _, newValue in
-                    let typing = !newValue.trimmingCharacters(in: .whitespaces).isEmpty
-                    Task { await emitTyping(typing) }
-                }
                 .padding(.horizontal, Theme.Metrics.padding)
-                .padding(.vertical, 10)
-                .background(Theme.Palette.surface)
-                .clipShape(RoundedRectangle(cornerRadius: Theme.Metrics.radiusSmall, style: .continuous))
-                .overlay(
-                    RoundedRectangle(cornerRadius: Theme.Metrics.radiusSmall, style: .continuous)
-                        .stroke(Theme.Palette.outline, lineWidth: Theme.Metrics.lineWidth)
-                )
-            Button {
-                send()
-            } label: {
-                Image(systemName: "arrow.up.circle.fill")
-                    .font(.system(size: 34))
-                    .foregroundStyle(draft.trimmingCharacters(in: .whitespaces).isEmpty ? Theme.Palette.flameOff : Theme.Palette.brand)
+                .padding(.vertical, 6)
+                .background(Theme.Palette.bubbleIncoming)
             }
-            .disabled(draft.trimmingCharacters(in: .whitespaces).isEmpty)
 
-            TalkButton(recorder: recorder)
+            HStack(spacing: Theme.Metrics.small) {
+                PhotosPicker(selection: $pickedImage, matching: .images) {
+                    Image(systemName: "photo.on.rectangle")
+                        .font(.system(size: 22))
+                        .foregroundStyle(Theme.Palette.brand)
+                }
+                .onChange(of: pickedImage) { _, item in
+                    guard let item else { return }
+                    Task {
+                        if let data = try? await item.loadTransferable(type: Data.self) {
+                            let url = FileManager.default.temporaryDirectory.appendingPathComponent("img-\(UUID().uuidString).jpg")
+                            try? data.write(to: url)
+                            await store.sendImageIfNeeded(url: url, uploader: MediaUploader())
+                        }
+                    }
+                }
+                TextField("Message", text: $draft, axis: .vertical)
+                    .lineLimit(1...4)
+                    .onChange(of: draft) { _, newValue in
+                        let typing = !newValue.trimmingCharacters(in: .whitespaces).isEmpty
+                        Task { await emitTyping(typing) }
+                    }
+                    .padding(.horizontal, Theme.Metrics.padding)
+                    .padding(.vertical, 10)
+                    .background(Theme.Palette.surface)
+                    .clipShape(RoundedRectangle(cornerRadius: Theme.Metrics.radiusSmall, style: .continuous))
+                    .overlay(
+                        RoundedRectangle(cornerRadius: Theme.Metrics.radiusSmall, style: .continuous)
+                            .stroke(Theme.Palette.outline, lineWidth: Theme.Metrics.lineWidth)
+                    )
+                Button {
+                    send()
+                } label: {
+                    Image(systemName: "arrow.up.circle.fill")
+                        .font(.system(size: 34))
+                        .foregroundStyle(draft.trimmingCharacters(in: .whitespaces).isEmpty ? Theme.Palette.flameOff : Theme.Palette.brand)
+                }
+                .disabled(draft.trimmingCharacters(in: .whitespaces).isEmpty)
+
+                TalkButton(recorder: recorder)
+            }
         }
         .padding(Theme.Metrics.padding)
         .background(Theme.Palette.surface)
@@ -229,9 +255,11 @@ struct ChatView: View {
         let body = draft.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !body.isEmpty else { return }
         let clientID = UUID().uuidString.lowercased()
+        let replyID = replyingTo?.id
         draft = ""
+        replyingTo = nil
         Task {
-            let didSend = await store.send(body: body, clientID: clientID)
+            let didSend = await store.send(body: body, clientID: clientID, replyTo: replyID)
             if !didSend {
                 local.enqueue(conversationID: conversation.id, body: body)
             }
@@ -249,9 +277,13 @@ struct ChatView: View {
 struct MessageActionsMenu: View {
     let message: MessageOut
     let store: ChatMessageStore
+    var onReply: (() -> Void)?
     var onEdit: (() -> Void)?
 
     var body: some View {
+        Button(action: { onReply?() }) {
+            Label("Reply", systemImage: "arrowshape.turn.up.left.fill")
+        }
         ForEach(["❤️", "🔥", "😂", "👍", "😮"], id: \.self) { emoji in
             Button {
                 Task { await store.react(messageID: message.id, emoji: emoji) }
@@ -432,6 +464,7 @@ struct ChatEmptyState: View {
 struct MessageBubble: View {
     let message: MessageOut
     let isOutgoing: Bool
+    var quote: String?
     @State private var player = VoicePlayer()
 
     var body: some View {
@@ -486,13 +519,29 @@ struct MessageBubble: View {
     }
 
     private var bubbleText: some View {
-        Text(message.body ?? "Message deleted")
-            .font(Theme.Typography.body)
-            .foregroundStyle(isOutgoing ? .white : Theme.Palette.textPrimary)
-            .padding(.horizontal, 14)
-            .padding(.vertical, 9)
-            .background(isOutgoing ? Theme.Palette.bubbleOutgoing : Theme.Palette.bubbleIncoming)
-            .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
+        VStack(alignment: isOutgoing ? .trailing : .leading, spacing: 4) {
+            if let quote, !quote.isEmpty {
+                HStack(spacing: 4) {
+                    Rectangle()
+                        .fill(Theme.Palette.brand.opacity(0.5))
+                        .frame(width: 3)
+                    Text(quote)
+                        .font(.caption2)
+                        .foregroundStyle(isOutgoing ? .white.opacity(0.7) : Theme.Palette.textSecondary)
+                        .lineLimit(2)
+                }
+                .padding(4)
+                .background(isOutgoing ? Color.white.opacity(0.15) : Theme.Palette.bubbleIncoming.opacity(0.6))
+                .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+            }
+            Text(message.body ?? "Message deleted")
+                .font(Theme.Typography.body)
+                .foregroundStyle(isOutgoing ? .white : Theme.Palette.textPrimary)
+        }
+        .padding(.horizontal, 14)
+        .padding(.vertical, 9)
+        .background(isOutgoing ? Theme.Palette.bubbleOutgoing : Theme.Palette.bubbleIncoming)
+        .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
     }
 
     private var voiceBubble: some View {

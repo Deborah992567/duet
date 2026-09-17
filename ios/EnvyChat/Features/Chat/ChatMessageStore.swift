@@ -7,6 +7,12 @@ struct MediaSendBody: Encodable {
     let attachments: [AttachmentDraftBody]
 }
 
+struct SendTextBody: Encodable {
+    let body: String
+    let client_id: String
+    let reply_to_message_id: String?
+}
+
 struct AttachmentDraftBody: Encodable {
     let upload_id: String
     let kind: String
@@ -58,12 +64,12 @@ final class ChatMessageStore {
         }
     }
 
-    func send(body: String, clientID: String) async -> Bool {
+    func send(body: String, clientID: String, replyTo: String? = nil) async -> Bool {
         let builder = URLRequestBuilder(
             base: client.baseURL,
             path: "/v1/conversations/\(conversationID)/messages",
             method: .post,
-            body: ["body": body, "client_id": clientID]
+            body: SendTextBody(body: body, client_id: clientID, reply_to_message_id: replyTo)
         )
         do {
             let result: SendMessageResult = try await client.send(builder, as: SendMessageResult.self)

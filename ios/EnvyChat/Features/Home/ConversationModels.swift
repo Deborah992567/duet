@@ -69,6 +69,7 @@ struct MessageOut: Decodable, Identifiable, Hashable {
     var durationMs: Int?
     var attachments: [AttachmentOut]
     var reactions: [String: [String]]?
+    var replyToMessageId: String?
 
     enum CodingKeys: String, CodingKey {
         case id, body, status, kind, reactions, attachments
@@ -79,6 +80,7 @@ struct MessageOut: Decodable, Identifiable, Hashable {
         case isEdited = "is_edited"
         case mediaUrl = "media_url"
         case durationMs = "duration_ms"
+        case replyToMessageId = "reply_to_message_id"
     }
 
     var isVoice: Bool {
