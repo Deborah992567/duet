@@ -233,18 +233,17 @@ struct ChatEmptyState: View {
 struct MessageBubble: View {
     let message: MessageOut
     let isOutgoing: Bool
+    @State private var player = VoicePlayer()
 
     var body: some View {
         HStack {
             if isOutgoing { Spacer(minLength: 48) }
             VStack(alignment: isOutgoing ? .trailing : .leading, spacing: 3) {
-                Text(message.body ?? "Message deleted")
-                    .font(Theme.Typography.body)
-                    .foregroundStyle(isOutgoing ? .white : Theme.Palette.textPrimary)
-                    .padding(.horizontal, 14)
-                    .padding(.vertical, 9)
-                    .background(isOutgoing ? Theme.Palette.bubbleOutgoing : Theme.Palette.bubbleIncoming)
-                    .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
+                if message.isVoice {
+                    voiceBubble
+                } else {
+                    bubbleText
+                }
                 HStack(spacing: 4) {
                     Text(timeLabel)
                         .font(.caption2)
@@ -255,9 +254,66 @@ struct MessageBubble: View {
                             .foregroundStyle(message.status == "read" ? Theme.Palette.brand : Theme.Palette.textSecondary)
                     }
                 }
+                if let reactions = message.reactions, !reactions.isEmpty {
+                    HStack(spacing: 4) {
+                        ForEach(reactions.sorted(by: { $0.key < $1.key }), id: \.key) { emoji, users in
+                            Text("\(emoji) \(users.count)")
+                                .font(.caption2)
+                                .padding(.horizontal, 6)
+                                .padding(.vertical, 2)
+                                .background(Theme.Palette.surface)
+                                .clipShape(Capsule())
+                                .overlay(Capsule().stroke(Theme.Palette.outline, lineWidth: Theme.Metrics.lineWidth))
+                        }
+                    }
+                }
             }
             if !isOutgoing { Spacer(minLength: 48) }
         }
+    }
+
+    private var bubbleText: some View {
+        Text(message.body ?? "Message deleted")
+            .font(Theme.Typography.body)
+            .foregroundStyle(isOutgoing ? .white : Theme.Palette.textPrimary)
+            .padding(.horizontal, 14)
+            .padding(.vertical, 9)
+            .background(isOutgoing ? Theme.Palette.bubbleOutgoing : Theme.Palette.bubbleIncoming)
+            .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
+    }
+
+    private var voiceBubble: some View {
+        HStack(spacing: 8) {
+            Button {
+                if let url = playerURL {
+                    player.toggle(url: url)
+                }
+            } label: {
+                Image(systemName: player.isPlaying ? "stop.fill" : "play.fill")
+                    .font(.system(size: 14))
+                    .foregroundStyle(isOutgoing ? .white : Theme.Palette.brand)
+            }
+            Image(systemName: "waveform")
+                .font(.system(size: 20))
+                .foregroundStyle(isOutgoing ? .white : Theme.Palette.brand)
+            Text(voiceDurationLabel)
+                .font(.caption)
+                .foregroundStyle(isOutgoing ? .white : Theme.Palette.textSecondary)
+        }
+        .padding(.horizontal, 14)
+        .padding(.vertical, 9)
+        .background(isOutgoing ? Theme.Palette.bubbleOutgoing : Theme.Palette.bubbleIncoming)
+        .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
+    }
+
+    private var playerURL: URL? {
+        guard let mediaUrl = message.mediaUrl else { return nil }
+        return URL(string: mediaUrl)
+    }
+
+    private var voiceDurationLabel: String {
+        guard let ms = message.durationMs else { return "" }
+        return String(format: "0:%02d", ms / 1000)
     }
 
     private var timeLabel: String {

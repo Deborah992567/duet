@@ -15,6 +15,7 @@
 		30940360287D0AE2D0650A1E /* InboxRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 219267348936B519B97861BB /* InboxRow.swift */; };
 		30D43F322D4B56128F566E2C /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF6CD2F5B82F02FE9CC5AE20 /* RootView.swift */; };
 		32033DD4E16C0FAB56479F92 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 025E99DA0EE313CAF7029E73 /* MainTabView.swift */; };
+		3426C776886600421935835F /* NewChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4A848013AD7E8B405CF095 /* NewChatView.swift */; };
 		363D647845C27889062F2C7E /* ForgotPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C304D3AEB554A666453A4A38 /* ForgotPasswordView.swift */; };
 		450D708DA637711931952920 /* FriendsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC8958B16318BC4F47BB309C /* FriendsView.swift */; };
 		60972F1805C57D05284FF13B /* LegalViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2043A2CDA5AB8C600EF67F89 /* LegalViews.swift */; };
@@ -83,6 +84,7 @@
 		BF6CD2F5B82F02FE9CC5AE20 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		C304D3AEB554A666453A4A38 /* ForgotPasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordView.swift; sourceTree = "<group>"; };
 		CC7CB023199609449C537B96 /* RealtimeClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealtimeClient.swift; sourceTree = "<group>"; };
+		CE4A848013AD7E8B405CF095 /* NewChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewChatView.swift; sourceTree = "<group>"; };
 		D5576AB90491CDE8BCE5F17C /* StreakDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakDetailView.swift; sourceTree = "<group>"; };
 		E9317718F1228FC5CA29E347 /* SettingsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsStore.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -198,6 +200,7 @@
 				219267348936B519B97861BB /* InboxRow.swift */,
 				67D8AB19517ABE74522D45F0 /* InboxView.swift */,
 				025E99DA0EE313CAF7029E73 /* MainTabView.swift */,
+				CE4A848013AD7E8B405CF095 /* NewChatView.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -393,6 +396,7 @@
 				B4CE05B12A9F0803CC451CF1 /* LocalStore.swift in Sources */,
 				FBB8C44F993363D6E57EDF1E /* LoginView.swift in Sources */,
 				32033DD4E16C0FAB56479F92 /* MainTabView.swift in Sources */,
+				3426C776886600421935835F /* NewChatView.swift in Sources */,
 				B856D703D8CB0EC1A09A67A9 /* ProfileView.swift in Sources */,
 				C3E364C5ABEA5D3C4F42C94C /* RealtimeClient.swift in Sources */,
 				FDFC188C057A708723DC4177 /* RegisterView.swift in Sources */,

@@ -5,9 +5,11 @@ struct InboxView: View {
     @Environment(AppState.self) private var state
     @State private var store = ConversationListStore()
     @State private var showFriends = false
+    @State private var showNewChat = false
+    @State private var path = NavigationPath()
 
     var body: some View {
-        NavigationStack {
+        NavigationStack(path: $path) {
             ScrollView {
                 LazyVStack(spacing: Theme.Metrics.small) {
                     if store.conversations.isEmpty {
@@ -43,7 +45,7 @@ struct InboxView: View {
                 }
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
-                        // New message
+                        showNewChat = true
                     } label: {
                         Image(systemName: "square.and.pencil")
                             .foregroundStyle(Theme.Palette.brand)
@@ -55,6 +57,16 @@ struct InboxView: View {
             }
             .task {
                 await store.refresh()
+            }
+        }
+        .sheet(isPresented: $showNewChat) {
+            NavigationStack {
+                NewChatView(path: $path)
+                    .toolbar {
+                        ToolbarItem(placement: .topBarTrailing) {
+                            CloseToolbarButton { showNewChat = false }
+                        }
+                    }
             }
         }
     }
