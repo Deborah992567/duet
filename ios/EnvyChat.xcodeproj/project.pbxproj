@@ -24,6 +24,7 @@
 		8D40EBB60232FA74489A1862 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 319986DEC6A52529F9CDC359 /* Theme.swift */; };
 		9408942C578E834B27FFD702 /* SettingsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9317718F1228FC5CA29E347 /* SettingsStore.swift */; };
 		94B3D9C9EB4EFC5F40775755 /* ConversationModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = B35F50FA5BEBE4FD9EA353EC /* ConversationModels.swift */; };
+		A0757FB642382CC54600B860 /* EnvyChatTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1514D024EEF83F264F5336CE /* EnvyChatTests.swift */; };
 		A3B322886EBD5F12A0FE6BDD /* SessionStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00ED43D1C003A6FDFEE8C6BE /* SessionStore.swift */; };
 		A4070B9CE0EFC56A7C5DFB6E /* Voice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C804E721C528988EDF9A2FA /* Voice.swift */; };
 		AB7156873B796A2AE8446BA2 /* InboxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67D8AB19517ABE74522D45F0 /* InboxView.swift */; };
@@ -53,6 +54,7 @@
 		00ED43D1C003A6FDFEE8C6BE /* SessionStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStore.swift; sourceTree = "<group>"; };
 		025E99DA0EE313CAF7029E73 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
 		1168EB346FD6D89529155370 /* ChatMessageStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMessageStore.swift; sourceTree = "<group>"; };
+		1514D024EEF83F264F5336CE /* EnvyChatTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvyChatTests.swift; sourceTree = "<group>"; };
 		186560DFD5C39A73D26B98CA /* AuthViewStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewStore.swift; sourceTree = "<group>"; };
 		1F5EBA70B2946C127282ED62 /* EnvyChatApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvyChatApp.swift; sourceTree = "<group>"; };
 		2043A2CDA5AB8C600EF67F89 /* LegalViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LegalViews.swift; sourceTree = "<group>"; };
@@ -158,6 +160,7 @@
 		56824A85FA714D02BF8AD02A /* EnvyChatTests */ = {
 			isa = PBXGroup;
 			children = (
+				1514D024EEF83F264F5336CE /* EnvyChatTests.swift */,
 			);
 			path = EnvyChatTests;
 			sourceTree = "<group>";
@@ -363,6 +366,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A0757FB642382CC54600B860 /* EnvyChatTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
