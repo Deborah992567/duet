@@ -83,7 +83,7 @@ struct MediaUploader {
             kind: kind,
             file_name: url.lastPathComponent,
             size_bytes: size,
-            mime_type: "audio/mp4",
+            mime_type: kind == "image" ? "image/jpeg" : "audio/mp4",
             checksum_sha256: SHA256.hash(data: data).map { String(format: "%02x", $0) }.joined()
         )
         guard let response: BeginResponse = try? await client.send(begin, as: BeginResponse.self) else { return nil }
@@ -102,6 +102,10 @@ struct MediaUploader {
         guard let completion: [String: String] = try? await client.send(complete, as: [String: String].self, defaultValue: nil) else { return nil }
         _ = completion
         return response.upload_id
+    }
+
+    func uploadImage(url: URL) async -> String? {
+        await uploadVoice(url: url, kind: "image")
     }
 }
 

@@ -37,6 +37,24 @@ struct ConversationListResponse: Decodable {
     }
 }
 
+struct AttachmentOut: Decodable, Hashable {
+    let id: String
+    let kind: String
+    let url: String
+    let thumbUrl: String?
+    let mimeType: String?
+    let sizeBytes: Int?
+    let durationMs: Int?
+
+    enum CodingKeys: String, CodingKey {
+        case id, kind, url
+        case thumbUrl = "thumb_url"
+        case mimeType = "mime_type"
+        case sizeBytes = "size_bytes"
+        case durationMs = "duration_ms"
+    }
+}
+
 struct MessageOut: Decodable, Identifiable, Hashable {
     let id: String
     let conversationId: String
@@ -49,10 +67,11 @@ struct MessageOut: Decodable, Identifiable, Hashable {
     var kind: String?
     var mediaUrl: String?
     var durationMs: Int?
+    var attachments: [AttachmentOut]
     var reactions: [String: [String]]?
 
     enum CodingKeys: String, CodingKey {
-        case id, body, status, kind, reactions
+        case id, body, status, kind, reactions, attachments
         case conversationId = "conversation_id"
         case senderId = "sender_id"
         case clientId = "client_id"
@@ -62,8 +81,17 @@ struct MessageOut: Decodable, Identifiable, Hashable {
         case durationMs = "duration_ms"
     }
 
-    var isVoice: Bool { kind == "voice" }
+    var isVoice: Bool {
+        kind == "voice" || attachments.contains { $0.kind == "voice" }
+    }
+
+    var isImage: Bool {
+        attachments.contains { $0.kind == "image" }
+    }
+
     var isDeleted: Bool { status == "deleted" }
+
+    var displayAttachment: AttachmentOut? { attachments.first }
 }
 
 struct MessageListResponse: Decodable {

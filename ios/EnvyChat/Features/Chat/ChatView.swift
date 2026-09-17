@@ -1,5 +1,6 @@
 import SwiftUI
 import AVFoundation
+import PhotosUI
 
 struct ChatView: View {
     let conversation: ConversationSummary
@@ -10,6 +11,7 @@ struct ChatView: View {
     @State private var showStreak = false
     @State private var recorder = VoiceRecorder()
     @State private var editingMessage: MessageOut?
+    @State private var pickedImage: PhotosPickerItem?
     @Environment(LocalStore.self) private var local
 
     init(conversation: ConversationSummary) {
@@ -117,6 +119,21 @@ struct ChatView: View {
 
     private var composer: some View {
         HStack(spacing: Theme.Metrics.small) {
+            PhotosPicker(selection: $pickedImage, matching: .images) {
+                Image(systemName: "photo.on.rectangle")
+                    .font(.system(size: 22))
+                    .foregroundStyle(Theme.Palette.brand)
+            }
+            .onChange(of: pickedImage) { _, item in
+                guard let item else { return }
+                Task {
+                    if let data = try? await item.loadTransferable(type: Data.self) {
+                        let url = FileManager.default.temporaryDirectory.appendingPathComponent("img-\(UUID().uuidString).jpg")
+                        try? data.write(to: url)
+                        await store.sendImageIfNeeded(url: url, uploader: MediaUploader())
+                    }
+                }
+            }
             TextField("Message", text: $draft, axis: .vertical)
                 .lineLimit(1...4)
                 .padding(.horizontal, Theme.Metrics.padding)
@@ -313,6 +330,20 @@ struct MessageBubble: View {
             VStack(alignment: isOutgoing ? .trailing : .leading, spacing: 3) {
                 if message.isVoice {
                     voiceBubble
+                } else if message.isImage, let attachment = message.displayAttachment, let url = URL(string: attachment.url) {
+                    AsyncImage(url: url) { phase in
+                        switch phase {
+                        case .success(let image):
+                            image.resizable().scaledToFill()
+                        case .failure:
+                            Image(systemName: "photo")
+                                .foregroundStyle(Theme.Palette.brand)
+                        default:
+                            ProgressView().tint(Theme.Palette.brand)
+                        }
+                    }
+                    .frame(width: 200, height: 200)
+                    .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
                 } else {
                     bubbleText
                 }
@@ -379,8 +410,8 @@ struct MessageBubble: View {
     }
 
     private var playerURL: URL? {
-        guard let mediaUrl = message.mediaUrl else { return nil }
-        return URL(string: mediaUrl)
+        guard let urlString = message.displayAttachment?.url ?? message.mediaUrl else { return nil }
+        return URL(string: urlString)
     }
 
     private var voiceDurationLabel: String {

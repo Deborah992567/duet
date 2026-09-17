@@ -39,7 +39,7 @@ final class ChatMessageStore {
             MessageOut(
                 id: $0.id, conversationId: $0.conversationID, senderId: $0.senderID,
                 body: $0.body, clientId: $0.clientID, sentAt: $0.sentAt,
-                isEdited: $0.isEdited, status: $0.status
+                isEdited: $0.isEdited, status: $0.status, attachments: []
             )
         }
         let merged = Dictionary(uniqueKeysWithValues: (messages + cached).map { ($0.id, $0) }).values.sorted { $0.sentAt < $1.sentAt }
@@ -80,7 +80,8 @@ final class ChatMessageStore {
                 let outgoing = MessageOut(
                     id: "pending-\(clientID)", conversationId: conversationID,
                     senderId: SessionStore.shared.currentUserID ?? "me",
-                    body: body, clientId: clientID, sentAt: Date(), isEdited: false, status: "pending"
+                    body: body, clientId: clientID, sentAt: Date(), isEdited: false, status: "pending",
+                    attachments: []
                 )
                 var next = messages
                 next.append(outgoing)
@@ -125,6 +126,32 @@ final class ChatMessageStore {
             try? await markRead(upTo: result.message.id)
         } catch {
             errorText = (error as? APIError)?.message ?? "Voice message failed."
+        }
+    }
+
+    func sendImageIfNeeded(url: URL, uploader: MediaUploader) async {
+        guard let uploadID = await uploader.uploadImage(url: url) else {
+            errorText = "Image upload failed."
+            return
+        }
+        let clientID = UUID().uuidString.lowercased()
+        let builder = URLRequestBuilder(
+            base: client.baseURL,
+            path: "/v1/conversations/\(conversationID)/messages",
+            method: .post,
+            body: MediaSendBody(kind: "image", client_id: clientID, attachments: [AttachmentDraftBody(upload_id: uploadID, kind: "image", file_name: "image.jpg", duration_ms: 0)])
+        )
+        do {
+            let result: SendMessageResult = try await client.send(builder, as: SendMessageResult.self)
+            if let index = messages.firstIndex(where: { $0.clientId == clientID }) {
+                messages[index] = result.message
+            } else {
+                messages.append(result.message)
+            }
+            local?.upsert(result.message)
+            try? await markRead(upTo: result.message.id)
+        } catch {
+            errorText = (error as? APIError)?.message ?? "Image message failed."
         }
     }
 
@@ -173,7 +200,7 @@ final class ChatMessageStore {
             messages[index] = MessageOut(
                 id: messageID, conversationId: conversationID, senderId: messages[index].senderId,
                 body: nil, clientId: messages[index].clientId, sentAt: messages[index].sentAt,
-                isEdited: false, status: "deleted"
+                isEdited: false, status: "deleted", attachments: []
             )
         }
     }
