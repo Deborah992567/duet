@@ -41,6 +41,9 @@ struct CallSlotsView: View {
                     Row(title: "Signaling", detail: "In-app WebSocket channel")
                     Row(title: "Record", detail: "Held in the call summary")
                     Row(title: "Availability", detail: "Activated per region at launch")
+
+                    CallHistoryView()
+                        .padding(.top, Theme.Metrics.padding)
                 }
                 .padding(.horizontal, Theme.Metrics.padding)
             }
@@ -50,6 +53,97 @@ struct CallSlotsView: View {
                 CallPreviewView()
             }
         }
+    }
+}
+
+private struct CallHistoryView: View {
+    @State private var calls: [CallOut] = []
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: Theme.Metrics.small) {
+            Text("Recent calls")
+                .font(Theme.Typography.headline)
+                .foregroundStyle(Theme.Palette.textPrimary)
+                .frame(maxWidth: .infinity, alignment: .leading)
+
+            if calls.isEmpty {
+                Text("No calls yet — your call history will appear here.")
+                    .font(Theme.Typography.body)
+                    .foregroundStyle(Theme.Palette.textSecondary)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(Theme.Metrics.padding)
+                    .cardStyle()
+            } else {
+                ForEach(calls.prefix(10)) { call in
+                    HStack(spacing: Theme.Metrics.small) {
+                        Image(systemName: call.direction == "incoming" ? "arrow.down.left" : "arrow.up.right")
+                            .font(.subheadline)
+                            .foregroundStyle(call.state == "ended" ? Theme.Palette.textSecondary : Theme.Palette.brand)
+                            .frame(width: 24)
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text(call.peerDisplay)
+                                .font(Theme.Typography.body)
+                                .foregroundStyle(Theme.Palette.textPrimary)
+                            Text(call.durationLabel)
+                                .font(Theme.Typography.caption)
+                                .foregroundStyle(Theme.Palette.textSecondary)
+                        }
+                        Spacer()
+                        Text(call.sentAt.relativeFormatted)
+                            .font(Theme.Typography.caption)
+                            .foregroundStyle(Theme.Palette.textSecondary)
+                    }
+                    .padding(.horizontal, Theme.Metrics.padding)
+                    .padding(.vertical, 10)
+                    .cardStyle()
+                }
+            }
+        }
+        .task { await load() }
+    }
+
+    private func load() async {
+        let client = APIClient.shared
+        let builder = URLRequestBuilder(base: client.baseURL, path: "/v1/calls/history")
+        calls = (try? await client.send(builder, as: CallList.self, defaultValue: nil))?.items ?? []
+    }
+}
+
+struct CallOut: Decodable, Identifiable, Hashable {
+    let id: String
+    let kind: String
+    let direction: String
+    let state: String
+    let peerID: String
+    let sentAt: Date
+    let durationSeconds: Int?
+
+    enum CodingKeys: String, CodingKey {
+        case id, kind, direction, state
+        case peerID = "peer_user_id"
+        case sentAt = "created_at"
+        case durationSeconds = "duration_seconds"
+    }
+
+    var peerDisplay: String {
+        String(peerID.prefix(8)) + "…"
+    }
+
+    var durationLabel: String {
+        if let d = durationSeconds, d > 0 {
+            return "\(d / 60)m \(String(format: "%02d", d % 60))s"
+        }
+        return state == "ended" ? "Not answered" : "In progress"
+    }
+}
+
+struct CallList: Decodable {
+    let items: [CallOut]
+    let hasMore: Bool
+
+    enum CodingKeys: String, CodingKey {
+        case items
+        case hasMore = "has_more"
     }
 }
 
