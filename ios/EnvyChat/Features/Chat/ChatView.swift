@@ -18,6 +18,7 @@ struct ChatView: View {
     @State private var forwardMessage: MessageOut?
     @State private var showProfile = false
     @State private var showSearch = false
+    @State private var showGroupMembers = false
     @Environment(LocalStore.self) private var local
 
     init(conversation: ConversationSummary) {
@@ -52,6 +53,7 @@ struct ChatView: View {
                 }
             }
             realtime.connect(conversationIDs: [conversation.id])
+            Task { await markRead() }
             await retryOutbox()
             recorder.onFinished = { url in
                 Task {
@@ -75,6 +77,9 @@ struct ChatView: View {
         }
         .sheet(isPresented: $showSearch) {
             SearchMessagesView(conversationID: conversation.id)
+        }
+        .sheet(isPresented: $showGroupMembers) {
+            GroupMembersSheet(conversationID: conversation.id)
         }
     }
 
@@ -149,6 +154,12 @@ struct ChatView: View {
     private func lastMessageReact(_ emoji: String) {
         guard let last = store.messages.last else { return }
         Task { await store.react(messageID: last.id, emoji: emoji) }
+    }
+
+    private func markRead() async {
+        let client = APIClient.shared
+        let builder = URLRequestBuilder(base: client.baseURL, path: "/v1/conversations/\(conversation.id)/read", method: .post, body: ["all": true])
+        _ = try? await client.send(builder, as: NoContent.self, defaultValue: NoContent())
     }
 
     private func emitTyping(_ typing: Bool) async {
@@ -262,7 +273,9 @@ struct ChatView: View {
                 } label: {
                     Label("Quick react", systemImage: "face.smiling")
                 }
-                ConversationActionsMenu(conversation: conversation)
+                ConversationActionsMenu(conversation: conversation, onGroupInfo: {
+                    showGroupMembers = true
+                })
             } label: {
                 Image(systemName: "ellipsis.circle")
                     .foregroundStyle(Theme.Palette.brand)
@@ -357,9 +370,17 @@ struct MessageActionsMenu: View {
 
 struct ConversationActionsMenu: View {
     let conversation: ConversationSummary
+    var onGroupInfo: (() -> Void)? = nil
     @State private var busy = false
 
     var body: some View {
+        if conversation.type == "group" {
+            Button {
+                onGroupInfo?()
+            } label: {
+                Label("View members", systemImage: "person.3.fill")
+            }
+        }
         Button {
             mutate(conversation.isMuted ? "unmute" : "mute")
         } label: {
@@ -836,6 +857,104 @@ struct SearchMessagesBody: Encodable {
     let query: String
     let conversation_id: String
     let limit: Int
+}
+
+struct ConversationMemberPublic: Decodable, Identifiable, Hashable {
+    var id: String { user.id }
+    let user: UserPublic
+    let role: String
+    let joinedAt: Date?
+
+    enum CodingKeys: String, CodingKey {
+        case user, role
+        case joinedAt = "joined_at"
+    }
+}
+
+struct GroupDetail: Decodable {
+    let id: String
+    let name: String?
+    let members: [ConversationMemberPublic]
+    let role: String?
+}
+
+struct GroupMembersSheet: View {
+    let conversationID: String
+    @State private var detail: GroupDetail?
+    @State private var members: [ConversationMemberPublic] = []
+    @State private var left = false
+    @Environment(\.dismiss) private var dismiss
+
+    var body: some View {
+        NavigationStack {
+            Group {
+                if members.isEmpty {
+                    ProgressView()
+                } else {
+                    List {
+                        ForEach(members) { member in
+                            HStack(spacing: Theme.Metrics.small) {
+                                Image(systemName: "person.crop.circle.fill")
+                                    .font(.title3)
+                                    .foregroundStyle(Theme.Palette.brand)
+                                VStack(alignment: .leading) {
+                                    Text(member.user.displayName?.isEmpty == false ? member.user.displayName ?? member.user.username : member.user.username)
+                                        .font(Theme.Typography.body)
+                                        .foregroundStyle(Theme.Palette.textPrimary)
+                                    Text(roleLabel(member.role))
+                                        .font(Theme.Typography.caption)
+                                        .foregroundStyle(Theme.Palette.textSecondary)
+                                }
+                            }
+                            .padding(.vertical, 2)
+                        }
+                        if let myRole = detail?.role, myRole == "admin" {
+                            Button {
+                                Task { await leave() }
+                            } label: {
+                                Label("Leave group", systemImage: "arrow.right.square.fill")
+                                    .foregroundStyle(Theme.Palette.danger)
+                            }
+                        }
+                    }
+                }
+            }
+            .navigationTitle(detail?.name ?? "Members")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button("Done") { dismiss() }
+                }
+            }
+            .task { await load() }
+            .onChange(of: left) { _, _ in dismiss() }
+        }
+    }
+
+    private func roleLabel(_ role: String) -> String {
+        switch role {
+        case "admin": return "Admin"
+        case "owner": return "Owner"
+        default: return "Member"
+        }
+    }
+
+    private func load() async {
+        let client = APIClient.shared
+        let builder = URLRequestBuilder(base: client.baseURL, path: "/v1/conversations/\(conversationID)")
+        if let fetched: GroupDetail = try? await client.send(builder, as: GroupDetail.self) {
+            detail = fetched
+            members = fetched.members
+        }
+    }
+
+    private func leave() async {
+        let client = APIClient.shared
+        let builder = URLRequestBuilder(base: client.baseURL, path: "/v1/conversations/\(conversationID)/leave", method: .post)
+        if (try? await client.send(builder, as: NoContent.self, defaultValue: NoContent())) != nil {
+            left = true
+        }
+    }
 }
 
 struct ForwardSheet: View {
