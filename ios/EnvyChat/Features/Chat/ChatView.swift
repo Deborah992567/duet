@@ -13,6 +13,7 @@ struct ChatView: View {
     @State private var editingMessage: MessageOut?
     @State private var pickedImage: PhotosPickerItem?
     @State private var peerOnline = false
+    @State private var typingCooldown = Date.distantPast
     @Environment(LocalStore.self) private var local
 
     init(conversation: ConversationSummary) {
@@ -84,7 +85,10 @@ struct ChatView: View {
                 }
             }
         }
-        .onDisappear { realtime.disconnect() }
+        .onDisappear {
+            realtime.disconnect()
+            Task { await emitTyping(false) }
+        }
         .sheet(item: $editingMessage) { message in
             EditMessageSheet(message: message, store: store)
         }
@@ -158,6 +162,20 @@ struct ChatView: View {
         Task { await store.react(messageID: last.id, emoji: emoji) }
     }
 
+    private func emitTyping(_ typing: Bool) async {
+        let now = Date()
+        if typing && now.timeIntervalSince(typingCooldown) < 2.5 { return }
+        typingCooldown = now
+        let client = APIClient.shared
+        if typing {
+            let builder = URLRequestBuilder(base: client.baseURL, path: "/v1/conversations/\(conversation.id)/typing", method: .post)
+            _ = try? await client.send(builder, as: NoContent.self, defaultValue: NoContent())
+        } else {
+            let builder = URLRequestBuilder(base: client.baseURL, path: "/v1/conversations/\(conversation.id)/typing", method: .delete)
+            _ = try? await client.send(builder, as: NoContent.self, defaultValue: NoContent())
+        }
+    }
+
     private var composer: some View {
         HStack(spacing: Theme.Metrics.small) {
             PhotosPicker(selection: $pickedImage, matching: .images) {
@@ -177,6 +195,10 @@ struct ChatView: View {
             }
             TextField("Message", text: $draft, axis: .vertical)
                 .lineLimit(1...4)
+                .onChange(of: draft) { _, newValue in
+                    let typing = !newValue.trimmingCharacters(in: .whitespaces).isEmpty
+                    Task { await emitTyping(typing) }
+                }
                 .padding(.horizontal, Theme.Metrics.padding)
                 .padding(.vertical, 10)
                 .background(Theme.Palette.surface)
