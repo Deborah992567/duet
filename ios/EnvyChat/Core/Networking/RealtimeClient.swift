@@ -56,8 +56,15 @@ final class RealtimeClient {
     private let session = SessionStore.shared
 
     func connect(conversationIDs: [String]) {
-        guard state != .connected else { return }
+        subscribe(conversationIDs: conversationIDs)
+    }
+
+    func subscribe(conversationIDs: [String]) {
         subscribedIDs = conversationIDs
+        if state == .connected {
+            send(["type": "subscribe", "conversation_ids": conversationIDs])
+            return
+        }
         guard let token = session.accessToken,
               let url = URL(string: api().baseURL.replacingOccurrences(of: "http", with: "ws") + "/v1/ws?token=\(token)") else { return }
         state = .connecting

@@ -4,6 +4,7 @@ import SwiftUI
 struct InboxView: View {
     @Environment(AppState.self) private var state
     @State private var store = ConversationListStore()
+    @State private var typing = TypingStore()
     @State private var showFriends = false
     @State private var showNewChat = false
     @State private var path = NavigationPath()
@@ -17,8 +18,11 @@ struct InboxView: View {
                     } else {
                         ForEach(store.conversations) { conversation in
                             NavigationLink(value: conversation) {
-                                InboxRow(conversation: conversation)
-                                    .padding(.horizontal, Theme.Metrics.padding)
+                                InboxRow(
+                                    conversation: conversation,
+                                    isTyping: typing.isTyping(in: conversation.id)
+                                )
+                                .padding(.horizontal, Theme.Metrics.padding)
                             }
                             .buttonStyle(.plain)
                         }
@@ -56,9 +60,12 @@ struct InboxView: View {
                 await store.refresh()
             }
             .task {
+                typing.start()
                 await store.refresh()
+                typing.subscribe(conversationIDs: store.conversations.map(\.id))
             }
         }
+        .onDisappear { typing.stop() }
         .sheet(isPresented: $showNewChat) {
             NavigationStack {
                 NewChatView(path: $path)

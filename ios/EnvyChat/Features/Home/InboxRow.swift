@@ -2,6 +2,7 @@ import SwiftUI
 
 struct InboxRow: View {
     let conversation: ConversationSummary
+    var isTyping = false
 
     var body: some View {
         HStack(spacing: Theme.Metrics.padding) {
@@ -24,9 +25,9 @@ struct InboxRow: View {
                             .font(.caption2)
                             .foregroundStyle(Theme.Palette.textSecondary)
                     }
-                    Text(conversation.lastMessagePreview ?? "Say hi to start a streak")
+                    Text(isTyping ? "typing…" : (conversation.lastMessagePreview ?? "Say hi to start a streak"))
                         .font(Theme.Typography.caption)
-                        .foregroundStyle(Theme.Palette.textSecondary)
+                        .foregroundStyle(isTyping ? Theme.Palette.brand : Theme.Palette.textSecondary)
                         .lineLimit(1)
                 }
             }
