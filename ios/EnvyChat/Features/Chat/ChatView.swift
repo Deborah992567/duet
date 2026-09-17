@@ -12,6 +12,7 @@ struct ChatView: View {
     @State private var recorder = VoiceRecorder()
     @State private var editingMessage: MessageOut?
     @State private var pickedImage: PhotosPickerItem?
+    @State private var peerOnline = false
     @Environment(LocalStore.self) private var local
 
     init(conversation: ConversationSummary) {
@@ -29,6 +30,18 @@ struct ChatView: View {
         .navigationTitle(conversation.name ?? conversation.peer?.username ?? "Chat")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
+            ToolbarItem(placement: .topBarLeading) {
+                if conversation.type == "direct" {
+                    HStack(spacing: 5) {
+                        Circle()
+                            .fill(peerOnline ? Theme.Palette.success : Theme.Palette.flameOff)
+                            .frame(width: 9, height: 9)
+                        Text(peerOnline ? "Online" : "Offline")
+                            .font(Theme.Typography.caption)
+                            .foregroundStyle(Theme.Palette.textSecondary)
+                    }
+                }
+            }
             ToolbarItem(placement: .topBarTrailing) {
                 Menu {
                     Menu {
@@ -55,6 +68,11 @@ struct ChatView: View {
                    let data, let payload = try? JSONDecoder.api.decode(MessageOut.self, from: data) {
                     store.castMessage(payload)
                     local.upsert(payload)
+                } else if type == "presence.changed",
+                          let data,
+                          let presence = try? JSONDecoder.api.decode([String: String].self, from: data),
+                          presence["user_id"] == conversation.peer?.id {
+                    peerOnline = presence["status"] == "online"
                 }
             }
             realtime.connect(conversationIDs: [conversation.id])
