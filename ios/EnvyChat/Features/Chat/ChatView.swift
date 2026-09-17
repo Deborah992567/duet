@@ -17,6 +17,7 @@ struct ChatView: View {
     @State private var replyingTo: MessageOut?
     @State private var forwardMessage: MessageOut?
     @State private var showProfile = false
+    @State private var showSearch = false
     @Environment(LocalStore.self) private var local
 
     init(conversation: ConversationSummary) {
@@ -71,6 +72,9 @@ struct ChatView: View {
             if let peer = conversation.peer {
                 UserProfileSheet(userID: peer.id)
             }
+        }
+        .sheet(isPresented: $showSearch) {
+            SearchMessagesView(conversationID: conversation.id)
         }
     }
 
@@ -245,6 +249,11 @@ struct ChatView: View {
         }
         ToolbarItem(placement: .topBarTrailing) {
             Menu {
+                Button {
+                    showSearch = true
+                } label: {
+                    Label("Search messages", systemImage: "magnifyingglass")
+                }
                 Menu {
                     Text("Reactions")
                     ForEach(["❤️", "🔥", "😂", "👍", "😮"], id: \.self) { emoji in
@@ -726,6 +735,83 @@ struct UserProfileSheet: View {
         let builder = URLRequestBuilder(base: client.baseURL, path: "/v1/friends/requests", method: .post, body: ["user_id": userID])
         _ = try? await client.send(builder, as: NoContent.self, defaultValue: NoContent())
     }
+}
+
+struct SearchMessagesView: View {
+    let conversationID: String
+    @State private var query = ""
+    @State private var results: [MessageOut] = []
+    @State private var searched = false
+    @Environment(\.dismiss) private var dismiss
+
+    var body: some View {
+        NavigationStack {
+            VStack(spacing: 0) {
+                HStack(spacing: Theme.Metrics.small) {
+                    Image(systemName: "magnifyingglass")
+                        .foregroundStyle(Theme.Palette.textSecondary)
+                    TextField("Search this chat", text: $query)
+                        .textInputAutocapitalization(.never)
+                        .autocorrectionDisabled(true)
+                        .submitLabel(.search)
+                        .onSubmit { Task { await search() } }
+                    if !query.isEmpty {
+                        Button { query = ""; results = []; searched = false } label: {
+                            Image(systemName: "xmark.circle.fill")
+                                .foregroundStyle(Theme.Palette.textSecondary)
+                        }
+                    }
+                }
+                .padding(Theme.Metrics.padding)
+                .background(Theme.Palette.surface)
+
+                List {
+                    if searched && results.isEmpty {
+                        ContentUnavailableView("No matches", systemImage: "magnifyingglass", description: Text("Try a different word."))
+                    } else {
+                        ForEach(results) { message in
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text(message.body ?? "Voice or image message")
+                                    .font(Theme.Typography.body)
+                                    .foregroundStyle(Theme.Palette.textPrimary)
+                                    .lineLimit(2)
+                                Text(message.sentAt.relativeFormatted)
+                                    .font(Theme.Typography.caption)
+                                    .foregroundStyle(Theme.Palette.textSecondary)
+                            }
+                            .padding(.vertical, 4)
+                        }
+                    }
+                }
+                .listStyle(.plain)
+            }
+            .navigationTitle("Search")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button("Done") { dismiss() }
+                }
+            }
+        }
+    }
+
+    private func search() async {
+        let trimmed = query.trimmingCharacters(in: .whitespaces)
+        guard !trimmed.isEmpty else { return }
+        let client = APIClient.shared
+        let body = SearchMessagesBody(query: trimmed, conversation_id: conversationID, limit: 50)
+        let builder = URLRequestBuilder(base: client.baseURL, path: "/v1/messages/search", method: .post, body: body)
+        if let response: MessageListResponse = try? await client.send(builder, as: MessageListResponse.self) {
+            results = response.items
+        }
+        searched = true
+    }
+}
+
+struct SearchMessagesBody: Encodable {
+    let query: String
+    let conversation_id: String
+    let limit: Int
 }
 
 struct ForwardSheet: View {
