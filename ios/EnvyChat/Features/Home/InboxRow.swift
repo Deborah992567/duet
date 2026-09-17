@@ -25,7 +25,7 @@ struct InboxRow: View {
                             .font(.caption2)
                             .foregroundStyle(Theme.Palette.textSecondary)
                     }
-                    Text(isTyping ? "typing…" : (conversation.lastMessagePreview ?? "Say hi to start a streak"))
+                    Text(isTyping ? String(localized: "typing") : (conversation.lastMessagePreview ?? String(localized: "start_streak_hint")))
                         .font(Theme.Typography.caption)
                         .foregroundStyle(isTyping ? Theme.Palette.brand : Theme.Palette.textSecondary)
                         .lineLimit(1)
@@ -33,6 +33,11 @@ struct InboxRow: View {
             }
             Spacer()
             VStack(alignment: .trailing, spacing: 4) {
+                if let at = conversation.lastMessageAt {
+                    Text(at.relativeFormatted)
+                        .font(.caption2)
+                        .foregroundStyle(Theme.Palette.textSecondary)
+                }
                 if conversation.streakAlive || conversation.currentStreak > 0 {
                     HStack(spacing: 3) {
                         Image(systemName: "flame.fill")
@@ -62,7 +67,7 @@ struct InboxRow: View {
     }
 
     private var title: String {
-        conversation.name ?? conversation.peer?.displayName ?? conversation.peer?.username ?? "Conversation"
+        conversation.name ?? conversation.peer?.displayName ?? conversation.peer?.username ?? String(localized: "conversation_placeholder")
     }
 
     private var avatar: some View {
