@@ -1,40 +1,54 @@
 import SwiftUI
 
-/// Streak detail: animated flame + days + milestone chips. Flat, no gradients.
+struct StreakBetweenResponse: Decodable {
+    let currentStreak: Int
+    let longestStreak: Int
+    let alive: Bool
+    let freezesAvailable: Int
+    let preparedAt: String?
+    let milestonesReached: [Int]
+    let closestMilestone: Int?
+
+    enum CodingKeys: String, CodingKey {
+        case alive
+        case currentStreak = "current_streak"
+        case longestStreak = "longest_streak"
+        case freezesAvailable = "freezes_available"
+        case preparedAt = "prepared_at"
+        case milestonesReached = "milestones_reached"
+        case closestMilestone = "closest_milestone"
+    }
+}
+
+/// Streak detail backed by the live `between` endpoint (engine stats).
 struct StreakDetailView: View {
     let conversation: ConversationSummary
+    @State private var streak: StreakBetweenResponse?
+    @State private var loaded = false
 
     private let milestones = [7, 30, 100, 365, 500, 1000]
+
+    private var current: Int { streak?.currentStreak ?? conversation.currentStreak }
+    private var isAlive: Bool { conversation.streakAlive || (streak?.alive ?? false) || current > 0 }
 
     var body: some View {
         VStack(spacing: Theme.Metrics.padding) {
             Spacer()
-            AnimatedFlame(size: 120, isAlive: conversation.streakAlive || conversation.currentStreak > 0)
-            Text("\(conversation.currentStreak)")
+            AnimatedFlame(size: 120, isAlive: isAlive)
+            Text("\(current)")
                 .font(.system(size: 64, weight: .heavy, design: .rounded))
                 .foregroundStyle(Theme.Palette.flameOn)
-            Text(conversation.currentStreak == 1 ? "day on a roll" : "days on a roll")
+            Text(current == 1 ? "day on a roll" : "days on a roll")
                 .font(Theme.Typography.headline)
                 .foregroundStyle(Theme.Palette.textPrimary)
 
+            if loaded {
+                statChips
+            }
+
             VStack(spacing: Theme.Metrics.small) {
                 ForEach(milestones, id: \.self) { milestone in
-                    HStack {
-                        Text("\(milestone)-day streak")
-                            .font(Theme.Typography.body)
-                            .foregroundStyle(Theme.Palette.textPrimary)
-                        Spacer()
-                        if conversation.currentStreak >= milestone {
-                            Image(systemName: "checkmark.seal.fill")
-                                .foregroundStyle(Theme.Palette.brand)
-                        } else {
-                            Text("\(milestone - conversation.currentStreak) days to go")
-                                .font(Theme.Typography.caption)
-                                .foregroundStyle(Theme.Palette.textSecondary)
-                        }
-                    }
-                    .padding(Theme.Metrics.padding)
-                    .cardStyle()
+                    milestoneRow(milestone)
                 }
             }
             .padding(.horizontal, Theme.Metrics.padding)
@@ -52,6 +66,54 @@ struct StreakDetailView: View {
         .background(Theme.Palette.background)
         .navigationTitle(conversation.name ?? conversation.peer?.username ?? "Streak")
         .navigationBarTitleDisplayMode(.inline)
+        .task { await load() }
+    }
+
+    private var statChips: some View {
+        HStack(spacing: Theme.Metrics.small) {
+            chip(title: "Longest", value: "\(streak?.longestStreak ?? 0)")
+            chip(title: "Freezes", value: "\(streak?.freezesAvailable ?? 0)")
+        }
+        .padding(.horizontal, Theme.Metrics.padding)
+    }
+
+    private func chip(title: String, value: String) -> some View {
+        VStack(spacing: 2) {
+            Text(value).font(.system(size: 20, weight: .bold)).foregroundStyle(Theme.Palette.brand)
+            Text(title).font(Theme.Typography.caption).foregroundStyle(Theme.Palette.textSecondary)
+        }
+        .frame(maxWidth: .infinity)
+        .padding(.vertical, Theme.Metrics.padding)
+        .cardStyle()
+    }
+
+    private func milestoneRow(_ milestone: Int) -> some View {
+        HStack {
+            Text("\(milestone)-day streak")
+                .font(Theme.Typography.body)
+                .foregroundStyle(Theme.Palette.textPrimary)
+            Spacer()
+            if current >= milestone {
+                Image(systemName: "checkmark.seal.fill")
+                    .foregroundStyle(Theme.Palette.brand)
+            } else {
+                Text("\(milestone - current) days to go")
+                    .font(Theme.Typography.caption)
+                    .foregroundStyle(Theme.Palette.textSecondary)
+            }
+        }
+        .padding(Theme.Metrics.padding)
+        .cardStyle()
+    }
+
+    private func load() async {
+        guard let peerID = conversation.peer?.id else { return }
+        let client = APIClient.shared
+        let builder = URLRequestBuilder(base: client.baseURL, path: "/v1/streaks/\(conversation.id)/with/\(peerID)")
+        if let response: StreakBetweenResponse = try? await client.send(builder, as: StreakBetweenResponse.self) {
+            streak = response
+        }
+        loaded = true
     }
 }
 
