@@ -1,71 +1,57 @@
 # EnvyChat
 
-**EnvyChat** is an iPhone-only, production-grade private messaging platform with a signature, deterministic **streak system**. It is a serious, polished iOS product backed by a modular FastAPI backend.
-
-> Private messaging + communication + meaningful streaks. Not a Snapchat clone.
-
----
+A baby-pink-and-white messaging app built around a double-sided
+**streak** mechanic: both people must send at least one message on the same
+calendar day, or the streak dies.
 
 ## Repository layout
 
 ```
-envychat/
-├── backend/        FastAPI + MariaDB + Redis + WebSockets
-├── ios/            SwiftUI iPhone app (Xcode project generated via XcodeGen)
-└── docs/           Product, API, architecture, privacy & compliance docs
+backend/   FastAPI + SQLAlchemy + Redis (+ WebSocket realtime), pytest suite
+ios/       SwiftUI iPhone app (xcodegen), offline-first SwiftData cache
+docs/      Architecture, streak rules, API reference, iOS notes
 ```
 
-## Stack
-
-| Layer    | Technology |
-| -------- | ---------- |
-| Client   | Swift 6 / SwiftUI / Swift Concurrency / SwiftData / URLSession / WebSockets / CallKit / AVFoundation / Photos |
-| API      | FastAPI (Python) |
-| Database | MariaDB (SQLAlchemy ORM, clean data-access layer for later migration) |
-| Cache/RT | Redis (presence, typing, WS coordination, rate limiting, queues) |
-| Media    | Object storage (S3-compatible) |
-| Notifications | APNs |
-
-## Principles
-
-- Backend is the **source of truth** for streak calculations.
-- **No fake real-time**: WebSockets, not polling.
-- **Offline-first** client: local persistence, pending queue, retry, sync.
-- Centralized design-token theme system (light/dark/system), **no gradients anywhere**.
-- Every visible feature either works or is explicitly marked not implemented.
-
-## Docs
-
-- [Product specification](docs/product-spec.md)
-- [API contract](docs/api.md)
-- [Real-time event contract](docs/events.md)
-- [Streak engine spec](docs/streaks.md)
-- [Database schema](docs/database.md)
-- [iOS architecture](docs/ios-architecture.md)
-- [Security & privacy](docs/security-privacy.md)
-
-## Quickstart (backend)
+## Quick start (backend)
 
 ```bash
 cd backend
-python -m venv .venv && source .venv/bin/activate
-pip install -e ".[dev]"
-cp .env.example .env
-docker compose up -d maria redis     # or reuse a local MariaDB / Redis
-alembic upgrade head
-uvicorn app.main:app --reload
+python3.14 -m venv .venv && .venv/bin/pip install -r requirements.txt
+.venv/bin/uvicorn app.main:app --reload          # http://127.0.0.1:8000
+.venv/bin/pytest                                 # full suite (50 passing)
 ```
 
-Run the test suite:
+Run like production (MariaDB + Redis + schema) with:
 
 ```bash
-pytest
+cd backend
+docker compose up -d                              # MariaDB 11.4 + Redis 7.4
+cp .env.example .env                              # configure DATABASE_URL
+.venv/bin/alembic upgrade head                    # apply migrations
 ```
 
-## Quickstart (iOS)
+## iOS app
 
 ```bash
 cd ios
 xcodegen generate
-xcodebuild -scheme EnvyChat -destination 'platform=iOS Simulator,name=iPhone 17 Pro' build
+open EnvyChat.xcodeproj          # iPhone-only target, iOS 17+
 ```
+
+`API_BASE_URL` env var (Debug) overrides the default `http://127.0.0.1:8000`.
+
+## Design
+
+Flat baby-pink + white palette, no gradients. Tokens in
+`ios/EnvyChat/Design/Theme.swift`.
+
+## Pushing
+
+Small, reviewable pushes to `origin master`, one per feature/step.
+
+## More
+
+- [Streak system](docs/streaks.md)
+- [API reference](docs/api.md)
+- [Architecture](docs/architecture.md)
+- [iOS notes](docs/ios.md)
