@@ -8,6 +8,7 @@ struct ChatView: View {
     @State private var errorText: String?
     @State private var showStreak = false
     @State private var recorder = VoiceRecorder()
+    @State private var editingMessage: MessageOut?
     @Environment(LocalStore.self) private var local
 
     init(conversation: ConversationSummary) {
@@ -30,7 +31,9 @@ struct ChatView: View {
                                 isOutgoing: message.senderId == SessionStore.shared.currentUserID
                             )
                             .contextMenu {
-                                MessageActionsMenu(message: message, store: store)
+                                MessageActionsMenu(message: message, store: store) {
+                                    editingMessage = message
+                                }
                             }
                             .id(message.id)
                         }
@@ -63,6 +66,9 @@ struct ChatView: View {
             await retryOutbox()
         }
         .onDisappear { realtime.disconnect() }
+        .sheet(item: $editingMessage) { message in
+            EditMessageSheet(message: message, store: store)
+        }
     }
 
     private var streakBanner: some View {
@@ -152,7 +158,7 @@ struct ChatView: View {
 struct MessageActionsMenu: View {
     let message: MessageOut
     let store: ChatMessageStore
-    @Environment(\.dismiss) private var dismiss
+    var onEdit: (() -> Void)?
 
     var body: some View {
         ForEach(["❤️", "🔥", "😂", "👍", "😮"], id: \.self) { emoji in
@@ -164,9 +170,7 @@ struct MessageActionsMenu: View {
         }
         Divider()
         if message.senderId == SessionStore.shared.currentUserID {
-            Button {
-                Task { await store.edit(messageID: message.id, body: message.body ?? " ") }
-            } label: {
+            Button(action: { onEdit?() }) {
                 Label("Edit", systemImage: "square.and.pencil")
             }
             Button(role: .destructive) {
@@ -179,6 +183,63 @@ struct MessageActionsMenu: View {
             Task { await store.delete(messageID: message.id, forEveryone: false) }
         } label: {
             Label("Delete for me", systemImage: "trash.slash")
+        }
+    }
+}
+
+struct EditMessageSheet: View {
+    let message: MessageOut
+    let store: ChatMessageStore
+    @State private var text: String
+    @State private var saving = false
+    @Environment(\.dismiss) private var dismiss
+
+    init(message: MessageOut, store: ChatMessageStore) {
+        self.message = message
+        self.store = store
+        _text = State(initialValue: message.body ?? "")
+    }
+
+    var body: some View {
+        NavigationStack {
+            VStack(spacing: Theme.Metrics.padding) {
+                TextField("Message", text: $text, axis: .vertical)
+                    .lineLimit(2...6)
+                    .padding(Theme.Metrics.padding)
+                    .background(Theme.Palette.surface)
+                    .clipShape(RoundedRectangle(cornerRadius: Theme.Metrics.radiusSmall, style: .continuous))
+                    .overlay(
+                        RoundedRectangle(cornerRadius: Theme.Metrics.radiusSmall, style: .continuous)
+                            .stroke(Theme.Palette.outline, lineWidth: Theme.Metrics.lineWidth)
+                    )
+                Button {
+                    Task {
+                        saving = true
+                        await store.edit(messageID: message.id, body: text)
+                        saving = false
+                        dismiss()
+                    }
+                } label: {
+                    Text(saving ? "Saving…" : "Save")
+                        .font(.headline)
+                        .foregroundStyle(.white)
+                        .frame(maxWidth: .infinity)
+                        .padding(Theme.Metrics.padding)
+                        .background(Theme.Palette.brand)
+                        .clipShape(RoundedRectangle(cornerRadius: Theme.Metrics.radius, style: .continuous))
+                }
+                .disabled(text.trimmingCharacters(in: .whitespaces).isEmpty || saving)
+                Spacer()
+            }
+            .padding(Theme.Metrics.padding)
+            .background(Theme.Palette.background)
+            .navigationTitle("Edit message")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    CloseToolbarButton { dismiss() }
+                }
+            }
         }
     }
 }

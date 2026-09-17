@@ -116,6 +116,7 @@ final class ChatMessageStore {
         if let updated: MessageOut = try? await client.send(builder, as: MessageOut.self),
            let index = messages.firstIndex(where: { $0.id == messageID }) {
             messages[index] = updated
+            local?.upsert(updated)
         }
     }
 
