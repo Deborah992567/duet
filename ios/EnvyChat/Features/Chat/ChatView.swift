@@ -28,6 +28,24 @@ struct ChatView: View {
         .background(Theme.Palette.background)
         .navigationTitle(conversation.name ?? conversation.peer?.username ?? "Chat")
         .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                Menu {
+                    Menu {
+                        Text("Reactions")
+                        ForEach(["❤️", "🔥", "😂", "👍", "😮"], id: \.self) { emoji in
+                            Button("React \(emoji)") { Task { await lastMessageReact(emoji) } }
+                        }
+                    } label: {
+                        Label("Quick react", systemImage: "face.smiling")
+                    }
+                    ConversationActionsMenu(conversation: conversation)
+                } label: {
+                    Image(systemName: "ellipsis.circle")
+                        .foregroundStyle(Theme.Palette.brand)
+                }
+            }
+        }
         .task {
             store.bind(local)
             store.hydrate(from: local.queuedMessages(in: conversation.id))
@@ -115,6 +133,11 @@ struct ChatView: View {
     private var flameLabel: String {
         if conversation.currentStreak == 1 { return "1 day streak — keep it going" }
         return "\(conversation.currentStreak)-day streak"
+    }
+
+    private func lastMessageReact(_ emoji: String) {
+        guard let last = store.messages.last else { return }
+        Task { await store.react(messageID: last.id, emoji: emoji) }
     }
 
     private var composer: some View {
@@ -211,6 +234,53 @@ struct MessageActionsMenu: View {
             Task { await store.delete(messageID: message.id, forEveryone: false) }
         } label: {
             Label("Delete for me", systemImage: "trash.slash")
+        }
+    }
+}
+
+struct ConversationActionsMenu: View {
+    let conversation: ConversationSummary
+    @State private var busy = false
+
+    var body: some View {
+        Button {
+            mutate(conversation.isMuted ? "unmute" : "mute")
+        } label: {
+            Label(conversation.isMuted ? "Unmute" : "Mute", systemImage: conversation.isMuted ? "bell.fill" : "bell.slash")
+        }
+        Button {
+            mutate(conversation.isPinned ? "unpin" : "pin")
+        } label: {
+            Label(conversation.isPinned ? "Unpin" : "Pin", systemImage: conversation.isPinned ? "pin.slash" : "pin")
+        }
+        Divider()
+        Button(role: .destructive) {
+            mutate("hide")
+        } label: {
+            Label("Hide conversation", systemImage: "trash")
+        }
+        .disabled(busy)
+    }
+
+    private func mutate(_ action: String) {
+        busy = true
+        let client = APIClient.shared
+        switch action {
+        case "mute":
+            let b = URLRequestBuilder(base: client.baseURL, path: "/v1/conversations/\(conversation.id)/mute", method: .post, body: ["muted": true])
+            Task { _ = try? await client.send(b, as: NoContent.self, defaultValue: NoContent()); busy = false }
+        case "unmute":
+            let b = URLRequestBuilder(base: client.baseURL, path: "/v1/conversations/\(conversation.id)/mute", method: .post, body: ["muted": false])
+            Task { _ = try? await client.send(b, as: NoContent.self, defaultValue: NoContent()); busy = false }
+        case "pin":
+            let b = URLRequestBuilder(base: client.baseURL, path: "/v1/conversations/\(conversation.id)/pin", method: .post, body: ["pinned": true])
+            Task { _ = try? await client.send(b, as: NoContent.self, defaultValue: NoContent()); busy = false }
+        case "unpin":
+            let b = URLRequestBuilder(base: client.baseURL, path: "/v1/conversations/\(conversation.id)/pin", method: .post, body: ["pinned": false])
+            Task { _ = try? await client.send(b, as: NoContent.self, defaultValue: NoContent()); busy = false }
+        default:
+            let b = URLRequestBuilder(base: client.baseURL, path: "/v1/conversations/\(conversation.id)", method: .delete)
+            Task { _ = try? await client.send(b, as: NoContent.self, defaultValue: NoContent()); busy = false }
         }
     }
 }
