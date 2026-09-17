@@ -1,8 +1,17 @@
 import Foundation
 import AVFoundation
+import CryptoKit
 import Observation
 
-/// Records a voice/talk message and uploads it to the multimedia seam.
+struct BeginUploadBody: Encodable {
+    let kind: String
+    let file_name: String
+    let size_bytes: Int
+    let mime_type: String
+    let checksum_sha256: String
+}
+
+/// Records a voice/talk message.
 @MainActor
 @Observable
 final class VoiceRecorder: NSObject, AVAudioRecorderDelegate {
@@ -53,36 +62,63 @@ final class VoiceRecorder: NSObject, AVAudioRecorderDelegate {
     }
 }
 
-/// Uploads a recorded audio file as a multipart voice message.
+/// Uploads a recorded audio file through the media seam:
+/// begin → PUT content → complete → returns the attachment's upload_id.
 struct MediaUploader {
     let client = APIClient.shared
 
-    func uploadVoice(url: URL, conversationID: String) async {
-        let duration = duration(of: url)
-        let builder = URLRequestBuilder(
-            base: client.baseURL,
-            path: "/v1/conversations/\(conversationID)/messages/multipart"
-        )
-        _ = url
-        _ = duration
-        // Multipart body assembled when a file is attached (seam). Fallback: none.
-        _ = builder
+    struct BeginResponse: Decodable {
+        let upload_id: String
+        let upload_url: String?
     }
 
-    private func duration(of url: URL) -> Int {
-        Int((try? AVAudioPlayer(contentsOf: url))?.duration ?? 0) * 1000
+    func uploadVoice(url: URL, kind: String = "voice") async -> String? {
+        guard let token = SessionStore.shared.accessToken else { return nil }
+        let size = (try? FileManager.default.attributesOfItem(atPath: url.path)[.size] as? Int) ?? 0
+        let data = (try? Data(contentsOf: url)) ?? Data()
+
+        var begin = URLRequestBuilder(base: client.baseURL, path: "/v1/media/uploads", method: .post)
+        begin.token = token
+        begin.body = BeginUploadBody(
+            kind: kind,
+            file_name: url.lastPathComponent,
+            size_bytes: size,
+            mime_type: "audio/mp4",
+            checksum_sha256: SHA256.hash(data: data).map { String(format: "%02x", $0) }.joined()
+        )
+        guard let response: BeginResponse = try? await client.send(begin, as: BeginResponse.self) else { return nil }
+
+        var put = URLRequestBuilder(base: client.baseURL, path: "/v1/media/\(response.upload_id)/content", method: .put)
+        put.token = token
+        guard let putRequest = try? put.build() else { return nil }
+        var resolved = putRequest
+        resolved.httpBody = data
+        resolved.setValue("application/octet-stream", forHTTPHeaderField: "Content-Type")
+        guard let (_, response2) = try? await URLSession.shared.data(for: resolved),
+              (response2 as? HTTPURLResponse)?.statusCode == 201 else { return nil }
+
+        var complete = URLRequestBuilder(base: client.baseURL, path: "/v1/media/uploads/\(response.upload_id)/complete", method: .post)
+        complete.token = token
+        guard let completion: [String: String] = try? await client.send(complete, as: [String: String].self, defaultValue: nil) else { return nil }
+        _ = completion
+        return response.upload_id
     }
 }
 
-/// AVAudioPlayer wrapper that exposes playback progress for voice bubbles.
+/// AVAudioPlayer wrapper that exposes playback state for voice bubbles.
 @MainActor
 @Observable
 final class VoicePlayer: NSObject, AVAudioPlayerDelegate {
     private(set) var isPlaying = false
+    private var activeURL: URL?
     private var player: AVAudioPlayer?
-    var progress: Double = 0
 
-    func play(url: URL) {
+    func toggle(url: URL) {
+        if isPlaying && activeURL == url {
+            player?.stop()
+            isPlaying = false
+            return
+        }
         do {
             let session = AVAudioSession.sharedInstance()
             try session.setCategory(.playback, mode: .spokenAudio)
@@ -91,18 +127,10 @@ final class VoicePlayer: NSObject, AVAudioPlayerDelegate {
             player.delegate = self
             player.play()
             self.player = player
+            activeURL = url
             isPlaying = true
         } catch {
             isPlaying = false
-        }
-    }
-
-    func toggle(url: URL) {
-        if isPlaying {
-            player?.stop()
-            isPlaying = false
-        } else {
-            play(url: url)
         }
     }
 

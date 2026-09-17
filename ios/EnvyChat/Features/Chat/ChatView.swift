@@ -1,4 +1,5 @@
 import SwiftUI
+import AVFoundation
 
 struct ChatView: View {
     let conversation: ConversationSummary
@@ -19,33 +20,7 @@ struct ChatView: View {
     var body: some View {
         VStack(spacing: 0) {
             streakBanner
-            ScrollViewReader { proxy in
-                ScrollView {
-                    LazyVStack(spacing: Theme.Metrics.small) {
-                        if store.messages.isEmpty {
-                            ChatEmptyState()
-                        }
-                        ForEach(store.messages) { message in
-                            MessageBubble(
-                                message: message,
-                                isOutgoing: message.senderId == SessionStore.shared.currentUserID
-                            )
-                            .contextMenu {
-                                MessageActionsMenu(message: message, store: store) {
-                                    editingMessage = message
-                                }
-                            }
-                            .id(message.id)
-                        }
-                    }
-                    .padding(Theme.Metrics.padding)
-                }
-                .onChange(of: store.messages.count) {
-                    if let last = store.messages.last {
-                        withAnimation(.easeOut(duration: 0.2)) { proxy.scrollTo(last.id, anchor: .bottom) }
-                    }
-                }
-            }
+            messagesList
             composer
         }
         .background(Theme.Palette.background)
@@ -64,10 +39,46 @@ struct ChatView: View {
             }
             realtime.connect(conversationIDs: [conversation.id])
             await retryOutbox()
+            recorder.onFinished = { url in
+                Task {
+                    let duration = Int((try? AVAudioPlayer(contentsOf: url))?.duration ?? 0) * 1000
+                    await store.sendVoiceIfNeeded(recordedAt: url, durationMs: duration, uploader: MediaUploader())
+                }
+            }
         }
         .onDisappear { realtime.disconnect() }
         .sheet(item: $editingMessage) { message in
             EditMessageSheet(message: message, store: store)
+        }
+    }
+
+    private var messagesList: some View {
+        ScrollViewReader { proxy in
+            ScrollView {
+                LazyVStack(spacing: Theme.Metrics.small) {
+                    if store.messages.isEmpty {
+                        ChatEmptyState()
+                    }
+                    ForEach(store.messages) { message in
+                        MessageBubble(
+                            message: message,
+                            isOutgoing: message.senderId == SessionStore.shared.currentUserID
+                        )
+                        .contextMenu {
+                            MessageActionsMenu(message: message, store: store) {
+                                editingMessage = message
+                            }
+                        }
+                        .id(message.id)
+                    }
+                }
+                .padding(Theme.Metrics.padding)
+            }
+            .onChange(of: store.messages.count) {
+                if let last = store.messages.last {
+                    withAnimation(.easeOut(duration: 0.2)) { proxy.scrollTo(last.id, anchor: .bottom) }
+                }
+            }
         }
     }
 

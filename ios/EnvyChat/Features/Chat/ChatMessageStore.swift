@@ -1,6 +1,19 @@
 import Foundation
 import Observation
 
+struct MediaSendBody: Encodable {
+    let kind: String
+    let client_id: String
+    let attachments: [AttachmentDraftBody]
+}
+
+struct AttachmentDraftBody: Encodable {
+    let upload_id: String
+    let kind: String
+    let file_name: String
+    let duration_ms: Int
+}
+
 @MainActor
 @Observable
 final class ChatMessageStore {
@@ -87,6 +100,32 @@ final class ChatMessageStore {
             body: ["up_to_message_id": messageID]
         )
         _ = try await client.send(builder, as: NoContent.self, defaultValue: NoContent())
+    }
+
+    func sendVoiceIfNeeded(recordedAt url: URL, durationMs: Int, uploader: MediaUploader) async {
+        guard let uploadID = await uploader.uploadVoice(url: url) else {
+            errorText = "Voice upload failed."
+            return
+        }
+        let clientID = UUID().uuidString.lowercased()
+        let builder = URLRequestBuilder(
+            base: client.baseURL,
+            path: "/v1/conversations/\(conversationID)/messages",
+            method: .post,
+            body: MediaSendBody(kind: "voice", client_id: clientID, attachments: [AttachmentDraftBody(upload_id: uploadID, kind: "voice", file_name: "talk.m4a", duration_ms: durationMs)])
+        )
+        do {
+            let result: SendMessageResult = try await client.send(builder, as: SendMessageResult.self)
+            if let index = messages.firstIndex(where: { $0.clientId == clientID }) {
+                messages[index] = result.message
+            } else {
+                messages.append(result.message)
+            }
+            local?.upsert(result.message)
+            try? await markRead(upTo: result.message.id)
+        } catch {
+            errorText = (error as? APIError)?.message ?? "Voice message failed."
+        }
     }
 
     func castMessage(_ message: MessageOut) {
