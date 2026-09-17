@@ -52,7 +52,11 @@ members add/remove/promote/demote, `POST …/{id}/leave`,
 
 `GET /v1/streaks/me`, `PATCH /v1/streaks/me/settings`
 (`visible`, `notifications_enabled`, `reminders_enabled`, `freezes_enabled`),
-`POST /v1/streaks/{conversation_id}/freeze`.
+`GET /v1/streaks/{conversation_id}/with/{peer_id}`,
+`GET /v1/streaks/history/{conversation_id}/with/{peer_id}`.
+
+Freezes are granted automatically by the engine (one per 7-day milestone, max 3
+held, opt-in via settings); there is no manual "freeze now" endpoint.
 
 ## Calls (architecture seam)
 
