@@ -15,6 +15,7 @@ struct ChatView: View {
     @State private var peerOnline = false
     @State private var typingCooldown = Date.distantPast
     @State private var replyingTo: MessageOut?
+    @State private var forwardMessage: MessageOut?
     @Environment(LocalStore.self) private var local
 
     init(conversation: ConversationSummary) {
@@ -92,6 +93,7 @@ struct ChatView: View {
         }
         .sheet(item: $editingMessage) { message in
             EditMessageSheet(message: message, store: store)
+            .sheet(item: $forwardMessage) { ForwardSheet(message: $0) }
         }
     }
 
@@ -113,6 +115,8 @@ struct ChatView: View {
                                 replyingTo = message
                             }, onEdit: {
                                 editingMessage = message
+                            }, onForward: {
+                                forwardMessage = message
                             })
                         }
                         .id(message.id)
@@ -279,10 +283,14 @@ struct MessageActionsMenu: View {
     let store: ChatMessageStore
     var onReply: (() -> Void)?
     var onEdit: (() -> Void)?
+    var onForward: (() -> Void)?
 
     var body: some View {
         Button(action: { onReply?() }) {
             Label("Reply", systemImage: "arrowshape.turn.up.left.fill")
+        }
+        Button(action: { onForward?() }) {
+            Label("Forward", systemImage: "arrowshape.turn.up.right.fill")
         }
         ForEach(["❤️", "🔥", "😂", "👍", "😮"], id: \.self) { emoji in
             Button {
@@ -582,5 +590,56 @@ struct MessageBubble: View {
         let formatter = DateFormatter()
         formatter.timeStyle = .short
         return formatter.string(from: message.sentAt)
+    }
+}
+
+struct ForwardSheet: View {
+    let message: MessageOut
+    @Environment(\.dismiss) private var dismiss
+    @State private var list = ConversationListStore()
+    @AppStorage("forwardingCount") private var forwardingCount = 0
+
+    var body: some View {
+        NavigationStack {
+            Group {
+                if list.isLoading && list.conversations.isEmpty {
+                    ProgressView()
+                } else {
+                    List(list.conversations) { conversation in
+                        Button {
+                            Task {
+                                let store = ChatMessageStore(conversationID: conversation.id, local: nil)
+                                let forwarded = "[Forwarded] \(message.body ?? "voice message")"
+                                if await store.send(body: forwarded, clientID: UUID().uuidString.lowercased()) {
+                                    forwardingCount += 1
+                                }
+                                dismiss()
+                            }
+                        } label: {
+                            HStack(spacing: Theme.Metrics.small) {
+                                Image(systemName: conversation.type == "group" ? "person.3.fill" : "person.crop.circle.fill")
+                                    .foregroundStyle(Theme.Palette.brand)
+                                Text(conversation.name ?? "Conversation")
+                                    .foregroundStyle(Theme.Palette.textPrimary)
+                                Spacer()
+                                Image(systemName: "paperplane.fill")
+                                    .font(.caption)
+                                    .foregroundStyle(Theme.Palette.textSecondary)
+                            }
+                        }
+                    }
+                    .listStyle(.plain)
+                }
+            }
+            .navigationTitle("Forward to…")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    Button("Cancel") { dismiss() }
+                }
+            }
+            .task { await list.refresh() }
+        }
+        .presentationDetents([.medium, .large])
     }
 }
