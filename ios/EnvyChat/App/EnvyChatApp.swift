@@ -17,6 +17,7 @@ struct EnvyChatApp: App {
                     // Reconnect the socket when a session already exists.
                     if appState.isSignedIn {
                         realtime.connect(conversationIDs: [])
+                        await PushRegistration.shared.authorizeAndRegister()
                     }
                 }
         }

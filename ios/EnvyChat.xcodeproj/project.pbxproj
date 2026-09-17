@@ -21,6 +21,7 @@
 		60972F1805C57D05284FF13B /* LegalViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2043A2CDA5AB8C600EF67F89 /* LegalViews.swift */; };
 		6E8205997A3609D638002DFD /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51640DE482DE0FB9A39C3EB6 /* APIClient.swift */; };
 		718370C9C749C3006065817E /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 9475C37D51408EEA4F465F33 /* Localizable.xcstrings */; };
+		7D9388829FFD73CE3F8BA0B6 /* PushRegistration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99EE6230CB64C0E828EEF457 /* PushRegistration.swift */; };
 		85E71E26240B29A0802EF051 /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BFB5E8946448F0C14BE0493 /* ChatView.swift */; };
 		88D859685D790D547A0C1E3E /* AuthFlowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D722CABEE30DE66100A19F /* AuthFlowView.swift */; };
 		8D40EBB60232FA74489A1862 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 319986DEC6A52529F9CDC359 /* Theme.swift */; };
@@ -82,6 +83,7 @@
 		9475C37D51408EEA4F465F33 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		94C35F647CCC01454EEDA3EB /* DateFormatting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatting.swift; sourceTree = "<group>"; };
 		95AA6FE7D0F4DEAE8BF80176 /* LocalStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalStore.swift; sourceTree = "<group>"; };
+		99EE6230CB64C0E828EEF457 /* PushRegistration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushRegistration.swift; sourceTree = "<group>"; };
 		A1E828012E070E1B9635784C /* EnvyChatTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = EnvyChatTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A5B3C9EC00A40524E03608FF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		B35F50FA5BEBE4FD9EA353EC /* ConversationModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationModels.swift; sourceTree = "<group>"; };
@@ -181,6 +183,14 @@
 			path = Support;
 			sourceTree = "<group>";
 		};
+		67DA39D94DDD6BA11B29497A /* Push */ = {
+			isa = PBXGroup;
+			children = (
+				99EE6230CB64C0E828EEF457 /* PushRegistration.swift */,
+			);
+			path = Push;
+			sourceTree = "<group>";
+		};
 		7C2B5631C563D8CD3D58A37C /* Calls */ = {
 			isa = PBXGroup;
 			children = (
@@ -226,6 +236,7 @@
 				7C8D4FED903D6F76ACEEC66B /* Media */,
 				E533AFF2220157E03335B66A /* Networking */,
 				16F0CB850681C5B10644F4B8 /* Persistence */,
+				67DA39D94DDD6BA11B29497A /* Push */,
 				E8BD1ABC132D07EEA85778C3 /* Security */,
 				591484C50EE532FCAE002036 /* Support */,
 			);
@@ -417,6 +428,7 @@
 				32033DD4E16C0FAB56479F92 /* MainTabView.swift in Sources */,
 				3426C776886600421935835F /* NewChatView.swift in Sources */,
 				B856D703D8CB0EC1A09A67A9 /* ProfileView.swift in Sources */,
+				7D9388829FFD73CE3F8BA0B6 /* PushRegistration.swift in Sources */,
 				C3E364C5ABEA5D3C4F42C94C /* RealtimeClient.swift in Sources */,
 				FDFC188C057A708723DC4177 /* RegisterView.swift in Sources */,
 				30D43F322D4B56128F566E2C /* RootView.swift in Sources */,

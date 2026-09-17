@@ -98,7 +98,10 @@ struct LoginView: View {
         Task {
             do {
                 try await AuthViewStore.shared.signIn(identifier: email, password: password)
-                await MainActor.run { state.isSignedIn = true }
+                await MainActor.run {
+                    state.isSignedIn = true
+                    Task { await PushRegistration.shared.authorizeAndRegister() }
+                }
             } catch {
                 await MainActor.run {
                     errorText = (error as? LocalizedError)?.errorDescription ?? "Sign in failed."

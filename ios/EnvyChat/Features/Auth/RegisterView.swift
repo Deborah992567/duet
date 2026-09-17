@@ -74,7 +74,10 @@ struct RegisterView: View {
                     displayName: displayName.isEmpty ? username : displayName,
                     password: password
                 )
-                await MainActor.run { state.isSignedIn = true }
+                await MainActor.run {
+                    state.isSignedIn = true
+                    Task { await PushRegistration.shared.authorizeAndRegister() }
+                }
             } catch {
                 await MainActor.run {
                     errorText = (error as? APIError)?.message ?? "Registration failed."
