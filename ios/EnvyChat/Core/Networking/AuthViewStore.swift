@@ -23,13 +23,21 @@ struct UserPublic: Decodable, Identifiable, Hashable {
     let username: String
     let displayName: String?
     let avatarUrl: String?
-    let isOnline: Bool?
+    let bio: String?
+    let isFriend: Bool
+    let isBlocked: Bool
+    let online: Bool?
+    let lastSeenAt: Date?
+    let streakVisible: Bool?
 
     enum CodingKeys: String, CodingKey {
-        case id, username
+        case id, username, bio, online
         case displayName = "display_name"
         case avatarUrl = "avatar_url"
-        case isOnline = "is_online"
+        case isFriend = "is_friend"
+        case isBlocked = "is_blocked"
+        case lastSeenAt = "last_seen_at"
+        case streakVisible = "streak_visible"
     }
 }
 

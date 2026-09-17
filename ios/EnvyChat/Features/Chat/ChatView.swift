@@ -16,6 +16,7 @@ struct ChatView: View {
     @State private var typingCooldown = Date.distantPast
     @State private var replyingTo: MessageOut?
     @State private var forwardMessage: MessageOut?
+    @State private var showProfile = false
     @Environment(LocalStore.self) private var local
 
     init(conversation: ConversationSummary) {
@@ -30,38 +31,9 @@ struct ChatView: View {
             composer
         }
         .background(Theme.Palette.background)
-        .navigationTitle(conversation.name ?? conversation.peer?.username ?? "Chat")
+        .navigationTitle(navigationTitleText)
         .navigationBarTitleDisplayMode(.inline)
-        .toolbar {
-            ToolbarItem(placement: .topBarLeading) {
-                if conversation.type == "direct" {
-                    HStack(spacing: 5) {
-                        Circle()
-                            .fill(peerOnline ? Theme.Palette.success : Theme.Palette.flameOff)
-                            .frame(width: 9, height: 9)
-                        Text(peerOnline ? "Online" : "Offline")
-                            .font(Theme.Typography.caption)
-                            .foregroundStyle(Theme.Palette.textSecondary)
-                    }
-                }
-            }
-            ToolbarItem(placement: .topBarTrailing) {
-                Menu {
-                    Menu {
-                        Text("Reactions")
-                        ForEach(["❤️", "🔥", "😂", "👍", "😮"], id: \.self) { emoji in
-                            Button("React \(emoji)") { Task { await lastMessageReact(emoji) } }
-                        }
-                    } label: {
-                        Label("Quick react", systemImage: "face.smiling")
-                    }
-                    ConversationActionsMenu(conversation: conversation)
-                } label: {
-                    Image(systemName: "ellipsis.circle")
-                        .foregroundStyle(Theme.Palette.brand)
-                }
-            }
-        }
+        .toolbar { toolbarItems }
         .task {
             store.bind(local)
             store.hydrate(from: local.queuedMessages(in: conversation.id))
@@ -93,7 +65,12 @@ struct ChatView: View {
         }
         .sheet(item: $editingMessage) { message in
             EditMessageSheet(message: message, store: store)
-            .sheet(item: $forwardMessage) { ForwardSheet(message: $0) }
+        }
+        .sheet(item: $forwardMessage) { ForwardSheet(message: $0) }
+        .sheet(isPresented: $showProfile) {
+            if let peer = conversation.peer {
+                UserProfileSheet(userID: peer.id)
+            }
         }
     }
 
@@ -255,6 +232,35 @@ struct ChatView: View {
         }
     }
 
+    private var navigationTitleText: String {
+        conversation.name ?? conversation.peer?.username ?? "Chat"
+    }
+
+    @ToolbarContentBuilder
+    private var toolbarItems: some ToolbarContent {
+        ToolbarItem(placement: .topBarLeading) {
+            PresenceButton(peerOnline: peerOnline, peerType: conversation.type, peerID: conversation.peer?.id) {
+                showProfile = true
+            }
+        }
+        ToolbarItem(placement: .topBarTrailing) {
+            Menu {
+                Menu {
+                    Text("Reactions")
+                    ForEach(["❤️", "🔥", "😂", "👍", "😮"], id: \.self) { emoji in
+                        Button("React \(emoji)") { Task { await lastMessageReact(emoji) } }
+                    }
+                } label: {
+                    Label("Quick react", systemImage: "face.smiling")
+                }
+                ConversationActionsMenu(conversation: conversation)
+            } label: {
+                Image(systemName: "ellipsis.circle")
+                    .foregroundStyle(Theme.Palette.brand)
+            }
+        }
+    }
+
     private func send() {
         let body = draft.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !body.isEmpty else { return }
@@ -274,6 +280,28 @@ struct ChatView: View {
         for entry in local.pendingOutbox() where entry.conversationID == conversation.id {
             let sent = await store.send(body: entry.body, clientID: entry.clientID)
             if sent { local.flush(entry) }
+        }
+    }
+}
+
+struct PresenceButton: View {
+    let peerOnline: Bool
+    let peerType: String
+    let peerID: String?
+    var onTap: () -> Void
+
+    var body: some View {
+        if peerType == "direct", peerID != nil {
+            Button(action: onTap) {
+                HStack(spacing: 5) {
+                    Circle()
+                        .fill(peerOnline ? Theme.Palette.success : Theme.Palette.flameOff)
+                        .frame(width: 9, height: 9)
+                    Text(peerOnline ? "Online" : "Offline")
+                        .font(Theme.Typography.caption)
+                        .foregroundStyle(Theme.Palette.textSecondary)
+                }
+            }
         }
     }
 }
@@ -590,6 +618,113 @@ struct MessageBubble: View {
         let formatter = DateFormatter()
         formatter.timeStyle = .short
         return formatter.string(from: message.sentAt)
+    }
+}
+
+struct UserProfileSheet: View {
+    let userID: String
+    @State private var user: UserPublic?
+    @State private var isLoading = true
+    @State private var friendRequestSent = false
+    @Environment(\.dismiss) private var dismiss
+
+    var body: some View {
+        NavigationStack {
+            Group {
+                if isLoading {
+                    ProgressView()
+                } else if let user {
+                    VStack(spacing: Theme.Metrics.padding) {
+                        avatar(for: user)
+                        let name = user.displayName?.isEmpty == false ? user.displayName ?? user.username : user.username
+                        Text(name)
+                            .font(Theme.Typography.title)
+                            .foregroundStyle(Theme.Palette.textPrimary)
+                        Text("@\(user.username)")
+                            .font(Theme.Typography.caption)
+                            .foregroundStyle(Theme.Palette.textSecondary)
+                        if !(user.bio ?? "").isEmpty {
+                            Text(user.bio ?? "")
+                                .font(Theme.Typography.body)
+                                .foregroundStyle(Theme.Palette.textPrimary)
+                                .multilineTextAlignment(.center)
+                        }
+                        let isOnline = user.online ?? false
+                        HStack(spacing: Theme.Metrics.small) {
+                            Circle()
+                                .fill(isOnline ? Theme.Palette.success : Theme.Palette.flameOff)
+                                .frame(width: 9, height: 9)
+                            Text(isOnline ? "Online" : "Last seen \(user.lastSeenAt?.relativeFormatted ?? "recently")")
+                                .font(Theme.Typography.caption)
+                                .foregroundStyle(Theme.Palette.textSecondary)
+                        }
+                        if user.isFriend {
+                            Label("Friends on Envy", systemImage: "person.2.fill")
+                                .font(Theme.Typography.caption)
+                                .foregroundStyle(Theme.Palette.brand)
+                        } else if !user.isBlocked {
+                            Button {
+                                friendRequestSent = true
+                                Task { await sendFriendRequest(to: user.id) }
+                            } label: {
+                                Text(friendRequestSent ? "Request sent" : "Add Friend")
+                                    .font(Theme.Typography.body.bold())
+                                    .foregroundStyle(friendRequestSent ? Theme.Palette.textSecondary : .white)
+                                    .padding(.horizontal, Theme.Metrics.padding)
+                                    .padding(.vertical, 10)
+                                    .background(friendRequestSent ? Color.gray : Theme.Palette.brand)
+                                    .clipShape(Capsule())
+                            }
+                            .disabled(friendRequestSent)
+                        }
+                        Spacer()
+                    }
+                    .padding(Theme.Metrics.padding)
+                } else {
+                    ContentUnavailableView("User unavailable", systemImage: "person.crop.circle.badge.questionmark")
+                }
+            }
+            .navigationTitle("Profile")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button("Done") { dismiss() }
+                }
+            }
+            .task {
+                await load()
+            }
+        }
+    }
+
+    private func avatar(for user: UserPublic) -> some View {
+        AsyncImage(url: user.avatarUrl.flatMap(URL.init(string:))) { phase in
+            switch phase {
+            case .success(let image):
+                image.resizable().scaledToFill()
+            default:
+                Image(systemName: "person.crop.circle.fill")
+                    .resizable()
+                    .foregroundStyle(Theme.Palette.brand.opacity(0.7))
+            }
+        }
+        .frame(width: 96, height: 96)
+        .clipShape(Circle())
+    }
+
+    private func load() async {
+        let client = APIClient.shared
+        let builder = URLRequestBuilder(base: client.baseURL, path: "/v1/users/\(userID)")
+        if let fetched = try? await client.send(builder, as: UserPublic.self) {
+            user = fetched
+        }
+        isLoading = false
+    }
+
+    private func sendFriendRequest(to userID: String) async {
+        let client = APIClient.shared
+        let builder = URLRequestBuilder(base: client.baseURL, path: "/v1/friends/requests", method: .post, body: ["user_id": userID])
+        _ = try? await client.send(builder, as: NoContent.self, defaultValue: NoContent())
     }
 }
 
