@@ -27,7 +27,7 @@ struct LoginView: View {
             Image(systemName: "flame.fill")
                 .font(.system(size: 64))
                 .foregroundStyle(Theme.Palette.flameOn)
-            Text("EnvyChat")
+            Text("Duet")
                 .font(Theme.Typography.title)
                 .foregroundStyle(Theme.Palette.textPrimary)
             Text("Stay on a roll with the people who matter.")
@@ -80,7 +80,7 @@ struct LoginView: View {
 
             Spacer()
 
-            Text("By continuing, you agree to the EnvyChat terms.")
+            Text("By continuing, you agree to the Duet terms.")
                 .font(Theme.Typography.caption)
                 .foregroundStyle(Theme.Palette.textSecondary)
         }

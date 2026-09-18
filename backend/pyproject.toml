@@ -3,9 +3,9 @@ requires = ["setuptools>=69"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "envychat-backend"
+name = "duet-backend"
 version = "0.1.0"
-description = "EnvyChat messaging platform backend (FastAPI + MariaDB + Redis)"
+description = "Duet messaging platform backend (FastAPI + MariaDB + Redis)"
 requires-python = ">=3.12"
 dependencies = [
     "fastapi>=0.115",

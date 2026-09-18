@@ -53,4 +53,4 @@ region-approved production hardware.
 
 - Backend: 50 pytest tests (in-memory SQLite + fakeredis, `greatest()` UDF
   registered in `conftest.py`).
-- iOS: unit tests in `EnvyChatTests` (date alignment, decoding, request builder).
+- iOS: unit tests in `DuetTests` (date alignment, decoding, request builder).

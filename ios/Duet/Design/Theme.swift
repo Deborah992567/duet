@@ -1,6 +1,6 @@
 import SwiftUI
 
-/// Design tokens. Flat colors only — no gradients anywhere in EnvyChat.
+/// Design tokens. Flat colors only — no gradients anywhere in Duet.
 enum Theme {
     enum Palette {
         static let brand = Color(red: 0.93, green: 0.55, blue: 0.66)          // baby pink

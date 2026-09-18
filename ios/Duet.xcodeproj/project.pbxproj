@@ -1,0 +1,718 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		01EC3D014822E6DB622DD409 /* RealtimeClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A25BEFCB5C96E452725445D /* RealtimeClient.swift */; };
+		098D3391CAAEAB200BA2286D /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 754B09B657F1E48CE52B2A4D /* LoginView.swift */; };
+		0F226C03F5F3B1F7F4EE9564 /* FriendsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94AF0DA8DBCA12E7C48A90DB /* FriendsStore.swift */; };
+		1E6E3DB0FA09F64111ECC611 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = D8FC8BDE3C5BE93F3D8ADC34 /* Localizable.xcstrings */; };
+		2DC9133EB9B969D8B2CD3D54 /* SettingsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA85AB9A3BBAC8B07A6954DD /* SettingsStore.swift */; };
+		32A1687A5BD95EC8DF4B567E /* AuthFlowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A07DA60646C67427DD50AF0 /* AuthFlowView.swift */; };
+		38C80904C9004C2AFEDF349C /* ConversationListStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F89D9442168CEF936E89933 /* ConversationListStore.swift */; };
+		398138F8A8FC47A0EDC55776 /* PushRegistration.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8BE396BE107DE01BE8B18B8 /* PushRegistration.swift */; };
+		3A4F964BE302EDF1986ABC72 /* KeychainStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AA5856832C97F68DAA07FAC /* KeychainStore.swift */; };
+		4270D2D1986EC8CAF467BB17 /* AuthViewStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9908D1EEDFF5445A9A859F82 /* AuthViewStore.swift */; };
+		447CF6F632BB0FBB2CF5CBAC /* StreakDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B424E6260ED2E049384F81 /* StreakDetailView.swift */; };
+		45AADE17058EAFD1A825A516 /* LegalViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = B747C4625810029B3C9D957E /* LegalViews.swift */; };
+		4DC8BF3E740D8E85703FAF7A /* FriendsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDD2A0E4ABF99E324778D59E /* FriendsView.swift */; };
+		51E878878CEFA4A3984C9827 /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44CD960F2B22EFE96794D2D1 /* ChatView.swift */; };
+		5A174EE086FB6BD92C282F3A /* LocalStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35E13CDC4CB1CED45DF21A36 /* LocalStore.swift */; };
+		5A47A24E60E0B4E76872C215 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D45D85FD893A8A2DBD94DEE /* Theme.swift */; };
+		5B690369FA422FE99210718F /* NotificationsFeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA393284ACA8E3B32E12A27C /* NotificationsFeedView.swift */; };
+		5E747052BCD8361B087CC60D /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BAE03E0420553D93C9B2C4A /* MainTabView.swift */; };
+		6053E2F1C50E3F28C8E83EE5 /* DuetTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 753942A25A127BD09559AFD6 /* DuetTests.swift */; };
+		6754AD1CE48B00CE30E4DD9C /* InboxRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CADD6D45444F04A60E8A9BC /* InboxRow.swift */; };
+		6A4CD9E6656779EB8EB2CD16 /* InboxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F3897BDC3E12AAC3D52D60E /* InboxView.swift */; };
+		6E04E6F5DE3CFC647A575408 /* Voice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64C74298F767404D9E59D2A0 /* Voice.swift */; };
+		722A9DEBDC099C18CCA277C4 /* TypingStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D23D7FC138317A9D19FCFEA /* TypingStore.swift */; };
+		75A6EE026185EA8FB5102332 /* NewChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F118E2BCC6F393D45D3DD0FA /* NewChatView.swift */; };
+		799774A95F20760DA3EE15DA /* CallSlotsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 198D27FFA600E2B98B204E05 /* CallSlotsView.swift */; };
+		7AC7FD990CD4F80D22EE715A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4343FCE3E000098125F7D9F8 /* Assets.xcassets */; };
+		8BC4C0D4D129C5EB9C51DBF7 /* StreaksView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ECEAF9A6FDABB6CFB70CA4C /* StreaksView.swift */; };
+		9302EFD7F3D2AA164FCC5918 /* ConversationModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = E10067C48F33F76E7779E024 /* ConversationModels.swift */; };
+		94BF25ED04A60A06BBFB2958 /* PresenceStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 450ED9D3AD3CCB0A6BD565FF /* PresenceStore.swift */; };
+		A451564B2631F8DD20D35C5B /* NotificationPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F757A73DAAA687DD8BABE4A /* NotificationPreferences.swift */; };
+		AB9267FC3B5B07244A6037B0 /* ChatMessageStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61F5AEF793E7F741E4F9AE5C /* ChatMessageStore.swift */; };
+		AD460D7C67251D808886CDC3 /* DuetApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1256D356BBFAA013CB694027 /* DuetApp.swift */; };
+		AF6C388FE9BA675131BD2457 /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1728535F590D898E90C5F2D8 /* RegisterView.swift */; };
+		B2078D1249BBE334FC68138C /* OnboardingSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D0DC4A2CB6C069369245163 /* OnboardingSheet.swift */; };
+		C08501C954D79E17B520A2DB /* SessionStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C935EFB65A1A58725BADD21 /* SessionStore.swift */; };
+		CEDB2A424B6361AE40285CA5 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3E78CD0DA96CFC5B6E0030B /* RootView.swift */; };
+		CF75AFF64AE1D66C0156EAF8 /* DateFormatting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AD9502B60C1AAE4C175ECAD /* DateFormatting.swift */; };
+		D10C4C88FEE01A4A65DD26BD /* ForgotPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67ABBBBFC9D89DFA72E84008 /* ForgotPasswordView.swift */; };
+		E5C8BF4F31B1258CA4C9237C /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 758646DA259A4766E379213F /* ProfileView.swift */; };
+		ECC75102D3679206BEF3284A /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6484A949E4C971C230BBAF90 /* APIClient.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		30970183A4B9B628AA103690 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5E8F6F55A9FC1F1C613BDFDE /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6BF7066832E7746EAEF6BE9B;
+			remoteInfo = Duet;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		0BAE03E0420553D93C9B2C4A /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
+		0D23D7FC138317A9D19FCFEA /* TypingStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypingStore.swift; sourceTree = "<group>"; };
+		0D45D85FD893A8A2DBD94DEE /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
+		1256D356BBFAA013CB694027 /* DuetApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DuetApp.swift; sourceTree = "<group>"; };
+		1728535F590D898E90C5F2D8 /* RegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
+		198D27FFA600E2B98B204E05 /* CallSlotsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallSlotsView.swift; sourceTree = "<group>"; };
+		2ECEAF9A6FDABB6CFB70CA4C /* StreaksView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreaksView.swift; sourceTree = "<group>"; };
+		35E13CDC4CB1CED45DF21A36 /* LocalStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalStore.swift; sourceTree = "<group>"; };
+		3D0DC4A2CB6C069369245163 /* OnboardingSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingSheet.swift; sourceTree = "<group>"; };
+		4343FCE3E000098125F7D9F8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		44CD960F2B22EFE96794D2D1 /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
+		450ED9D3AD3CCB0A6BD565FF /* PresenceStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresenceStore.swift; sourceTree = "<group>"; };
+		4AD9502B60C1AAE4C175ECAD /* DateFormatting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatting.swift; sourceTree = "<group>"; };
+		5C935EFB65A1A58725BADD21 /* SessionStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStore.swift; sourceTree = "<group>"; };
+		5CADD6D45444F04A60E8A9BC /* InboxRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InboxRow.swift; sourceTree = "<group>"; };
+		5F3897BDC3E12AAC3D52D60E /* InboxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InboxView.swift; sourceTree = "<group>"; };
+		5F757A73DAAA687DD8BABE4A /* NotificationPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationPreferences.swift; sourceTree = "<group>"; };
+		5F89D9442168CEF936E89933 /* ConversationListStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationListStore.swift; sourceTree = "<group>"; };
+		61F5AEF793E7F741E4F9AE5C /* ChatMessageStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMessageStore.swift; sourceTree = "<group>"; };
+		6484A949E4C971C230BBAF90 /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
+		64C74298F767404D9E59D2A0 /* Voice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Voice.swift; sourceTree = "<group>"; };
+		67ABBBBFC9D89DFA72E84008 /* ForgotPasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordView.swift; sourceTree = "<group>"; };
+		6A07DA60646C67427DD50AF0 /* AuthFlowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthFlowView.swift; sourceTree = "<group>"; };
+		6AA5856832C97F68DAA07FAC /* KeychainStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainStore.swift; sourceTree = "<group>"; };
+		6C941D60B18F5677431B04CD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		753942A25A127BD09559AFD6 /* DuetTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DuetTests.swift; sourceTree = "<group>"; };
+		754B09B657F1E48CE52B2A4D /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		758646DA259A4766E379213F /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
+		8A25BEFCB5C96E452725445D /* RealtimeClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealtimeClient.swift; sourceTree = "<group>"; };
+		94AF0DA8DBCA12E7C48A90DB /* FriendsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsStore.swift; sourceTree = "<group>"; };
+		96B424E6260ED2E049384F81 /* StreakDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakDetailView.swift; sourceTree = "<group>"; };
+		9908D1EEDFF5445A9A859F82 /* AuthViewStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewStore.swift; sourceTree = "<group>"; };
+		996ABA3FA1D41FCFB4949BBB /* DuetTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = DuetTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		B0469D2D12B4116E5D52AA22 /* Duet.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Duet.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B747C4625810029B3C9D957E /* LegalViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LegalViews.swift; sourceTree = "<group>"; };
+		BA393284ACA8E3B32E12A27C /* NotificationsFeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsFeedView.swift; sourceTree = "<group>"; };
+		CA85AB9A3BBAC8B07A6954DD /* SettingsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsStore.swift; sourceTree = "<group>"; };
+		CDD2A0E4ABF99E324778D59E /* FriendsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsView.swift; sourceTree = "<group>"; };
+		D8BE396BE107DE01BE8B18B8 /* PushRegistration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushRegistration.swift; sourceTree = "<group>"; };
+		D8FC8BDE3C5BE93F3D8ADC34 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
+		E10067C48F33F76E7779E024 /* ConversationModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationModels.swift; sourceTree = "<group>"; };
+		F118E2BCC6F393D45D3DD0FA /* NewChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewChatView.swift; sourceTree = "<group>"; };
+		F3E78CD0DA96CFC5B6E0030B /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		0BDFACB28BBA5A7124678239 /* Features */ = {
+			isa = PBXGroup;
+			children = (
+				8689F5DADC5EC2D768130E51 /* Auth */,
+				CD5AE01C195E340EC60CD67C /* Calls */,
+				F801083F438E7F671038E346 /* Chat */,
+				51A2901E2910401FD5F9CCC6 /* Friends */,
+				5A00B4EFB4F0BD6F86FF1B01 /* Home */,
+				0FF2FF466BC2431E70D5EAA8 /* Notifications */,
+				F6A027987A2819912A9AC854 /* Onboarding */,
+				B7EA2D402DE2F88C01F82BE4 /* Profile */,
+				11C68AE7C2D641E5CCC580BE /* Streaks */,
+			);
+			path = Features;
+			sourceTree = "<group>";
+		};
+		0FF2FF466BC2431E70D5EAA8 /* Notifications */ = {
+			isa = PBXGroup;
+			children = (
+				5F757A73DAAA687DD8BABE4A /* NotificationPreferences.swift */,
+				BA393284ACA8E3B32E12A27C /* NotificationsFeedView.swift */,
+			);
+			path = Notifications;
+			sourceTree = "<group>";
+		};
+		11C68AE7C2D641E5CCC580BE /* Streaks */ = {
+			isa = PBXGroup;
+			children = (
+				96B424E6260ED2E049384F81 /* StreakDetailView.swift */,
+				2ECEAF9A6FDABB6CFB70CA4C /* StreaksView.swift */,
+			);
+			path = Streaks;
+			sourceTree = "<group>";
+		};
+		1F4DB9512D31C4DF32ED8D58 /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				6484A949E4C971C230BBAF90 /* APIClient.swift */,
+				9908D1EEDFF5445A9A859F82 /* AuthViewStore.swift */,
+				8A25BEFCB5C96E452725445D /* RealtimeClient.swift */,
+			);
+			path = Networking;
+			sourceTree = "<group>";
+		};
+		2AE2F2F2D31E6D9AF7996D5B /* Persistence */ = {
+			isa = PBXGroup;
+			children = (
+				35E13CDC4CB1CED45DF21A36 /* LocalStore.swift */,
+			);
+			path = Persistence;
+			sourceTree = "<group>";
+		};
+		39718BD48142296F6C8ED68F /* DuetTests */ = {
+			isa = PBXGroup;
+			children = (
+				753942A25A127BD09559AFD6 /* DuetTests.swift */,
+			);
+			path = DuetTests;
+			sourceTree = "<group>";
+		};
+		51A2901E2910401FD5F9CCC6 /* Friends */ = {
+			isa = PBXGroup;
+			children = (
+				94AF0DA8DBCA12E7C48A90DB /* FriendsStore.swift */,
+				CDD2A0E4ABF99E324778D59E /* FriendsView.swift */,
+			);
+			path = Friends;
+			sourceTree = "<group>";
+		};
+		5A00B4EFB4F0BD6F86FF1B01 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				5F89D9442168CEF936E89933 /* ConversationListStore.swift */,
+				E10067C48F33F76E7779E024 /* ConversationModels.swift */,
+				5CADD6D45444F04A60E8A9BC /* InboxRow.swift */,
+				5F3897BDC3E12AAC3D52D60E /* InboxView.swift */,
+				0BAE03E0420553D93C9B2C4A /* MainTabView.swift */,
+				F118E2BCC6F393D45D3DD0FA /* NewChatView.swift */,
+				450ED9D3AD3CCB0A6BD565FF /* PresenceStore.swift */,
+				0D23D7FC138317A9D19FCFEA /* TypingStore.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		687D515281ADFC74FB376DCC /* Support */ = {
+			isa = PBXGroup;
+			children = (
+				4AD9502B60C1AAE4C175ECAD /* DateFormatting.swift */,
+			);
+			path = Support;
+			sourceTree = "<group>";
+		};
+		783793E6461CE7871C322491 /* Push */ = {
+			isa = PBXGroup;
+			children = (
+				D8BE396BE107DE01BE8B18B8 /* PushRegistration.swift */,
+			);
+			path = Push;
+			sourceTree = "<group>";
+		};
+		8689F5DADC5EC2D768130E51 /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				6A07DA60646C67427DD50AF0 /* AuthFlowView.swift */,
+				67ABBBBFC9D89DFA72E84008 /* ForgotPasswordView.swift */,
+				754B09B657F1E48CE52B2A4D /* LoginView.swift */,
+				1728535F590D898E90C5F2D8 /* RegisterView.swift */,
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
+		8CC9B956A2D2541F1F436502 /* Duet */ = {
+			isa = PBXGroup;
+			children = (
+				4343FCE3E000098125F7D9F8 /* Assets.xcassets */,
+				6C941D60B18F5677431B04CD /* Info.plist */,
+				D8FC8BDE3C5BE93F3D8ADC34 /* Localizable.xcstrings */,
+				8FB70FC7C7A6247BB36E652A /* App */,
+				A26EF825978A19407FBAE828 /* Core */,
+				BC4019289FC7613A40C3FE4D /* Design */,
+				0BDFACB28BBA5A7124678239 /* Features */,
+			);
+			path = Duet;
+			sourceTree = "<group>";
+		};
+		8FB70FC7C7A6247BB36E652A /* App */ = {
+			isa = PBXGroup;
+			children = (
+				1256D356BBFAA013CB694027 /* DuetApp.swift */,
+				F3E78CD0DA96CFC5B6E0030B /* RootView.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		A26EF825978A19407FBAE828 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				F2E1D2CB414AF1E36EFAE420 /* Media */,
+				1F4DB9512D31C4DF32ED8D58 /* Networking */,
+				2AE2F2F2D31E6D9AF7996D5B /* Persistence */,
+				783793E6461CE7871C322491 /* Push */,
+				C7373FD9D337F7A8BF9E36E3 /* Security */,
+				687D515281ADFC74FB376DCC /* Support */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		B7EA2D402DE2F88C01F82BE4 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				B747C4625810029B3C9D957E /* LegalViews.swift */,
+				758646DA259A4766E379213F /* ProfileView.swift */,
+				CA85AB9A3BBAC8B07A6954DD /* SettingsStore.swift */,
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
+		BC4019289FC7613A40C3FE4D /* Design */ = {
+			isa = PBXGroup;
+			children = (
+				0D45D85FD893A8A2DBD94DEE /* Theme.swift */,
+			);
+			path = Design;
+			sourceTree = "<group>";
+		};
+		C7373FD9D337F7A8BF9E36E3 /* Security */ = {
+			isa = PBXGroup;
+			children = (
+				6AA5856832C97F68DAA07FAC /* KeychainStore.swift */,
+				5C935EFB65A1A58725BADD21 /* SessionStore.swift */,
+			);
+			path = Security;
+			sourceTree = "<group>";
+		};
+		CD5AE01C195E340EC60CD67C /* Calls */ = {
+			isa = PBXGroup;
+			children = (
+				198D27FFA600E2B98B204E05 /* CallSlotsView.swift */,
+			);
+			path = Calls;
+			sourceTree = "<group>";
+		};
+		D1E68B5F5E0421BCE5D0ABA9 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				B0469D2D12B4116E5D52AA22 /* Duet.app */,
+				996ABA3FA1D41FCFB4949BBB /* DuetTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		D51799469F9C5EA3F857191C = {
+			isa = PBXGroup;
+			children = (
+				8CC9B956A2D2541F1F436502 /* Duet */,
+				39718BD48142296F6C8ED68F /* DuetTests */,
+				D1E68B5F5E0421BCE5D0ABA9 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		F2E1D2CB414AF1E36EFAE420 /* Media */ = {
+			isa = PBXGroup;
+			children = (
+				64C74298F767404D9E59D2A0 /* Voice.swift */,
+			);
+			path = Media;
+			sourceTree = "<group>";
+		};
+		F6A027987A2819912A9AC854 /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				3D0DC4A2CB6C069369245163 /* OnboardingSheet.swift */,
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
+		F801083F438E7F671038E346 /* Chat */ = {
+			isa = PBXGroup;
+			children = (
+				61F5AEF793E7F741E4F9AE5C /* ChatMessageStore.swift */,
+				44CD960F2B22EFE96794D2D1 /* ChatView.swift */,
+			);
+			path = Chat;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		1FE675A2B590F9A9F14F026C /* DuetTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A164C7CFD729E45C5B5A08D7 /* Build configuration list for PBXNativeTarget "DuetTests" */;
+			buildPhases = (
+				33028F6D1DB55F62B99C8699 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A2E699B68D14984F267C9F63 /* PBXTargetDependency */,
+			);
+			name = DuetTests;
+			packageProductDependencies = (
+			);
+			productName = DuetTests;
+			productReference = 996ABA3FA1D41FCFB4949BBB /* DuetTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		6BF7066832E7746EAEF6BE9B /* Duet */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 54D8AE825FA64AC8BF4A5386 /* Build configuration list for PBXNativeTarget "Duet" */;
+			buildPhases = (
+				91B68B7C1AEFDEEB6F0B8475 /* Sources */,
+				0A37CA71AAA7EF7200432215 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Duet;
+			packageProductDependencies = (
+			);
+			productName = Duet;
+			productReference = B0469D2D12B4116E5D52AA22 /* Duet.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		5E8F6F55A9FC1F1C613BDFDE /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					1FE675A2B590F9A9F14F026C = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Automatic;
+					};
+					6BF7066832E7746EAEF6BE9B = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 35F1A4A3EFD9A0CED8A69C00 /* Build configuration list for PBXProject "Duet" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = D51799469F9C5EA3F857191C;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = D1E68B5F5E0421BCE5D0ABA9 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				6BF7066832E7746EAEF6BE9B /* Duet */,
+				1FE675A2B590F9A9F14F026C /* DuetTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		0A37CA71AAA7EF7200432215 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7AC7FD990CD4F80D22EE715A /* Assets.xcassets in Resources */,
+				1E6E3DB0FA09F64111ECC611 /* Localizable.xcstrings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		33028F6D1DB55F62B99C8699 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6053E2F1C50E3F28C8E83EE5 /* DuetTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		91B68B7C1AEFDEEB6F0B8475 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				ECC75102D3679206BEF3284A /* APIClient.swift in Sources */,
+				32A1687A5BD95EC8DF4B567E /* AuthFlowView.swift in Sources */,
+				4270D2D1986EC8CAF467BB17 /* AuthViewStore.swift in Sources */,
+				799774A95F20760DA3EE15DA /* CallSlotsView.swift in Sources */,
+				AB9267FC3B5B07244A6037B0 /* ChatMessageStore.swift in Sources */,
+				51E878878CEFA4A3984C9827 /* ChatView.swift in Sources */,
+				38C80904C9004C2AFEDF349C /* ConversationListStore.swift in Sources */,
+				9302EFD7F3D2AA164FCC5918 /* ConversationModels.swift in Sources */,
+				CF75AFF64AE1D66C0156EAF8 /* DateFormatting.swift in Sources */,
+				AD460D7C67251D808886CDC3 /* DuetApp.swift in Sources */,
+				D10C4C88FEE01A4A65DD26BD /* ForgotPasswordView.swift in Sources */,
+				0F226C03F5F3B1F7F4EE9564 /* FriendsStore.swift in Sources */,
+				4DC8BF3E740D8E85703FAF7A /* FriendsView.swift in Sources */,
+				6754AD1CE48B00CE30E4DD9C /* InboxRow.swift in Sources */,
+				6A4CD9E6656779EB8EB2CD16 /* InboxView.swift in Sources */,
+				3A4F964BE302EDF1986ABC72 /* KeychainStore.swift in Sources */,
+				45AADE17058EAFD1A825A516 /* LegalViews.swift in Sources */,
+				5A174EE086FB6BD92C282F3A /* LocalStore.swift in Sources */,
+				098D3391CAAEAB200BA2286D /* LoginView.swift in Sources */,
+				5E747052BCD8361B087CC60D /* MainTabView.swift in Sources */,
+				75A6EE026185EA8FB5102332 /* NewChatView.swift in Sources */,
+				A451564B2631F8DD20D35C5B /* NotificationPreferences.swift in Sources */,
+				5B690369FA422FE99210718F /* NotificationsFeedView.swift in Sources */,
+				B2078D1249BBE334FC68138C /* OnboardingSheet.swift in Sources */,
+				94BF25ED04A60A06BBFB2958 /* PresenceStore.swift in Sources */,
+				E5C8BF4F31B1258CA4C9237C /* ProfileView.swift in Sources */,
+				398138F8A8FC47A0EDC55776 /* PushRegistration.swift in Sources */,
+				01EC3D014822E6DB622DD409 /* RealtimeClient.swift in Sources */,
+				AF6C388FE9BA675131BD2457 /* RegisterView.swift in Sources */,
+				CEDB2A424B6361AE40285CA5 /* RootView.swift in Sources */,
+				C08501C954D79E17B520A2DB /* SessionStore.swift in Sources */,
+				2DC9133EB9B969D8B2CD3D54 /* SettingsStore.swift in Sources */,
+				447CF6F632BB0FBB2CF5CBAC /* StreakDetailView.swift in Sources */,
+				8BC4C0D4D129C5EB9C51DBF7 /* StreaksView.swift in Sources */,
+				5A47A24E60E0B4E76872C215 /* Theme.swift in Sources */,
+				722A9DEBDC099C18CCA277C4 /* TypingStore.swift in Sources */,
+				6E04E6F5DE3CFC647A575408 /* Voice.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		A2E699B68D14984F267C9F63 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6BF7066832E7746EAEF6BE9B /* Duet */;
+			targetProxy = 30970183A4B9B628AA103690 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		087F41B682F454980B782749 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.duet.tests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Duet.app/Duet";
+			};
+			name = Debug;
+		};
+		0BC6B8DF7BBAFF071D378703 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.10;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		118F043A7944C7C63E0C6DF0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				INFOPLIST_FILE = Duet/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.duet.app;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		59C47B0C77506D0D8857BC09 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.duet.tests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Duet.app/Duet";
+			};
+			name = Release;
+		};
+		7055F30016B460B5C704C987 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				INFOPLIST_FILE = Duet/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.duet.app;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		C2D9CBAEE80F6CA2048334AA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = "";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.10;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		35F1A4A3EFD9A0CED8A69C00 /* Build configuration list for PBXProject "Duet" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0BC6B8DF7BBAFF071D378703 /* Debug */,
+				C2D9CBAEE80F6CA2048334AA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		54D8AE825FA64AC8BF4A5386 /* Build configuration list for PBXNativeTarget "Duet" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7055F30016B460B5C704C987 /* Debug */,
+				118F043A7944C7C63E0C6DF0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		A164C7CFD729E45C5B5A08D7 /* Build configuration list for PBXNativeTarget "DuetTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				087F41B682F454980B782749 /* Debug */,
+				59C47B0C77506D0D8857BC09 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 5E8F6F55A9FC1F1C613BDFDE /* Project object */;
+}

@@ -36,7 +36,7 @@ struct ProfileView: View {
                             Text("You")
                                 .font(Theme.Typography.headline)
                                 .foregroundStyle(Theme.Palette.textPrimary)
-                            Text("EnvyChat")
+                            Text("Duet")
                                 .font(Theme.Typography.caption)
                                 .foregroundStyle(Theme.Palette.textSecondary)
                         }

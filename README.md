@@ -1,4 +1,4 @@
-# EnvyChat
+# Duet
 
 A baby-pink-and-white messaging app built around a double-sided
 **streak** mechanic: both people must send at least one message on the same
@@ -35,7 +35,7 @@ cp .env.example .env                              # configure DATABASE_URL
 ```bash
 cd ios
 xcodegen generate
-open EnvyChat.xcodeproj          # iPhone-only target, iOS 17+
+open Duet.xcodeproj          # iPhone-only target, iOS 17+
 ```
 
 `API_BASE_URL` env var (Debug) overrides the default `http://127.0.0.1:8000`.
@@ -58,7 +58,7 @@ open EnvyChat.xcodeproj          # iPhone-only target, iOS 17+
 ## Design
 
 Flat baby-pink + white palette, no gradients. Tokens in
-`ios/EnvyChat/Design/Theme.swift`.
+`ios/Duet/Design/Theme.swift`.
 
 ## Pushing
 

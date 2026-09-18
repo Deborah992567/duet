@@ -247,7 +247,7 @@ class AuthService(Service):
             raise UnauthorizedError("Your password is incorrect.", code="wrong_password")
         user.status = UserStatus.DELETED
         user.deleted_at = datetime.now(timezone.utc)
-        user.email = f"deleted-{user_id}@envychat.invalid"
+        user.email = f"deleted-{user_id}@duet.invalid"
         user.username = f"deleted_{user_id}"[:20]
         for d in self.devices.by_user(user_id, include_revoked=True):
             d.revoked_at = datetime.now(timezone.utc)

@@ -9,7 +9,7 @@ enum KeychainError: Error {
 /// Minimal Keychain wrapper for token storage.
 final class KeychainStore {
     static let shared = KeychainStore()
-    private let service = "com.envychat.app"
+    private let service = "com.duet.app"
 
     private func baseQuery(_ key: String) -> [String: Any] {
         [kSecClass as String: kSecClassGenericPassword,

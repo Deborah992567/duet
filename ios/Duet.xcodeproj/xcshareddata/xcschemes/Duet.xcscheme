@@ -15,10 +15,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "EF1B0244CE50D553E01CB264"
-               BuildableName = "EnvyChat.app"
-               BlueprintName = "EnvyChat"
-               ReferencedContainer = "container:EnvyChat.xcodeproj">
+               BlueprintIdentifier = "6BF7066832E7746EAEF6BE9B"
+               BuildableName = "Duet.app"
+               BlueprintName = "Duet"
+               ReferencedContainer = "container:Duet.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -29,10 +29,10 @@
             buildForAnalyzing = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "F376325B2ABA45D7F9F2BEAC"
-               BuildableName = "EnvyChatTests.xctest"
-               BlueprintName = "EnvyChatTests"
-               ReferencedContainer = "container:EnvyChat.xcodeproj">
+               BlueprintIdentifier = "1FE675A2B590F9A9F14F026C"
+               BuildableName = "DuetTests.xctest"
+               BlueprintName = "DuetTests"
+               ReferencedContainer = "container:Duet.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -46,10 +46,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "EF1B0244CE50D553E01CB264"
-            BuildableName = "EnvyChat.app"
-            BlueprintName = "EnvyChat"
-            ReferencedContainer = "container:EnvyChat.xcodeproj">
+            BlueprintIdentifier = "6BF7066832E7746EAEF6BE9B"
+            BuildableName = "Duet.app"
+            BlueprintName = "Duet"
+            ReferencedContainer = "container:Duet.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <Testables>
@@ -58,10 +58,10 @@
             parallelizable = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "F376325B2ABA45D7F9F2BEAC"
-               BuildableName = "EnvyChatTests.xctest"
-               BlueprintName = "EnvyChatTests"
-               ReferencedContainer = "container:EnvyChat.xcodeproj">
+               BlueprintIdentifier = "1FE675A2B590F9A9F14F026C"
+               BuildableName = "DuetTests.xctest"
+               BlueprintName = "DuetTests"
+               ReferencedContainer = "container:Duet.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -82,10 +82,10 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "EF1B0244CE50D553E01CB264"
-            BuildableName = "EnvyChat.app"
-            BlueprintName = "EnvyChat"
-            ReferencedContainer = "container:EnvyChat.xcodeproj">
+            BlueprintIdentifier = "6BF7066832E7746EAEF6BE9B"
+            BuildableName = "Duet.app"
+            BlueprintName = "Duet"
+            ReferencedContainer = "container:Duet.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <CommandLineArguments>
@@ -101,10 +101,10 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "EF1B0244CE50D553E01CB264"
-            BuildableName = "EnvyChat.app"
-            BlueprintName = "EnvyChat"
-            ReferencedContainer = "container:EnvyChat.xcodeproj">
+            BlueprintIdentifier = "6BF7066832E7746EAEF6BE9B"
+            BuildableName = "Duet.app"
+            BlueprintName = "Duet"
+            ReferencedContainer = "container:Duet.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

@@ -1,6 +1,6 @@
-name: EnvyChat
+name: Duet
 options:
-  bundleIdPrefix: com.envychat
+  bundleIdPrefix: com.duet
   deploymentTarget:
     iOS: "17.0"
   createIntermediateGroups: true
@@ -22,13 +22,13 @@ settings:
     Debug:
       SWIFT_ACTIVE_COMPILATION_CONDITIONS: DEBUG
 targets:
-  EnvyChat:
+  Duet:
     type: application
     platform: iOS
     info:
-      path: EnvyChat/Info.plist
+      path: Duet/Info.plist
       properties:
-        CFBundleDisplayName: EnvyChat
+        CFBundleDisplayName: Duet
         UILaunchScreen:
           UIColorName: LaunchBackground
         UISupportedInterfaceOrientations:
@@ -39,35 +39,35 @@ targets:
         UIApplicationSceneManifest:
           UIApplicationSupportsMultipleScenes: false
         CFBundleURLTypes:
-          - CFBundleURLName: com.envychat.app
+          - CFBundleURLName: com.duet.app
             CFBundleURLSchemes:
-              - envychat
+              - duet
     sources:
-      - path: EnvyChat
+      - path: Duet
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.envychat.app
+        PRODUCT_BUNDLE_IDENTIFIER: com.duet.app
         ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
     dependencies: []
-  EnvyChatTests:
+  DuetTests:
     type: bundle.unit-test
     platform: iOS
     sources:
-      - path: EnvyChatTests
+      - path: DuetTests
     dependencies:
-      - target: EnvyChat
+      - target: Duet
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.envychat.tests
+        PRODUCT_BUNDLE_IDENTIFIER: com.duet.tests
 schemes:
-  EnvyChat:
+  Duet:
     build:
       targets:
-        EnvyChat: all
-        EnvyChatTests: [test]
+        Duet: all
+        DuetTests: [test]
     test:
       targets:
-        - EnvyChatTests
+        - DuetTests
     run:
       config: Debug
     archive:

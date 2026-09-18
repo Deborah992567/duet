@@ -18,7 +18,7 @@ from app.core.errors import UnauthorizedError
 
 import bcrypt
 
-_ACCESS_TOKEN_ISSUER = "envychat"
+_ACCESS_TOKEN_ISSUER = "duet"
 
 
 def hash_password(plain: str) -> str:

@@ -1,17 +1,17 @@
 services:
   db:
     image: mariadb:11.4
-    container_name: envy_db
+    container_name: duet_db
     restart: unless-stopped
     environment:
-      MARIADB_DATABASE: envy_chat
-      MARIADB_USER: envy
-      MARIADB_PASSWORD: envy
+      MARIADB_DATABASE: duet
+      MARIADB_USER: duet
+      MARIADB_PASSWORD: duet
       MARIADB_ROOT_PASSWORD: root
     ports:
       - "3306:3306"
     volumes:
-      - envy_db_data:/var/lib/mysql
+      - duet_db_data:/var/lib/mysql
     healthcheck:
       test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
       interval: 5s
@@ -20,13 +20,13 @@ services:
 
   redis:
     image: redis:7.4-alpine
-    container_name: envy_redis
+    container_name: duet_redis
     restart: unless-stopped
     ports:
       - "6379:6379"
     volumes:
-      - envy_redis_data:/data
+      - duet_redis_data:/data
 
 volumes:
-  envy_db_data:
-  envy_redis_data:
+  duet_db_data:
+  duet_redis_data:

@@ -5,7 +5,7 @@
 ```bash
 cd ios
 xcodegen generate
-xcodebuild -project EnvyChat.xcodeproj -scheme EnvyChat \
+xcodebuild -project Duet.xcodeproj -scheme Duet \
   -destination 'platform=iOS Simulator,name=iPhone 17 Pro' \
   build CODE_SIGNING_ALLOWED=NO
 ```

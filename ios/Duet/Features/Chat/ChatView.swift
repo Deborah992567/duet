@@ -701,7 +701,7 @@ struct UserProfileSheet: View {
                                 .foregroundStyle(Theme.Palette.textSecondary)
                         }
                         if user.isFriend {
-                            Label("Friends on Envy", systemImage: "person.2.fill")
+                            Label("Friends on Duet", systemImage: "person.2.fill")
                                 .font(Theme.Typography.caption)
                                 .foregroundStyle(Theme.Palette.brand)
                         } else if !user.isBlocked {

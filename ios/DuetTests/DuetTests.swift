@@ -1,5 +1,5 @@
 import XCTest
-@testable import EnvyChat
+@testable import Duet
 
 final class DateAlignTests: XCTestCase {
     private var utc: Calendar {

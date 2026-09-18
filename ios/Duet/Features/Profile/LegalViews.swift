@@ -10,7 +10,7 @@ struct TermsView: View {
 }
 
 private let policyText = """
-EnvyChat Privacy Policy
+Duet Privacy Policy
 
 We keep your messages between you and the people you send them to. \
 Read receipts, delivery status, and presence indicators are shared only within the conversations you take part in.
@@ -24,9 +24,9 @@ This policy is finalized before the public release.
 """
 
 private let termsText = """
-EnvyChat Terms of Service
+Duet Terms of Service
 
-Use EnvyChat for lawful, respectful messaging. Spam, harassment, and exploitation are prohibited and may lead to \
+Use Duet for lawful, respectful messaging. Spam, harassment, and exploitation are prohibited and may lead to \
 account termination.
 
 Streaks are a game mechanic: both participants must send at least one message on the same calendar day. Streaks are \

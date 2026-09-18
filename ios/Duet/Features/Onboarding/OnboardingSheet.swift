@@ -10,7 +10,7 @@ struct OnboardingSheet: View {
             AnimatedFlame(size: 120, isAlive: true)
                 .padding(.bottom, Theme.Metrics.padding)
 
-            Text("Welcome to EnvyChat")
+            Text("Welcome to Duet")
                 .font(.system(size: 30, weight: .heavy, design: .rounded))
                 .foregroundStyle(Theme.Palette.textPrimary)
 

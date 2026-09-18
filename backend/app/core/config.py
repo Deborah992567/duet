@@ -13,7 +13,7 @@ class Settings(BaseSettings):
         extra="ignore",
     )
 
-    app_name: str = "EnvyChat API"
+    app_name: str = "Duet API"
     environment: str = "development"
     debug: bool = False
     api_prefix: str = "/v1"
@@ -28,7 +28,7 @@ class Settings(BaseSettings):
     bcrypt_rounds: int = 12
 
     # Database
-    database_url: str = "mysql+pymysql://envy:envy@localhost:3306/envychat"
+    database_url: str = "mysql+pymysql://duet:duet@localhost:3306/duet"
 
     # Redis
     redis_url: str = "redis://localhost:6379/0"
@@ -42,7 +42,7 @@ class Settings(BaseSettings):
     media_storage_backend: str = "local"  # local | s3
     media_local_path: str = "media"
     media_max_upload_bytes: int = 100 * 1024 * 1024  # 100 MiB
-    media_s3_bucket: str = "envychat-media"
+    media_s3_bucket: str = "duet-media"
     media_s3_region: str = "us-east-1"
     media_presign_ttl_seconds: int = 3600
 
@@ -50,7 +50,7 @@ class Settings(BaseSettings):
     apns_enabled: bool = False
     apns_key_id: str = ""
     apns_team_id: str = ""
-    apns_bundle_id: str = "com.envychat.app"
+    apns_bundle_id: str = "com.duet.app"
     apns_key_path: str = ""
 
     # Streaks

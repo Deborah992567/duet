@@ -29,14 +29,14 @@ def create_app() -> FastAPI:
         if settings.environment == "test" or settings.database_url.startswith("sqlite"):
             Base.metadata.create_all(bind=engine)
         redis = get_redis()
-        logger.info("EnvyChat API started (env=%s)", settings.environment)
+        logger.info("Duet API started (env=%s)", settings.environment)
         yield
         await close_redis()
 
     app = FastAPI(
-        title="EnvyChat API",
+        title="Duet API",
         version="1.0.0",
-        description="Private messaging platform with the EnvyChat streak system.",
+        description="Private messaging platform with the Duet streak system.",
         lifespan=lifespan,
     )
     app.state.session_factory = SessionLocal

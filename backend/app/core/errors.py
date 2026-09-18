@@ -86,7 +86,7 @@ class TooManyRequestsError(AppError):
 class ServiceUnavailableError(AppError):
     status_code = status.HTTP_503_SERVICE_UNAVAILABLE
     code = "service_unavailable"
-    message = "EnvyChat is temporarily unavailable. Please try again."
+    message = "Duet is temporarily unavailable. Please try again."
     retryable = True
 
 

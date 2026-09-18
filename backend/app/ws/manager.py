@@ -1,7 +1,7 @@
 """WebSocket connection registry and real-time event bus.
 
 Single-process connection registry. For horizontal scale the bus is designed to
-forward envelopes through a Redis pub/sub channel (`envychat:events`).
+forward envelopes through a Redis pub/sub channel (`duet:events`).
 Presence and typing state live in Redis with short TTLs; presence is a
 best-effort realtime signal derived from WS heartbeats, never authoritative.
 """
@@ -23,7 +23,7 @@ logger = get_logger(__name__)
 
 PRESENCE_PREFIX = "presence"
 TYPING_PREFIX = "typing"
-EVENT_CHANNEL = "envychat:events"
+EVENT_CHANNEL = "duet:events"
 
 PRESENCE_TTL = 30
 TYPING_TTL = 15

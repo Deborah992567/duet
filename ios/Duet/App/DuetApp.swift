@@ -2,7 +2,7 @@ import SwiftUI
 import SwiftData
 
 @main
-struct EnvyChatApp: App {
+struct DuetApp: App {
     @State private var appState = AppState()
     @State private var localStore = LocalStore()
     private let realtime = RealtimeClient()

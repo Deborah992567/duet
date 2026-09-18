@@ -185,7 +185,7 @@ struct InboxView: View {
     }
 
     private func handleDeepLink(_ url: URL) {
-        guard url.scheme == "envychat" else { return }
+        guard url.scheme == "duet" else { return }
         switch url.host {
         case "inbox":
             return
