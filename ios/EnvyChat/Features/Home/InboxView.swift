@@ -5,6 +5,7 @@ struct InboxView: View {
     @Environment(AppState.self) private var state
     @State private var store = ConversationListStore()
     @State private var typing = TypingStore()
+    @State private var presence = PresenceStore()
     @State private var showFriends = false
     @State private var showNewChat = false
     @State private var showNotifications = false
@@ -21,7 +22,8 @@ struct InboxView: View {
                             NavigationLink(value: conversation) {
                                 InboxRow(
                                     conversation: conversation,
-                                    isTyping: typing.isTyping(in: conversation.id)
+                                    isTyping: typing.isTyping(in: conversation.id),
+                                    isOnline: presence.isOnline(userID: conversation.peer?.id)
                                 )
                                 .padding(.horizontal, Theme.Metrics.padding)
                             }
@@ -70,11 +72,17 @@ struct InboxView: View {
             }
             .task {
                 typing.start()
+                presence.start()
                 await store.refresh()
-                typing.subscribe(conversationIDs: store.conversations.map(\.id))
+                let ids = store.conversations.map(\.id)
+                typing.subscribe(conversationIDs: ids)
+                presence.subscribe(conversationIDs: ids)
             }
         }
-        .onDisappear { typing.stop() }
+        .onDisappear {
+            typing.stop()
+            presence.stop()
+        }
         .sheet(isPresented: $showNewChat) {
             NavigationStack {
                 NewChatView(path: $path)

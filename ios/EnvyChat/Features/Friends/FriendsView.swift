@@ -135,7 +135,7 @@ struct FriendsView: View {
                         .foregroundStyle(Theme.Palette.brand)
                         .font(.title3)
                 }
-            } else if user.isOnline ?? false {
+            } else if user.online ?? false {
                 Circle().fill(Theme.Palette.success).frame(width: 10, height: 10)
             }
         }

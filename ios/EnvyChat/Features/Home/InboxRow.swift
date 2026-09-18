@@ -3,6 +3,7 @@ import SwiftUI
 struct InboxRow: View {
     let conversation: ConversationSummary
     var isTyping = false
+    var isOnline = false
 
     var body: some View {
         HStack(spacing: Theme.Metrics.padding) {
@@ -71,13 +72,21 @@ struct InboxRow: View {
     }
 
     private var avatar: some View {
-        ZStack {
-            Circle()
-                .fill(Theme.Palette.bubbleIncoming)
-                .frame(width: 52, height: 52)
-            Image(systemName: "person.fill")
-                .font(.title3)
-                .foregroundStyle(Theme.Palette.textSecondary)
+        ZStack(alignment: .bottomTrailing) {
+            ZStack {
+                Circle()
+                    .fill(Theme.Palette.bubbleIncoming)
+                    .frame(width: 52, height: 52)
+                Image(systemName: "person.fill")
+                    .font(.title3)
+                    .foregroundStyle(Theme.Palette.textSecondary)
+            }
+            if conversation.type == "direct", isOnline {
+                Circle()
+                    .fill(Theme.Palette.success)
+                    .frame(width: 13, height: 13)
+                    .overlay(Circle().stroke(Theme.Palette.background, lineWidth: 2))
+            }
         }
     }
 }

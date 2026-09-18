@@ -5,12 +5,11 @@ struct FriendUser: Decodable, Identifiable, Hashable {
     let id: String
     let username: String
     let displayName: String?
-    let isOnline: Bool?
+    let online: Bool?
 
     enum CodingKeys: String, CodingKey {
-        case id, username
+        case id, username, online
         case displayName = "display_name"
-        case isOnline = "is_online"
     }
 
     var name: String { displayName ?? username }
