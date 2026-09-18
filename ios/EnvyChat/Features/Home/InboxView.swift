@@ -7,6 +7,7 @@ struct InboxView: View {
     @State private var typing = TypingStore()
     @State private var showFriends = false
     @State private var showNewChat = false
+    @State private var showNotifications = false
     @State private var path = NavigationPath()
 
     var body: some View {
@@ -48,11 +49,19 @@ struct InboxView: View {
                     }
                 }
                 ToolbarItem(placement: .topBarTrailing) {
-                    Button {
-                        showNewChat = true
-                    } label: {
-                        Image(systemName: "square.and.pencil")
-                            .foregroundStyle(Theme.Palette.brand)
+                    HStack(spacing: Theme.Metrics.small) {
+                        Button {
+                            showNotifications = true
+                        } label: {
+                            Image(systemName: "bell.fill")
+                                .foregroundStyle(Theme.Palette.brand)
+                        }
+                        Button {
+                            showNewChat = true
+                        } label: {
+                            Image(systemName: "square.and.pencil")
+                                .foregroundStyle(Theme.Palette.brand)
+                        }
                     }
                 }
             }
@@ -75,6 +84,9 @@ struct InboxView: View {
                         }
                     }
             }
+        }
+        .sheet(isPresented: $showNotifications) {
+            NotificationsFeedView()
         }
     }
 

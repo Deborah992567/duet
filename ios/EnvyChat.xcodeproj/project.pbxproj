@@ -20,6 +20,7 @@
 		450D708DA637711931952920 /* FriendsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC8958B16318BC4F47BB309C /* FriendsView.swift */; };
 		60972F1805C57D05284FF13B /* LegalViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2043A2CDA5AB8C600EF67F89 /* LegalViews.swift */; };
 		6E8205997A3609D638002DFD /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51640DE482DE0FB9A39C3EB6 /* APIClient.swift */; };
+		71401D5F68603D140DE0141B /* NotificationsFeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D186D2AD774422D9E51CF3FB /* NotificationsFeedView.swift */; };
 		718370C9C749C3006065817E /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 9475C37D51408EEA4F465F33 /* Localizable.xcstrings */; };
 		7D9388829FFD73CE3F8BA0B6 /* PushRegistration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99EE6230CB64C0E828EEF457 /* PushRegistration.swift */; };
 		85E71E26240B29A0802EF051 /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BFB5E8946448F0C14BE0493 /* ChatView.swift */; };
@@ -93,6 +94,7 @@
 		C304D3AEB554A666453A4A38 /* ForgotPasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordView.swift; sourceTree = "<group>"; };
 		CC7CB023199609449C537B96 /* RealtimeClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealtimeClient.swift; sourceTree = "<group>"; };
 		CE4A848013AD7E8B405CF095 /* NewChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewChatView.swift; sourceTree = "<group>"; };
+		D186D2AD774422D9E51CF3FB /* NotificationsFeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsFeedView.swift; sourceTree = "<group>"; };
 		D5576AB90491CDE8BCE5F17C /* StreakDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakDetailView.swift; sourceTree = "<group>"; };
 		E9317718F1228FC5CA29E347 /* SettingsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsStore.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -107,6 +109,14 @@
 				2190FAC4C1958951308FE244 /* RegisterView.swift */,
 			);
 			path = Auth;
+			sourceTree = "<group>";
+		};
+		0BAAED89613F2679A463EA63 /* Notifications */ = {
+			isa = PBXGroup;
+			children = (
+				D186D2AD774422D9E51CF3FB /* NotificationsFeedView.swift */,
+			);
+			path = Notifications;
 			sourceTree = "<group>";
 		};
 		0D1158C50C55559A8EEB339E /* Design */ = {
@@ -161,6 +171,7 @@
 				1C82C47B2F21626535476692 /* Chat */,
 				E33C0CECA2B5F08C94169935 /* Friends */,
 				96FD5D85D260A0C0F427330C /* Home */,
+				0BAAED89613F2679A463EA63 /* Notifications */,
 				36B30DFDA156B3FBA274B391 /* Profile */,
 				EB843F74BB85207BACC8D7EA /* Streaks */,
 			);
@@ -427,6 +438,7 @@
 				FBB8C44F993363D6E57EDF1E /* LoginView.swift in Sources */,
 				32033DD4E16C0FAB56479F92 /* MainTabView.swift in Sources */,
 				3426C776886600421935835F /* NewChatView.swift in Sources */,
+				71401D5F68603D140DE0141B /* NotificationsFeedView.swift in Sources */,
 				B856D703D8CB0EC1A09A67A9 /* ProfileView.swift in Sources */,
 				7D9388829FFD73CE3F8BA0B6 /* PushRegistration.swift in Sources */,
 				C3E364C5ABEA5D3C4F42C94C /* RealtimeClient.swift in Sources */,
