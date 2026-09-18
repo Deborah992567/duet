@@ -50,4 +50,8 @@ final class PushRegistration {
         guard (try? await client.send(builder, as: NoContent.self, defaultValue: NoContent())) != nil else { return }
         UserDefaults.standard.set(true, forKey: "push.token_registered")
     }
+
+    static func unregister() {
+        UserDefaults.standard.removeObject(forKey: "push.token_registered")
+    }
 }

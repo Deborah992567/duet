@@ -94,7 +94,10 @@ struct ChatView: View {
                         MessageBubble(
                             message: message,
                             isOutgoing: message.senderId == SessionStore.shared.currentUserID,
-                            quote: store.messages.first(where: { $0.id == message.replyToMessageId })?.body
+                            quote: store.messages.first(where: { $0.id == message.replyToMessageId })?.body,
+                            onToggleReaction: { emoji in
+                                Task { await store.toggleReaction(message: message, emoji: emoji) }
+                            }
                         )
                         .contextMenu {
                             MessageActionsMenu(message: message, store: store, onReply: {
@@ -531,6 +534,7 @@ struct MessageBubble: View {
     let message: MessageOut
     let isOutgoing: Bool
     var quote: String?
+    var onToggleReaction: ((String) -> Void)?
     @State private var player = VoicePlayer()
 
     var body: some View {
@@ -569,13 +573,19 @@ struct MessageBubble: View {
                 if let reactions = message.reactions, !reactions.isEmpty {
                     HStack(spacing: 4) {
                         ForEach(reactions.sorted(by: { $0.key < $1.key }), id: \.key) { emoji, users in
-                            Text("\(emoji) \(users.count)")
-                                .font(.caption2)
-                                .padding(.horizontal, 6)
-                                .padding(.vertical, 2)
-                                .background(Theme.Palette.surface)
-                                .clipShape(Capsule())
-                                .overlay(Capsule().stroke(Theme.Palette.outline, lineWidth: Theme.Metrics.lineWidth))
+                            let mine = users.contains(SessionStore.shared.currentUserID ?? "")
+                            Button {
+                                onToggleReaction?(emoji)
+                            } label: {
+                                Text("\(emoji) \(users.count)")
+                                    .font(.caption2)
+                                    .padding(.horizontal, 6)
+                                    .padding(.vertical, 2)
+                                    .background(mine ? Theme.Palette.brand.opacity(0.18) : Theme.Palette.surface)
+                                    .clipShape(Capsule())
+                                    .overlay(Capsule().stroke(mine ? Theme.Palette.brand : Theme.Palette.outline, lineWidth: Theme.Metrics.lineWidth))
+                            }
+                            .buttonStyle(.plain)
                         }
                     }
                 }

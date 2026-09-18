@@ -178,6 +178,20 @@ final class ChatMessageStore {
         _ = try? await client.send(builder, as: NoContent.self, defaultValue: NoContent())
     }
 
+    func toggleReaction(message: MessageOut, emoji: String) async {
+        let mine = (message.reactions?[emoji] ?? []).contains(SessionStore.shared.currentUserID ?? "")
+        if mine {
+            let builder = URLRequestBuilder(
+                base: client.baseURL,
+                path: "/v1/conversations/\(conversationID)/messages/\(message.id)/react/\(emoji)",
+                method: .delete
+            )
+            _ = try? await client.send(builder, as: NoContent.self, defaultValue: NoContent())
+        } else {
+            await react(messageID: message.id, emoji: emoji)
+        }
+    }
+
     func edit(messageID: String, body: String) async {
         let builder = URLRequestBuilder(
             base: client.baseURL,

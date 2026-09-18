@@ -12,6 +12,13 @@ struct ProfileView: View {
         return "\(version) (\(build))"
     }
 
+    private func signOut() {
+        SessionStore.shared.clear()
+        RealtimeClient().disconnect()
+        PushRegistration.unregister()
+        state.isSignedIn = false
+    }
+
     var body: some View {
         NavigationStack {
             List {
@@ -34,6 +41,18 @@ struct ProfileView: View {
                         }
                     }
                     .padding(.vertical, 4)
+                }
+
+                Section("Account") {
+                    Button {
+                        signOut()
+                    } label: {
+                        HStack {
+                            Label("Sign out", systemImage: "rectangle.portrait.and.arrow.right")
+                                .foregroundStyle(Theme.Palette.danger)
+                            Spacer()
+                        }
+                    }
                 }
 
                 Section("Streak preferences") {
@@ -67,9 +86,7 @@ struct ProfileView: View {
 
                 Section {
                     Button {
-                        SessionStore.shared.clear()
-                        RealtimeClient().disconnect()
-                        state.isSignedIn = false
+                        signOut()
                     } label: {
                         Text("Sign out")
                             .foregroundStyle(Theme.Palette.danger)
