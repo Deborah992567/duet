@@ -29,6 +29,33 @@ struct InboxView: View {
                                 .padding(.horizontal, Theme.Metrics.padding)
                             }
                             .buttonStyle(.plain)
+                            .contextMenu {
+                                Button {
+                                    Task {
+                                        await applyAction(conversation.isMuted ? "unmute" : "mute", on: conversation)
+                                        await store.refresh()
+                                    }
+                                } label: {
+                                    Label(conversation.isMuted ? "Unmute" : "Mute", systemImage: conversation.isMuted ? "bell.fill" : "bell.slash")
+                                }
+                                Button {
+                                    Task {
+                                        await applyAction(conversation.isPinned ? "unpin" : "pin", on: conversation)
+                                        await store.refresh()
+                                    }
+                                } label: {
+                                    Label(conversation.isPinned ? "Unpin" : "Pin", systemImage: conversation.isPinned ? "pin.slash" : "pin")
+                                }
+                                Divider()
+                                Button(role: .destructive) {
+                                    Task {
+                                        await applyAction("hide", on: conversation)
+                                        await store.refresh()
+                                    }
+                                } label: {
+                                    Label("Hide conversation", systemImage: "trash")
+                                }
+                            }
                         }
                     }
                 }
@@ -137,6 +164,24 @@ struct InboxView: View {
         .padding(Theme.Metrics.padding)
         .cardStyle()
         .padding(.top, Theme.Metrics.padding * 4)
+    }
+
+    private func applyAction(_ action: String, on conversation: ConversationSummary) async {
+        let client = APIClient.shared
+        let builder: URLRequestBuilder
+        switch action {
+        case "mute":
+            builder = URLRequestBuilder(base: client.baseURL, path: "/v1/conversations/\(conversation.id)/mute", method: .post, body: ["muted": true])
+        case "unmute":
+            builder = URLRequestBuilder(base: client.baseURL, path: "/v1/conversations/\(conversation.id)/mute", method: .post, body: ["muted": false])
+        case "pin":
+            builder = URLRequestBuilder(base: client.baseURL, path: "/v1/conversations/\(conversation.id)/pin", method: .post, body: ["pinned": true])
+        case "unpin":
+            builder = URLRequestBuilder(base: client.baseURL, path: "/v1/conversations/\(conversation.id)/pin", method: .post, body: ["pinned": false])
+        default:
+            builder = URLRequestBuilder(base: client.baseURL, path: "/v1/conversations/\(conversation.id)", method: .delete)
+        }
+        _ = try? await client.send(builder, as: NoContent.self, defaultValue: NoContent())
     }
 
     private func handleDeepLink(_ url: URL) {
