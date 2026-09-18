@@ -38,6 +38,10 @@ targets:
           NSAllowsArbitraryLoads: false
         UIApplicationSceneManifest:
           UIApplicationSupportsMultipleScenes: false
+        CFBundleURLTypes:
+          - CFBundleURLName: com.envychat.app
+            CFBundleURLSchemes:
+              - envychat
     sources:
       - path: EnvyChat
     settings:

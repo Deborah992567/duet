@@ -71,6 +71,9 @@ struct InboxView: View {
             .refreshable {
                 await store.refresh()
             }
+            .onOpenURL { url in
+                handleDeepLink(url)
+            }
             .task {
                 typing.start()
                 presence.start()
@@ -118,9 +121,38 @@ struct InboxView: View {
             Text("Send your first message to start a streak.")
                 .font(Theme.Typography.body)
                 .foregroundStyle(Theme.Palette.textSecondary)
+            Button {
+                showNewChat = true
+            } label: {
+                Label("Start a conversation", systemImage: "square.and.pencil")
+                    .font(Theme.Typography.body.bold())
+                    .foregroundStyle(.white)
+                    .padding(.horizontal, Theme.Metrics.padding)
+                    .padding(.vertical, 10)
+                    .background(Theme.Palette.brand)
+                    .clipShape(Capsule())
+            }
+            .padding(.top, Theme.Metrics.small)
         }
         .padding(Theme.Metrics.padding)
         .cardStyle()
         .padding(.top, Theme.Metrics.padding * 4)
+    }
+
+    private func handleDeepLink(_ url: URL) {
+        guard url.scheme == "envychat" else { return }
+        switch url.host {
+        case "inbox":
+            return
+        default:
+            let conversationID = url.host ?? url.pathComponents.last
+            guard let conversationID else { return }
+            Task {
+                await store.refresh()
+                if let conversation = store.conversations.first(where: { $0.id == conversationID }) {
+                    path.append(conversation)
+                }
+            }
+        }
     }
 }
