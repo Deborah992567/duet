@@ -4,6 +4,7 @@ struct ProfileView: View {
     @Environment(AppState.self) private var state
     @Environment(LocalStore.self) private var local
     @State private var settings = SettingsStore()
+    @State private var notificationPrefs = NotificationPreferencesStore()
     @State private var showClearConfirm = false
 
     private var appVersion: String {
@@ -67,6 +68,34 @@ struct ProfileView: View {
                         .tint(Theme.Palette.brand)
                 }
 
+                Section("Notifications") {
+                    if let prefs = notificationPrefs.prefs {
+                        Toggle("Message notifications", isOn: Binding(get: { prefs.messagesEnabled }, set: { value in
+                            notificationPrefs.prefs?.messagesEnabled = value
+                            Task { await notificationPrefs.update(.init(messagesEnabled: value)) }
+                        }))
+                        Toggle("Group notifications", isOn: Binding(get: { prefs.groupsEnabled }, set: { value in
+                            notificationPrefs.prefs?.groupsEnabled = value
+                            Task { await notificationPrefs.update(.init(groupsEnabled: value)) }
+                        }))
+                        Toggle("Call alerts", isOn: Binding(get: { prefs.callsEnabled }, set: { value in
+                            notificationPrefs.prefs?.callsEnabled = value
+                            Task { await notificationPrefs.update(.init(callsEnabled: value)) }
+                        }))
+                        Toggle("Friend requests", isOn: Binding(get: { prefs.friendRequests }, set: { value in
+                            notificationPrefs.prefs?.friendRequests = value
+                            Task { await notificationPrefs.update(.init(friendRequests: value)) }
+                        }))
+                        Toggle("Show message previews", isOn: Binding(get: { prefs.showPreview }, set: { value in
+                            notificationPrefs.prefs?.showPreview = value
+                            Task { await notificationPrefs.update(.init(showPreview: value)) }
+                        }))
+                        .tint(Theme.Palette.brand)
+                    } else {
+                        ProgressView()
+                    }
+                }
+
                 Section("About") {
                     LabeledContent("Version", value: appVersion)
                     NavigationLink("Toast privacy policy") { PrivacyPolicyView() }
@@ -96,6 +125,7 @@ struct ProfileView: View {
             .background(Theme.Palette.background)
             .scrollContentBackground(.hidden)
             .navigationTitle("Profile")
+            .task { await notificationPrefs.load() }
         }
     }
 }

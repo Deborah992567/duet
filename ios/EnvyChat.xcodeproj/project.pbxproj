@@ -21,6 +21,7 @@
 		363D647845C27889062F2C7E /* ForgotPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C304D3AEB554A666453A4A38 /* ForgotPasswordView.swift */; };
 		450D708DA637711931952920 /* FriendsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC8958B16318BC4F47BB309C /* FriendsView.swift */; };
 		60972F1805C57D05284FF13B /* LegalViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2043A2CDA5AB8C600EF67F89 /* LegalViews.swift */; };
+		6424FFFE3311E9671AF81CD0 /* NotificationPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DB54E95CB8F39E9C276323C /* NotificationPreferences.swift */; };
 		6E8205997A3609D638002DFD /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51640DE482DE0FB9A39C3EB6 /* APIClient.swift */; };
 		71401D5F68603D140DE0141B /* NotificationsFeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D186D2AD774422D9E51CF3FB /* NotificationsFeedView.swift */; };
 		718370C9C749C3006065817E /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 9475C37D51408EEA4F465F33 /* Localizable.xcstrings */; };
@@ -82,6 +83,7 @@
 		502530181E24DE909D74AD1B /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		51640DE482DE0FB9A39C3EB6 /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
 		5D2024AF8E9E15D93EE0F560 /* FriendsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsStore.swift; sourceTree = "<group>"; };
+		5DB54E95CB8F39E9C276323C /* NotificationPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationPreferences.swift; sourceTree = "<group>"; };
 		67D8AB19517ABE74522D45F0 /* InboxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InboxView.swift; sourceTree = "<group>"; };
 		908E8F7E41C4808795E6F0BF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9475C37D51408EEA4F465F33 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
@@ -118,6 +120,7 @@
 		0BAAED89613F2679A463EA63 /* Notifications */ = {
 			isa = PBXGroup;
 			children = (
+				5DB54E95CB8F39E9C276323C /* NotificationPreferences.swift */,
 				D186D2AD774422D9E51CF3FB /* NotificationsFeedView.swift */,
 			);
 			path = Notifications;
@@ -452,6 +455,7 @@
 				FBB8C44F993363D6E57EDF1E /* LoginView.swift in Sources */,
 				32033DD4E16C0FAB56479F92 /* MainTabView.swift in Sources */,
 				3426C776886600421935835F /* NewChatView.swift in Sources */,
+				6424FFFE3311E9671AF81CD0 /* NotificationPreferences.swift in Sources */,
 				71401D5F68603D140DE0141B /* NotificationsFeedView.swift in Sources */,
 				1A0E2F81A2867BD40D71C6D1 /* OnboardingSheet.swift in Sources */,
 				0CF2B9D4E4F2524932DA8B27 /* PresenceStore.swift in Sources */,
