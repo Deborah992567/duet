@@ -9,6 +9,7 @@ struct InboxView: View {
     @State private var showFriends = false
     @State private var showNewChat = false
     @State private var showNotifications = false
+    @State private var showOnboarding = false
     @State private var path = NavigationPath()
 
     var body: some View {
@@ -77,6 +78,9 @@ struct InboxView: View {
                 let ids = store.conversations.map(\.id)
                 typing.subscribe(conversationIDs: ids)
                 presence.subscribe(conversationIDs: ids)
+                if !UserDefaults.standard.bool(forKey: "onboarding.done") {
+                    showOnboarding = true
+                }
             }
         }
         .onDisappear {
@@ -95,6 +99,11 @@ struct InboxView: View {
         }
         .sheet(isPresented: $showNotifications) {
             NotificationsFeedView()
+        }
+        .sheet(isPresented: $showOnboarding) {
+            OnboardingSheet {
+                showOnboarding = false
+            }
         }
     }
 

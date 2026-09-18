@@ -11,6 +11,7 @@
 		0CF2B9D4E4F2524932DA8B27 /* PresenceStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = C111B62B4C7D8AA6C5CC14E5 /* PresenceStore.swift */; };
 		0F645380F7471D34FBE8CB4F /* StreaksView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BE8547FD0BEED736976C8DB /* StreaksView.swift */; };
 		13AF9CB416BA84904F8E31DA /* ConversationListStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25764CC12A63F6B7112610CE /* ConversationListStore.swift */; };
+		1A0E2F81A2867BD40D71C6D1 /* OnboardingSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48F5BC4122AD5BB8BDB6E80C /* OnboardingSheet.swift */; };
 		204632C6973941813F226374 /* KeychainStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D1EFCE4759DBD9B51B1CFE4 /* KeychainStore.swift */; };
 		2403AB8A5B20CEAB7BB8206D /* ChatMessageStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1168EB346FD6D89529155370 /* ChatMessageStore.swift */; };
 		30940360287D0AE2D0650A1E /* InboxRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 219267348936B519B97861BB /* InboxRow.swift */; };
@@ -75,6 +76,7 @@
 		3BF341942CE054542C2C22A6 /* CallSlotsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallSlotsView.swift; sourceTree = "<group>"; };
 		3BFB5E8946448F0C14BE0493 /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
 		3C804E721C528988EDF9A2FA /* Voice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Voice.swift; sourceTree = "<group>"; };
+		48F5BC4122AD5BB8BDB6E80C /* OnboardingSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingSheet.swift; sourceTree = "<group>"; };
 		4BE8547FD0BEED736976C8DB /* StreaksView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreaksView.swift; sourceTree = "<group>"; };
 		4D1EFCE4759DBD9B51B1CFE4 /* KeychainStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainStore.swift; sourceTree = "<group>"; };
 		502530181E24DE909D74AD1B /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
@@ -174,6 +176,7 @@
 				E33C0CECA2B5F08C94169935 /* Friends */,
 				96FD5D85D260A0C0F427330C /* Home */,
 				0BAAED89613F2679A463EA63 /* Notifications */,
+				9C90BC594BFE9E279EDE4C1B /* Onboarding */,
 				36B30DFDA156B3FBA274B391 /* Profile */,
 				EB843F74BB85207BACC8D7EA /* Streaks */,
 			);
@@ -242,6 +245,14 @@
 				1BC5772F0E47594139107882 /* TypingStore.swift */,
 			);
 			path = Home;
+			sourceTree = "<group>";
+		};
+		9C90BC594BFE9E279EDE4C1B /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				48F5BC4122AD5BB8BDB6E80C /* OnboardingSheet.swift */,
+			);
+			path = Onboarding;
 			sourceTree = "<group>";
 		};
 		BF15E693C6F75380B8A92AB1 /* Core */ = {
@@ -442,6 +453,7 @@
 				32033DD4E16C0FAB56479F92 /* MainTabView.swift in Sources */,
 				3426C776886600421935835F /* NewChatView.swift in Sources */,
 				71401D5F68603D140DE0141B /* NotificationsFeedView.swift in Sources */,
+				1A0E2F81A2867BD40D71C6D1 /* OnboardingSheet.swift in Sources */,
 				0CF2B9D4E4F2524932DA8B27 /* PresenceStore.swift in Sources */,
 				B856D703D8CB0EC1A09A67A9 /* ProfileView.swift in Sources */,
 				7D9388829FFD73CE3F8BA0B6 /* PushRegistration.swift in Sources */,
