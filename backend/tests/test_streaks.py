@@ -62,3 +62,21 @@ def test_settings_toggle(client, two_friends):
     assert r.status_code == 200
     assert r.json()["visible"] is False
     assert r.json()["reminders_enabled"] is True
+
+
+def test_history_lists_qualified_days(client, two_friends):
+    alice, bob = two_friends
+    cid = _conversation_id(client, alice, bob)
+    engine = StreakEngine(SessionLocal())
+    _both_active(engine, alice["user"]["id"], bob["user"]["id"], cid, date.today() - timedelta(days=1))
+    _both_active(engine, alice["user"]["id"], bob["user"]["id"], cid, date.today())
+    r = client.get(f"/v1/streaks/history/{cid}/with/{bob['user']['id']}", headers=auth_headers(alice))
+    assert r.status_code == 200
+    items = r.json()["items"]
+    assert len(items) >= 2
+    assert {i["event_type"] for i in items} == {"incremented"}
+    days = {i["day"] for i in items}
+    assert str(date.today() - timedelta(days=1)) in days
+    assert str(date.today()) in days
+    today_event = next(i for i in items if i["day"] == str(date.today()))
+    assert today_event["streak_after"] >= 2
